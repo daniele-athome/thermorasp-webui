@@ -1,0 +1,16 @@
+{
+  "name": "thermostat-webui",
+  "description": "Web interface for Smart Thermostat",
+  "version": "0.0.1",
+  "homepage": "https://github.com/daniele-athome/thermostat-webui",
+  "license": "GPLv3",
+  "private": true,
+  "dependencies": {
+    "angular": "1.6.x",
+    "angular-animate": "1.6.x",
+    "angular-resource": "1.6.x",
+    "angular-route": "1.6.x",
+    "bootstrap": "4.0.x",
+    "jquery": "3.3.x"
+  }
+}

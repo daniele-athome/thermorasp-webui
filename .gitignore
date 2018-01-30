@@ -1,0 +1,7 @@
+# Dependency managers
+node_modules/
+bower_components/
+
+# IDE
+*.iml
+/.idea
