@@ -1,0 +1,40 @@
+diff --git a/package.json b/package.json
+index d75b00b..18a30c1 100755
+--- a/package.json
++++ b/package.json
+@@ -47,7 +47,7 @@
+   },
+   "dependencies": {
+     "babel-polyfill": "^6.26.0",
+-    "bootstrap": "4.0.0-beta.2",
++    "bootstrap": "4.0.0",
+     "bootstrap-datepicker": "^1.7.1",
+     "chart.js": "^2.7.1",
+     "datatables": "^1.10.13",
+diff --git a/webpack/plugins/index.js b/webpack/plugins/index.js
+index fcf5505..6039c31 100755
+--- a/webpack/plugins/index.js
++++ b/webpack/plugins/index.js
+@@ -8,7 +8,6 @@ plugins.push(
+   ...(require('./htmlPlugin')),
+   ...(require('./internal')),
+   require('./caseSensitivePlugin'),
+-  require('./dashboardPlugin'),
+   require('./extractPlugin')
+ );
+ 
+diff --git a/webpack/rules/fonts.js b/webpack/rules/fonts.js
+index 69e52a0..45df707 100755
+--- a/webpack/rules/fonts.js
++++ b/webpack/rules/fonts.js
+@@ -1,5 +1,9 @@
+ module.exports = {
+   test: /\.(eot|svg|ttf|woff|woff2)$/,
+   exclude : /(node_modules)/,
+-  use     : ['file-loader'],
++  loader  : 'file-loader',
++  options: {
++    outputPath: 'fonts/',
++    publicPath: 'assets/adminator/'
++  },
+ };
