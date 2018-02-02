@@ -15,3 +15,5 @@ Completely client-side web interface for the thermostat API based on AngularJS.
   - bundle.js
   - vendor.js
   - style.css
+* Run `npm install` to install dependencies
+* Serve the `app` folder with any webserver
