@@ -26,7 +26,7 @@ angular.module('myApp.dashboard', ['ngRoute', 'ngHTTPPoll'])
         pollStatus: function(dial) {
             // target temperature from active pipeline
             $http({
-               url: '/api/pipelines/active',
+               url: '/api/pipelines/active'
             })
             .then(function(res) {
                 if (res.data && res.data.behaviors && res.data.behaviors[0] && res.data.behaviors[0].config && res.data.behaviors[0].config.target_temperature) {
@@ -37,6 +37,7 @@ angular.module('myApp.dashboard', ['ngRoute', 'ngHTTPPoll'])
                 console.log(res);
             });
 
+            /*
             $httpoll({
                 url: '/api/devices/status/home_boiler',
                 delay: 1000,
@@ -64,6 +65,7 @@ angular.module('myApp.dashboard', ['ngRoute', 'ngHTTPPoll'])
                 }
                 // TODO other params?
             });
+            */
         }
     }
 }]);
