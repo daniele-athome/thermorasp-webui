@@ -7,6 +7,8 @@
 
 .dial {
   user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 .dial.away .dial__ico__leaf {
   visibility: hidden;
@@ -19,29 +21,40 @@
 }
 .dial.away .dial__lbl--away {
   opacity: 1;
+  -moz-opacity: 1;
 }
 .dial .dial__shape {
   transition: fill 0.5s;
+  -moz-transition: fill 0.5s;
+  -webkit-transition: fill 0.5s;
 }
 .dial__ico__leaf {
   fill: #13EB13;
   opacity: 0;
+  -moz-opacity: 0;
   transition: opacity 0.5s;
+  -moz-transition: opacity 0.5s;
+  -webkit-transition: opacity 0.5s;
   pointer-events: none;
 }
 .dial.has-leaf .dial__ico__leaf {
   display: block;
   opacity: 1;
+  -moz-opacity: 1;
   pointer-events: initial;
 }
 .dial__editableIndicator {
   fill: white;
   fill-rule: evenodd;
   opacity: 0;
+  -moz-opacity: 0;
   transition: opacity 0.5s;
+  -moz-transition: opacity 0.5s;
+  -webkit-transition: opacity 0.5s;
 }
 .dial--edit .dial__editableIndicator {
   opacity: 1;
+  -moz-opacity: 1;
 }
 .dial--state--off .dial__shape {
   fill: #222;
@@ -72,11 +85,17 @@
   font-size: 40px;
   font-weight: bold;
   opacity: 0;
+  -moz-opacity: 0;
   transition: opacity 0.1s;
+  -moz-transition: opacity 0.1s;
+  -webkit-transition: opacity 0.1s;
 }
 .dial__lbl--target--half.shown {
   opacity: 1;
+  -moz-opacity: 1;
   transition: opacity 0s;
+  -moz-transition: opacity 0s;
+  -webkit-transition: opacity 0s;
 }
 .dial__lbl--ambient {
   font-size: 22px;
@@ -86,5 +105,6 @@
   font-size: 72px;
   font-weight: bold;
   opacity: 0;
+  -moz-opacity: 0;
   pointer-events: none;
 }
