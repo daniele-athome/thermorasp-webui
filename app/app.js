@@ -17,7 +17,7 @@ config(['$locationProvider', '$routeProvider', '$httpProvider', '$translateProvi
             suffix: '.json'
         });
         $translateProvider
-            //.uniformLanguageTag('bcp47')
+            .useSanitizeValueStrategy('escapeParameters')
             .determinePreferredLanguage();
 
         /** TODO for when we'll have login
