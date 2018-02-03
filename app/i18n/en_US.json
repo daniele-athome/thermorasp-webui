@@ -1,7 +1,9 @@
 {
   "menu": {
     "home": "Home",
-    "devices": "Boilers"
+    "devices": "Boilers",
+    "pipelines": "Behavior",
+    "statistics": "Stats"
   },
   "devices": {
     "title": "Boilers",
@@ -11,5 +13,7 @@
     "type": {
       "boiler_on_off": "ON/OFF boiler"
     }
+  },
+  "pipelines": {
   }
 }

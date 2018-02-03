@@ -6,7 +6,8 @@ angular.module('app', [
     'pascalprecht.translate',
     'app.core',
     'app.dashboard',
-    'app.devices'
+    'app.devices',
+    'app.pipelines'
 ]).
 config(['$locationProvider', '$routeProvider', '$httpProvider', '$translateProvider',
     function($locationProvider, $routeProvider, $httpProvider, $translateProvider) {

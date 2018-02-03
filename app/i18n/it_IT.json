@@ -1,7 +1,9 @@
 {
   "menu": {
     "home": "Home",
-    "devices": "Caldaie"
+    "devices": "Caldaie",
+    "pipelines": "Comportamento",
+    "statistics": "Statistiche"
   },
   "devices": {
     "title": "Caldaie",
