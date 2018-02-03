@@ -19,7 +19,8 @@ config(['$locationProvider', '$routeProvider', '$httpProvider', '$translateProvi
         });
         $translateProvider
             .useSanitizeValueStrategy('escapeParameters')
-            .determinePreferredLanguage();
+            // FIXME hard-coded language
+            .preferredLanguage('it_IT');
 
         /** TODO for when we'll have login
         $httpProvider.interceptors.push(function($q, dependency1, dependency2) {
