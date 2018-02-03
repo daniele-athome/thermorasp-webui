@@ -3,10 +3,15 @@
 
 Completely client-side web interface for the thermostat API based on AngularJS.
 
-
 ## Build instructions
 
-* Clone this repository
+* Run `npm install`
+* Serve the `app` folder with any webserver
+
+## Adminator upgrade instructions
+
+In case Adminator releases a new version:
+
 * Clone [Adminator](https://github.com/puikinsh/Adminator-admin-dashboard)
 * Apply `adminator.patch` to the Adminator directory
 * Run `npm install && npm run build` in Adminator directory
@@ -15,5 +20,3 @@ Completely client-side web interface for the thermostat API based on AngularJS.
   - bundle.js
   - vendor.js
   - style.css
-* Run `npm install` to install dependencies
-* Serve the `app` folder with any webserver
