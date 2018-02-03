@@ -1,27 +1,38 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+angular.module('app', [
     'ngRoute',
-    'myApp.dashboard'
+    'pascalprecht.translate',
+    'app.core',
+    'app.dashboard',
+    'app.devices'
 ]).
-config(['$locationProvider', '$routeProvider', '$httpProvider', function($locationProvider, $routeProvider, $httpProvider) {
-    $locationProvider.hashPrefix('!');
+config(['$locationProvider', '$routeProvider', '$httpProvider', '$translateProvider',
+    function($locationProvider, $routeProvider, $httpProvider, $translateProvider) {
+        $locationProvider.hashPrefix('!');
 
-    /** TODO for when we'll have login
-    $httpProvider.interceptors.push(function($q, dependency1, dependency2) {
-        return {
-            'request': function(config) {
-                return config;
-            },
+        $translateProvider.useStaticFilesLoader({
+            prefix: 'i18n/',
+            suffix: '.json'
+        });
+        $translateProvider.determinePreferredLanguage();
 
-            'response': function(response) {
-                // TODO
-                return response;
-            }
-        };
-    });
-     */
+        /** TODO for when we'll have login
+        $httpProvider.interceptors.push(function($q, dependency1, dependency2) {
+            return {
+                'request': function(config) {
+                    return config;
+                },
 
-    $routeProvider.otherwise({redirectTo: '/dashboard'});
-}]);
+                'response': function(response) {
+                    // TODO
+                    return response;
+                }
+            };
+        });
+         */
+
+        $routeProvider.otherwise({redirectTo: '/dashboard'});
+    }
+]);

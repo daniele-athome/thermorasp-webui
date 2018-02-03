@@ -1,0 +1,11 @@
+{
+  "menu": {
+    "home": "Home",
+    "devices": "Caldaie"
+  },
+  "devices": {
+    "type": {
+      "boiler_on_off": "Caldaia ON/OFF"
+    }
+  }
+}

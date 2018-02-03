@@ -1,0 +1,11 @@
+{
+  "menu": {
+    "home": "Home",
+    "devices": "Boilers"
+  },
+  "devices": {
+    "type": {
+      "boiler_on_off": "ON/OFF boiler"
+    }
+  }
+}

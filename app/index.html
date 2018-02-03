@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="myApp" class="no-js">
+<html lang="en" ng-app="app" class="no-js">
 <head>
     <meta charset="utf-8">
     <title>Smart Thermostat</title>
@@ -100,15 +100,15 @@
                         <span class="icon-holder">
                           <i class="c-blue-500 ti-home"></i>
                         </span>
-                        <span class="title">Home</span>
+                        <span class="title">{{ 'menu.home' | translate }}</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class='sidebar-link' href="#!/devices/list">
                         <span class="icon-holder">
-                          <i class="c-brown-500 ti-email"></i>
+                          <i class="c-orange-500 ti-layout-list-thumb"></i>
                         </span>
-                        <span class="title">Devices</span>
+                        <span class="title">{{ 'menu.devices' | translate }}</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -326,9 +326,15 @@
 <script src="assets/adminator/bundle.js"></script>
 <script src="assets/js/dial.js"></script>
 <script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
 <script src="bower_components/angular-http-polling/index.js"></script>
+<script src="bower_components/angular-translate/angular-translate.js"></script>
+<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
 <script src="app.js"></script>
+<script src="core/module.js"></script>
+<script src="core/devices/module.js"></script>
+<script src="core/devices/service.js"></script>
 <script src="dashboard/dashboard.js"></script>
 <script src="devices/module.js"></script>
 <script src="devices/list.js"></script>

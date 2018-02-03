@@ -1,1 +1,7 @@
-<p>DEVICES</p>
+<h3>{{ 'devices.type.boiler_on_off' | translate}}</h3>
+
+<ul class="device-list">
+    <li ng-repeat="device in devices">
+        {{device.id}}
+    </li>
+</ul>
