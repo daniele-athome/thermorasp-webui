@@ -57,7 +57,7 @@ angular.module('app.dashboard', ['ngRoute', 'ngHTTPPoll'])
 
             $httpoll({
                 url: '/api/sensors/reading/temp_core',
-                delay: 30000,
+                delay: 2000,
                 until: function(response, config, state, actions) {
                     if (!controller.$$destroyed) {
                         if (response.data && response.data.type === 'temperature' && response.data.value) {
