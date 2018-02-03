@@ -16,7 +16,9 @@ config(['$locationProvider', '$routeProvider', '$httpProvider', '$translateProvi
             prefix: 'i18n/',
             suffix: '.json'
         });
-        $translateProvider.determinePreferredLanguage();
+        $translateProvider
+            //.uniformLanguageTag('bcp47')
+            .determinePreferredLanguage();
 
         /** TODO for when we'll have login
         $httpProvider.interceptors.push(function($q, dependency1, dependency2) {

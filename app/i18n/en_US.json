@@ -4,6 +4,10 @@
     "devices": "Boilers"
   },
   "devices": {
+    "title": "Boilers",
+    "create": {
+      "title": "New"
+    },
     "type": {
       "boiler_on_off": "ON/OFF boiler"
     }

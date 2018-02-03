@@ -11,5 +11,5 @@ angular.module('app.devices')
 
 .controller('DevicesListCtrl', ['$scope', 'Devices', function($scope, Devices) {
     // TODO
-    $scope.devices = Devices.query();
+    $scope.devices = Devices.boilers();
 }]);

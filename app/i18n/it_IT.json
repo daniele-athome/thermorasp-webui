@@ -4,6 +4,10 @@
     "devices": "Caldaie"
   },
   "devices": {
+    "title": "Caldaie",
+    "create": {
+      "title": "Nuovo"
+    },
     "type": {
       "boiler_on_off": "Caldaia ON/OFF"
     }
