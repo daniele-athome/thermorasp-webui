@@ -27,11 +27,11 @@ angular.module('app.dashboard', ['ngRoute', 'ngHTTPPoll'])
         pollStatus: function(controller, dial) {
             // target temperature from active pipeline
             $http({
-               url: '/api/pipelines/active'
+               url: '/api/pipelines/active/target_temperature'
             })
             .then(function(res) {
-                if (res.data && res.data.behaviors && res.data.behaviors[0] && res.data.behaviors[0].config && res.data.behaviors[0].config.target_temperature) {
-                    dial.target_temperature = res.data.behaviors[0].config.target_temperature;
+                if (res.data && res.data.target_temperature) {
+                    dial.target_temperature = res.data.target_temperature;
                 }
             })
             .catch(function(res) {
