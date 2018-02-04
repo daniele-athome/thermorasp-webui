@@ -11,6 +11,10 @@ angular.module('app.dashboard', ['ngRoute', 'ngHTTPPoll', 'app.core.pipelines', 
 
 .controller('DashboardCtrl', ['$scope', '$timeout', 'Pipelines', 'dashboardStatusService',
 function($scope, $timeout, Pipelines, dashboardStatusService) {
+    $scope.rollbackActivePipeline = function() {
+        dashboardStatusService.rollback();
+    };
+
     $scope.thermostatDial = new thermostatDial(document.getElementById('dashboard-thermostat'), {
         onSetTargetTemperature: function (targetTemperature) {
             const firstBehavior = $scope.activePipeline.behaviors[0];
@@ -35,7 +39,8 @@ function($scope, $timeout, Pipelines, dashboardStatusService) {
         }
     });
 
-    dashboardStatusService.pollStatus($scope, $scope.thermostatDial);
+    dashboardStatusService.init($scope, $scope.thermostatDial);
+    dashboardStatusService.pollStatus();
 }])
 
 .factory('dashboardStatusService', ['$timeout', 'Pipelines', 'Devices', 'Sensors',
@@ -44,62 +49,85 @@ function ($timeout, Pipelines, Devices, Sensors) {
     let devicePoll = null;
     let activePipeline = null;
 
+    // passed from caller
+    let controller = null;
+    let dial = null;
+
+    const _cancelPolls = function() {
+        if (devicePoll)
+            $timeout.cancel(devicePoll);
+        if (sensorPoll)
+            $timeout.cancel(sensorPoll);
+    };
+
+    const _pollStatus = function() {
+        let getDeviceStatus = function() {
+            const deviceStatus = Devices.status({id: activePipeline.params.target_device}, function() {
+                if (deviceStatus.status && deviceStatus.status.enabled) {
+                    dial.hvac_state = 'heating';
+                }
+                else {
+                    dial.hvac_state = 'off';
+                }
+
+                if (devicePoll)
+                    $timeout.cancel(devicePoll);
+                devicePoll = $timeout(getDeviceStatus, 1500);
+            });
+        };
+
+        // target temperature and device from active pipeline
+        Pipelines.active().then(function(res) {
+            activePipeline = res.data;
+            // save the active pipeline to the scope
+            controller.activePipeline = activePipeline;
+
+            dial.target_temperature = activePipeline.params.target_temperature;
+
+            // start polling device status
+            getDeviceStatus();
+        });
+
+        // use the first sensor only
+        // TODO we should make an average of all sensors
+        const sensors = Sensors.query(function() {
+            let getSensorReading = function() {
+                const reading = Sensors.reading({id: sensors[0].id}, function() {
+                    dial.ambient_temperature = reading.value;
+                });
+
+                if (sensorPoll)
+                    $timeout.cancel(sensorPoll);
+                sensorPoll = $timeout(getSensorReading, 1500);
+            };
+
+            // start polling sensors
+            getSensorReading();
+        });
+
+        // destroy polls on controller exit
+        controller.$on('$destroy', function() {
+            _cancelPolls();
+        });
+    };
+
     return {
         // FIXME hard-coding all the way!!!
 
-        pollStatus: function(controller, dial) {
+        init: function(_controller, _dial) {
+            controller = _controller;
+            dial = _dial;
+        },
 
-            let getDeviceStatus = function() {
-                const deviceStatus = Devices.status({id: activePipeline.params.target_device}, function() {
-                    if (deviceStatus.status && deviceStatus.status.enabled) {
-                        dial.hvac_state = 'heating';
-                    }
-                    else {
-                        dial.hvac_state = 'off';
-                    }
-
-                    if (devicePoll)
-                        $timeout.cancel(devicePoll);
-                    devicePoll = $timeout(getDeviceStatus, 1500);
-                });
-            };
-
-            // target temperature and device from active pipeline
-            Pipelines.active().then(function(res) {
-                activePipeline = res.data;
-                // save the active pipeline to the scope
-                controller.activePipeline = activePipeline;
-
-                dial.target_temperature = activePipeline.params.target_temperature;
-
-                // start polling device status
-                getDeviceStatus();
+        rollback: function() {
+            Pipelines.active_rollback().then(function() {
+                _cancelPolls();
+                _pollStatus();
             });
+        },
 
-            // use the first sensor only
-            // TODO we should make an average of all sensors
-            const sensors = Sensors.query(function() {
-                let getSensorReading = function() {
-                    const reading = Sensors.reading({id: sensors[0].id}, function() {
-                        dial.ambient_temperature = reading.value;
-                    });
-
-                    if (sensorPoll)
-                        $timeout.cancel(sensorPoll);
-                    sensorPoll = $timeout(getSensorReading, 1500);
-                };
-
-                // start polling sensors
-                getSensorReading();
-            });
-
-            // destroy polls on controller exit
-            controller.$on('$destroy', function() {
-                if (devicePoll)
-                    $timeout.cancel(devicePoll);
-                if (sensorPoll)
-                    $timeout.cancel(sensorPoll);
-            });
+        pollStatus: function() {
+            _pollStatus();
         }
     }
 }]);
