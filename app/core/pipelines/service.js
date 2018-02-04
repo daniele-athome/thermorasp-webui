@@ -1,22 +1,30 @@
 'use strict';
 
 angular.module('app.core.pipelines').
-factory('Pipelines', ['$resource',
-    function($resource) {
-        return $resource('/api/pipelines', {}, {
-            active: {
-                method: 'GET',
-                url: '/api/pipelines/active',
-                isArray: false
+factory('Pipelines', ['$http',
+    function($http) {
+        return {
+            active: function() {
+                return $http({
+                    url: '/api/pipelines/active',
+                    method: 'GET'
+                })
             },
-            active_update: {
-                method: 'PUT',
-                url: '/api/pipelines/active'
+
+            active_update: function(data) {
+                return $http({
+                    url: '/api/pipelines/active',
+                    method: 'PUT',
+                    data: data
+                });
             },
-            query: {
-                method: 'GET',
-                isArray: true
+
+            query: function() {
+                return $http({
+                    url: '/api/pipelines',
+                    method: 'GET'
+                })
             }
-        });
+        };
     }
 ]);

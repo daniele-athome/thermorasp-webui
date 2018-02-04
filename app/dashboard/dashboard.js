@@ -9,11 +9,29 @@ angular.module('app.dashboard', ['ngRoute', 'ngHTTPPoll', 'app.core.pipelines', 
     });
 }])
 
-.controller('DashboardCtrl', ['$scope', '$timeout', 'dashboardStatusService', function($scope, $timeout, dashboardStatusService) {
+.controller('DashboardCtrl', ['$scope', '$timeout', 'Pipelines', 'dashboardStatusService',
+function($scope, $timeout, Pipelines, dashboardStatusService) {
     $scope.thermostatDial = new thermostatDial(document.getElementById('dashboard-thermostat'), {
         onSetTargetTemperature: function (targetTemperature) {
-            // TODO alter pipeline
-            console.log(targetTemperature);
+            const firstBehavior = $scope.activePipeline.behaviors[0];
+            if (firstBehavior.id === 'generic.ForceTemperatureBehavior') {
+                // we already have a force temperature in the front of the chain
+                firstBehavior.config.target_temperature = targetTemperature;
+            }
+            else {
+                // put a force temperature in the front of the chain
+                $scope.activePipeline.behaviors.unshift({
+                    'id': 'generic.ForceTemperatureBehavior',
+                    'order': 1,
+                    'config': {
+                        'target_temperature': targetTemperature,
+                        'mode': 'heating',
+                        'target_device_id': $scope.activePipeline.params.target_device
+                    },
+                });
+            }
+
+            Pipelines.active_update({behaviors: $scope.activePipeline.behaviors});
         }
     });
 
@@ -24,6 +42,7 @@ angular.module('app.dashboard', ['ngRoute', 'ngHTTPPoll', 'app.core.pipelines', 
 function ($timeout, Pipelines, Devices, Sensors) {
     let sensorPoll = null;
     let devicePoll = null;
+    let activePipeline = null;
 
     return {
         // FIXME hard-coding all the way!!!
@@ -46,7 +65,11 @@ function ($timeout, Pipelines, Devices, Sensors) {
             };
 
             // target temperature and device from active pipeline
-            const activePipeline = Pipelines.active(function() {
+            Pipelines.active().then(function(res) {
+                activePipeline = res.data;
+                // save the active pipeline to the scope
+                controller.activePipeline = activePipeline;
+
                 dial.target_temperature = activePipeline.params.target_temperature;
 
                 // start polling device status
