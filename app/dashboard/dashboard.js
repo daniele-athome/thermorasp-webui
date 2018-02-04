@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.dashboard', ['ngRoute', 'ngHTTPPoll'])
+angular.module('app.dashboard', ['ngRoute', 'ngHTTPPoll', 'app.core.pipelines', 'app.core.devices', 'app.core.sensors'])
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/dashboard', {
@@ -20,57 +20,62 @@ angular.module('app.dashboard', ['ngRoute', 'ngHTTPPoll'])
     dashboardStatusService.pollStatus($scope, $scope.thermostatDial);
 }])
 
-.factory('dashboardStatusService', ['$http', '$httpoll', function ($http, $httpoll) {
+.factory('dashboardStatusService', ['$timeout', 'Pipelines', 'Devices', 'Sensors',
+function ($timeout, Pipelines, Devices, Sensors) {
+    let sensorPoll = null;
+    let devicePoll = null;
+
     return {
         // FIXME hard-coding all the way!!!
 
         pollStatus: function(controller, dial) {
-            // target temperature from active pipeline
-            $http({
-               url: '/api/pipelines/active/target_temperature'
-            })
-            .then(function(res) {
-                if (res.data && res.data.target_temperature) {
-                    dial.target_temperature = res.data.target_temperature;
-                }
-            })
-            .catch(function(res) {
-                console.log(res);
+
+            let getDeviceStatus = function() {
+                const deviceStatus = Devices.status({id: activePipeline.params.target_device}, function() {
+                    if (deviceStatus.status && deviceStatus.status.enabled) {
+                        dial.hvac_state = 'heating';
+                    }
+                    else {
+                        dial.hvac_state = 'off';
+                    }
+
+                    if (devicePoll)
+                        $timeout.cancel(devicePoll);
+                    devicePoll = $timeout(getDeviceStatus, 2000);
+                });
+            };
+
+            // target temperature and device from active pipeline
+            const activePipeline = Pipelines.active(function() {
+                dial.target_temperature = activePipeline.params.target_temperature;
+
+                // start polling device status
+                getDeviceStatus();
             });
 
-            $httpoll({
-                url: '/api/devices/status/home_boiler',
-                delay: 2000,
-                until: function(response, config, state, actions) {
-                    if (!controller.$$destroyed) {
-                        if (response.data && response.data.status && response.data.status.enabled) {
-                            dial.hvac_state = 'heating';
-                        }
-                        else {
-                            dial.hvac_state = 'off';
-                        }
-                    }
-                    return controller.$$destroyed;
-                }
-                // TODO other params?
+            // use the first sensor only
+            // TODO we should make an average of all sensors
+            const sensors = Sensors.query(function() {
+                let getSensorReading = function() {
+                    const reading = Sensors.reading({id: sensors[0].id}, function() {
+                        dial.ambient_temperature = reading.value;
+                    });
+
+                    if (sensorPoll)
+                        $timeout.cancel(sensorPoll);
+                    sensorPoll = $timeout(getSensorReading, 2000);
+                };
+
+                // start polling sensors
+                getSensorReading();
             });
 
-            $httpoll({
-                url: '/api/sensors/reading/temp_core',
-                delay: 2000,
-                until: function(response, config, state, actions) {
-                    if (!controller.$$destroyed) {
-                        if (response.data && response.data.type === 'temperature' && response.data.value) {
-                            dial.ambient_temperature = response.data.value;
-                        }
-                        else {
-                            // FIXME hard-coded
-                            dial.ambient_temperature = 10;
-                        }
-                    }
-                    return controller.$$destroyed;
-                }
-                // TODO other params?
+            // destroy polls on controller exit
+            controller.$on('$destroy', function() {
+                if (devicePoll)
+                    $timeout.cancel(devicePoll);
+                if (sensorPoll)
+                    $timeout.cancel(sensorPoll);
             });
         }
     }

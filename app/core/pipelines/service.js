@@ -9,6 +9,10 @@ factory('Pipelines', ['$resource',
                 url: '/api/pipelines/active',
                 isArray: false
             },
+            active_update: {
+                method: 'PUT',
+                url: '/api/pipelines/active'
+            },
             query: {
                 method: 'GET',
                 isArray: true
