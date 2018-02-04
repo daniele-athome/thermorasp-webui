@@ -60,7 +60,7 @@ function ($timeout, Pipelines, Devices, Sensors) {
 
                     if (devicePoll)
                         $timeout.cancel(devicePoll);
-                    devicePoll = $timeout(getDeviceStatus, 2000);
+                    devicePoll = $timeout(getDeviceStatus, 1500);
                 });
             };
 
@@ -86,7 +86,7 @@ function ($timeout, Pipelines, Devices, Sensors) {
 
                     if (sensorPoll)
                         $timeout.cancel(sensorPoll);
-                    sensorPoll = $timeout(getSensorReading, 2000);
+                    sensorPoll = $timeout(getSensorReading, 1500);
                 };
 
                 // start polling sensors
