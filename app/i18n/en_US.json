@@ -1,9 +1,16 @@
 {
+  "misc": {
+    "table": {
+      "next": "Next",
+      "prev": "Previous"
+    }
+  },
   "menu": {
     "home": "Home",
     "devices": "Boilers",
     "pipelines": "Behavior",
-    "statistics": "Stats"
+    "statistics": "Stats",
+    "eventlog": "Event log"
   },
   "devices": {
     "title": "Boilers",
@@ -15,5 +22,15 @@
     }
   },
   "pipelines": {
+  },
+  "eventlog": {
+    "title": "Log eventi",
+    "table": {
+      "timestamp": "Timestamp",
+      "level": "Level",
+      "source": "Source",
+      "nome": "Name",
+      "description": "Description"
+    }
   }
 }

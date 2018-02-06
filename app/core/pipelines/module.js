@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('app.core.pipelines', ['ngResource']);
+angular.module('app.core.pipelines', []);

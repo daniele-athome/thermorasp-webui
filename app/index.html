@@ -62,6 +62,7 @@
     </style>
     <link type="text/css" media="screen" rel="stylesheet" href="assets/adminator/style.css" />
     <link type="text/css" media="screen" rel="stylesheet" href="assets/css/dial.css" />
+    <link type="text/css" media="screen" rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body class="app">
 
@@ -133,6 +134,14 @@
                           <i class="c-indigo-500 ti-bar-chart"></i>
                         </span>
                         <span class="title">{{ 'menu.statistics' | translate }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class='sidebar-link' href="#!/eventlog">
+                        <span class="icon-holder">
+                          <i class="c-purple-500 ti-book"></i>
+                        </span>
+                        <span class="title">{{ 'menu.eventlog' | translate }}</span>
                     </a>
                 </li>
             </ul>
@@ -210,7 +219,11 @@
 <script src="bower_components/angular-http-polling/index.js"></script>
 <script src="bower_components/angular-translate/angular-translate.js"></script>
 <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+
+<!-- Main App -->
 <script src="app.js"></script>
+
+<!-- Core API -->
 <script src="core/module.js"></script>
 <script src="core/devices/module.js"></script>
 <script src="core/devices/service.js"></script>
@@ -218,11 +231,21 @@
 <script src="core/pipelines/service.js"></script>
 <script src="core/sensors/module.js"></script>
 <script src="core/sensors/service.js"></script>
+<script src="core/eventlog/module.js"></script>
+<script src="core/eventlog/service.js"></script>
+
+<!-- UI -->
+<script src="dashboard/module.js"></script>
 <script src="dashboard/dashboard.js"></script>
+
 <script src="devices/module.js"></script>
 <script src="devices/list.js"></script>
+
 <script src="pipelines/module.js"></script>
 <script src="pipelines/list.js"></script>
+
+<script src="eventlog/module.js"></script>
+<script src="eventlog/index.js"></script>
 
 </body>
 </html>

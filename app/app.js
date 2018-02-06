@@ -7,7 +7,8 @@ angular.module('app', [
     'app.core',
     'app.dashboard',
     'app.devices',
-    'app.pipelines'
+    'app.pipelines',
+    'app.eventlog'
 ]).
 config(['$locationProvider', '$routeProvider', '$httpProvider', '$translateProvider',
     function($locationProvider, $routeProvider, $httpProvider, $translateProvider) {

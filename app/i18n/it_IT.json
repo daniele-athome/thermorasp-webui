@@ -1,9 +1,16 @@
 {
+  "misc": {
+    "table": {
+      "next": "Successivo",
+      "prev": "Precedente"
+    }
+  },
   "menu": {
     "home": "Home",
     "devices": "Caldaie",
     "pipelines": "Comportamento",
-    "statistics": "Statistiche"
+    "statistics": "Statistiche",
+    "eventlog": "Log eventi"
   },
   "devices": {
     "title": "Caldaie",
@@ -12,6 +19,18 @@
     },
     "type": {
       "boiler_on_off": "Caldaia ON/OFF"
+    }
+  },
+  "pipelines": {
+  },
+  "eventlog": {
+    "title": "Log eventi",
+    "table": {
+      "timestamp": "Data/ora",
+      "level": "Livello",
+      "source": "Origine",
+      "nome": "Nome",
+      "description": "Descrizione"
     }
   }
 }

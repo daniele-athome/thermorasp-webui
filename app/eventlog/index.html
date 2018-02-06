@@ -1,0 +1,47 @@
+<h3>
+    {{'eventlog.title' | translate}}
+</h3>
+
+<div class="row gap-20 masonry pos-r">
+
+    <div class="masonry-item col-lg-12 event-log">
+        <div>
+            <table class="table table-sm table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>{{'eventlog.table.timestamp' | translate}}</th>
+                        <th>{{'eventlog.table.level' | translate}}</th>
+                        <th>{{'eventlog.table.source' | translate}}</th>
+                        <th>{{'eventlog.table.name' | translate}}</th>
+                        <th>{{'eventlog.table.description' | translate}}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="event in events" data-id="{{event.id}}" class="table-{{event.level | log_level_to_bootstrap}}">
+                        <td>{{event.timestamp | date:'medium'}}</td>
+                        <!-- TODO level icon filter -->
+                        <td>{{event.level}}</td>
+                        <td>{{event.source}}</td>
+                        <td>{{event.name}}</td>
+                        <td>{{event.description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <nav aria-label="Event log navigation">
+                <ul class="pagination justify-content-end">
+                    <li class="page-item">
+                        <button ng-click="goPrev()" class="page-link" tabindex="-1">{{'misc.table.prev' | translate}}</button>
+                    </li>
+                    <li class="page-item">
+                        <button ng-click="goNext()" class="page-link">{{'misc.table.next' | translate}}</button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</div>
