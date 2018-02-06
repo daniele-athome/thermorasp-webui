@@ -41,6 +41,11 @@ function($scope, $timeout, Pipelines, dashboardStatusService) {
 
     dashboardStatusService.init($scope, $scope.thermostatDial);
     dashboardStatusService.pollStatus();
+
+    $scope.showDashboard = true;
+    $timeout(function() {
+        $scope.dashboardVisible = true;
+    }, 300);
 }])
 
 .factory('dashboardStatusService', ['$timeout', 'Pipelines', 'Devices', 'Sensors',
