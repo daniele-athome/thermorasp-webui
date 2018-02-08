@@ -1,20 +1,27 @@
 'use strict';
 
 angular.module('app.core.devices').
-factory('Devices', ['$resource',
-    function($resource) {
-        return $resource('/api/devices', {}, {
-            boilers: {
-                method: 'GET',
-                url: '/api/devices?type=:deviceType',
-                params: {deviceType: 'boiler_on_off'},
-                isArray: true
+factory('Devices', ['$http',
+    function($http) {
+        return {
+            boilers: function() {
+                return $http({
+                    method: 'GET',
+                    url: '/api/devices',
+                    params: {
+                        type: 'boiler_on_off'
+                    }
+                });
             },
-            status: {
-                method: 'GET',
-                url: '/api/devices/status/:id',
-                isArray: false
+            status: function(device_id) {
+                return $http({
+                    method: 'GET',
+                    url: '/api/devices/status/' + encodeURIComponent(device_id),
+                    params: {
+                        'id': device_id
+                    }
+                });
             }
-        });
+        };
     }
 ]);

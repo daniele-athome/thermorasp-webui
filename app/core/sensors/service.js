@@ -12,10 +12,7 @@ factory('Sensors', ['$http',
             },
             reading: function(sensor_id) {
                 return $http({
-                    url: '/api/sensors/reading/:id',
-                    params: {
-                        'id': sensor_id
-                    },
+                    url: '/api/sensors/reading/' + encodeURIComponent(sensor_id),
                     method: 'GET'
                 });
             },

@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('app.core.devices', ['ngResource']);
+angular.module('app.core.devices', []);

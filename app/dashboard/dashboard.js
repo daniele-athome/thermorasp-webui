@@ -67,8 +67,8 @@ function ($timeout, Pipelines, Devices, Sensors) {
 
     const _pollStatus = function() {
         let getDeviceStatus = function() {
-            const deviceStatus = Devices.status({id: activePipeline.params.target_device}, function() {
-                if (deviceStatus.status && deviceStatus.status.enabled) {
+            Devices.status(activePipeline.params.target_device).then(function(res) {
+                if (res.data.status && res.data.status.enabled) {
                     dial.hvac_state = 'heating';
                 }
                 else {
