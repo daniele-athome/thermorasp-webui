@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('app.core.sensors', ['ngResource']);
+angular.module('app.core.sensors', []);

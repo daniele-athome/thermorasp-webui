@@ -93,22 +93,23 @@ function ($timeout, Pipelines, Devices, Sensors) {
             getDeviceStatus();
         });
 
-        // use the first sensor only
-        // TODO we should make an average of all sensors
-        const sensors = Sensors.query(function() {
-            let getSensorReading = function() {
-                const reading = Sensors.reading({id: sensors[0].id}, function() {
-                    dial.ambient_temperature = reading.value;
+        // average temperature
+        let getSensorReading = function() {
+            Sensors.reading_by_type('temperature').then(function(res) {
+                let total = 0;
+                res.data.forEach(function(e) {
+                    total += parseFloat(e.value);
                 });
+                dial.ambient_temperature = total / res.data.length;
+            });
 
-                if (sensorPoll)
-                    $timeout.cancel(sensorPoll);
-                sensorPoll = $timeout(getSensorReading, 1500);
-            };
+            if (sensorPoll)
+                $timeout.cancel(sensorPoll);
+            sensorPoll = $timeout(getSensorReading, 1500);
+        };
 
-            // start polling sensors
-            getSensorReading();
-        });
+        // start polling sensors
+        getSensorReading();
 
         // destroy polls on controller exit
         controller.$on('$destroy', function() {
