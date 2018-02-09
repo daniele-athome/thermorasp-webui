@@ -8,7 +8,9 @@ factory('Pipelines', ['$http',
                 return $http({
                     url: '/api/pipelines/active',
                     method: 'GET'
-                })
+                }).then(function(res) {
+                    return res.data;
+                });
             },
 
             active_update: function(data) {
@@ -30,7 +32,9 @@ factory('Pipelines', ['$http',
                 return $http({
                     url: '/api/pipelines',
                     method: 'GET'
-                })
+                }).then(function(res) {
+                    return res.data;
+                });
             }
         };
     }

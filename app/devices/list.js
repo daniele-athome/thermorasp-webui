@@ -10,6 +10,7 @@ angular.module('app.devices')
 }])
 
 .controller('DevicesListCtrl', ['$scope', 'Devices', function($scope, Devices) {
-    // TODO
-    $scope.devices = Devices.boilers();
+    Devices.boilers().then(function(data) {
+        $scope.devices = data;
+    });
 }]);

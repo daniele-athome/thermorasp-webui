@@ -14,9 +14,9 @@ angular.module('app.eventlog')
     $scope.goNext = function() {
         if ($scope.events.length > 0) {
             const startId = $scope.events[$scope.events.length - 1].id;
-            EventLog.next(startId).then(function (res) {
-                if (res.data.length > 0)
-                    $scope.events = res.data;
+            EventLog.next(startId).then(function (data) {
+                if (data.length > 0)
+                    $scope.events = data;
             });
         }
     };
@@ -24,15 +24,15 @@ angular.module('app.eventlog')
     $scope.goPrev = function() {
         if ($scope.events.length > 0) {
             const startId = $scope.events[0].id;
-            EventLog.prev(startId).then(function (res) {
-                if (res.data.length > 0)
-                    $scope.events = res.data;
+            EventLog.prev(startId).then(function (data) {
+                if (data.length > 0)
+                    $scope.events = data;
             });
         }
     };
 
-    EventLog.next().then(function(res) {
-        $scope.events = res.data;
+    EventLog.next().then(function(data) {
+        $scope.events = data;
     });
 }])
 

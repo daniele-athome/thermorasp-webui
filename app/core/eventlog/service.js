@@ -12,7 +12,9 @@ factory('EventLog', ['$http',
                         'page_size': page_size
                     },
                     method: 'GET'
-                })
+                }).then(function(res) {
+                    return res.data;
+                });
             },
             prev: function(start_id, page_size) {
                 return $http({
@@ -22,7 +24,9 @@ factory('EventLog', ['$http',
                         'page_size': page_size
                     },
                     method: 'GET'
-                })
+                }).then(function(res) {
+                    return res.data;
+                });
             }
         };
     }

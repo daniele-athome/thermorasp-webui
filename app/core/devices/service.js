@@ -11,6 +11,8 @@ factory('Devices', ['$http',
                     params: {
                         type: 'boiler_on_off'
                     }
+                }).then(function(res) {
+                    return res.data;
                 });
             },
             status: function(device_id) {
@@ -20,6 +22,8 @@ factory('Devices', ['$http',
                     params: {
                         'id': device_id
                     }
+                }).then(function(res) {
+                    return res.data;
                 });
             }
         };

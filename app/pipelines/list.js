@@ -10,7 +10,10 @@ angular.module('app.pipelines')
 }])
 
 .controller('PipelinesListCtrl', ['$scope', 'Pipelines', function($scope, Pipelines) {
-    // TODO
-    $scope.active = Pipelines.active();
-    $scope.pipelines = Pipelines.query();
+    Pipelines.active().then(function(data) {
+        $scope.active = data;
+    });
+    Pipelines.query().then(function(data) {
+        $scope.pipelines = data;
+    });
 }]);

@@ -8,6 +8,8 @@ angular.module('app', [
     'app.dashboard',
     'app.devices',
     'app.pipelines',
+    'app.pipeline-view',
+    'app.behavior-view',
     'app.eventlog'
 ]).
 config(['$locationProvider', '$routeProvider', '$httpProvider', '$translateProvider',

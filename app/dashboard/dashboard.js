@@ -67,8 +67,8 @@ function ($timeout, Pipelines, Devices, Sensors) {
 
     const _pollStatus = function() {
         let getDeviceStatus = function() {
-            Devices.status(activePipeline.params.target_device).then(function(res) {
-                if (res.data.status && res.data.status.enabled) {
+            Devices.status(activePipeline.params.target_device).then(function(data) {
+                if (data.status && data.status.enabled) {
                     dial.hvac_state = 'heating';
                 }
                 else {
@@ -82,8 +82,8 @@ function ($timeout, Pipelines, Devices, Sensors) {
         };
 
         // target temperature and device from active pipeline
-        Pipelines.active().then(function(res) {
-            activePipeline = res.data;
+        Pipelines.active().then(function(data) {
+            activePipeline = data;
             // save the active pipeline to the scope
             controller.activePipeline = activePipeline;
 
@@ -95,12 +95,12 @@ function ($timeout, Pipelines, Devices, Sensors) {
 
         // average temperature
         let getSensorReading = function() {
-            Sensors.reading_by_type('temperature').then(function(res) {
+            Sensors.reading_by_type('temperature').then(function(data) {
                 let total = 0;
-                res.data.forEach(function(e) {
+                data.forEach(function(e) {
                     total += parseFloat(e.value);
                 });
-                dial.ambient_temperature = total / res.data.length;
+                dial.ambient_temperature = total / data.length;
             });
 
             if (sensorPoll)
