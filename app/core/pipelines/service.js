@@ -21,6 +21,14 @@ factory('Pipelines', ['$http',
                 });
             },
 
+            active_set_config: function(order, data) {
+                return $http({
+                    url: '/api/pipelines/active/' + encodeURIComponent(order),
+                    method: 'PUT',
+                    data: data
+                });
+            },
+
             active_rollback: function() {
                 return $http({
                     url: '/api/pipelines/active/rollback',
