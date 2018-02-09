@@ -4,7 +4,7 @@ angular.module('app.devices')
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/devices/list', {
-        templateUrl: 'devices/list.html',
+        templateUrl: 'devices/device-list.template.html',
         controller: 'DevicesListCtrl'
     });
 }])

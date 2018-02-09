@@ -27,7 +27,7 @@ angular.module('app.behavior-view')
                         templateName = 'default';
                 }
 
-                $scope.behaviorTemplateUrl = 'behavior-view/template.' + templateName + '.html';
+                $scope.behaviorTemplateUrl = 'behavior-view/behavior-view.template.' + templateName + '.html';
             }
         };
     }

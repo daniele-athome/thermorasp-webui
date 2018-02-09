@@ -4,7 +4,7 @@ angular.module('app.pipelines')
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/pipelines/list', {
-        templateUrl: 'pipelines/list.html',
+        templateUrl: 'pipelines/pipeline-list.template.html',
         controller: 'PipelinesListCtrl'
     });
 }])

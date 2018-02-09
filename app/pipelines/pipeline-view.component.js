@@ -3,7 +3,7 @@
 angular.module('app.pipeline-view')
 
 .component('pipelineView', {
-    templateUrl: 'pipeline-view/template.html',
+    templateUrl: 'pipelines/pipeline-view.template.html',
     bindings: {
         pipeline: '<'
     },

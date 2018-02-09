@@ -4,7 +4,7 @@ angular.module('app.eventlog')
 
 .config(['$routeProvider', function($routeProvider) {
     $routeProvider.when('/eventlog', {
-        templateUrl: 'eventlog/index.html',
+        templateUrl: 'eventlog/eventlog.template.html',
         controller: 'EventLogCtrl'
     });
 }])
