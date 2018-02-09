@@ -35,6 +35,16 @@ factory('Pipelines', ['$http',
                 }).then(function(res) {
                     return res.data;
                 });
+            },
+
+            create: function(pipeline) {
+                return $http({
+                    url: '/api/pipelines',
+                    method: 'POST',
+                    data: pipeline
+                }).then(function(res) {
+                    return res.data;
+                });
             }
         };
     }

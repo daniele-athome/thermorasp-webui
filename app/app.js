@@ -4,6 +4,7 @@
 angular.module('app', [
     'ngRoute',
     'pascalprecht.translate',
+    'ngFlash',
     'app.core',
     'app.dashboard',
     'app.devices',
@@ -42,4 +43,10 @@ config(['$locationProvider', '$routeProvider', '$httpProvider', '$translateProvi
 
         $routeProvider.otherwise({redirectTo: '/dashboard'});
     }
-]);
+])
+.run(['$rootScope', 'Flash', function($rootScope, Flash) {
+    $rootScope.$on('$locationChangeStart', function(event, next, current) {
+        // FIXME works, but clears any flash set by previous page
+        Flash.clear();
+    });
+}]);

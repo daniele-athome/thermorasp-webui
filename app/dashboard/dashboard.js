@@ -9,43 +9,60 @@ angular.module('app.dashboard')
     });
 }])
 
-.controller('DashboardCtrl', ['$scope', '$timeout', 'Pipelines', 'dashboardStatusService',
-function($scope, $timeout, Pipelines, dashboardStatusService) {
+.controller('DashboardCtrl', ['$scope', '$location', '$timeout', 'Flash', 'Pipelines', 'dashboardStatusService',
+function($scope, $location, $timeout, Flash, Pipelines, dashboardStatusService) {
     $scope.rollbackActivePipeline = function() {
         dashboardStatusService.rollback();
     };
 
     $scope.thermostatDial = new thermostatDial(document.getElementById('dashboard-thermostat'), {
         onSetTargetTemperature: function (targetTemperature) {
-            const firstBehavior = $scope.activePipeline.behaviors[0];
-            if (firstBehavior.id === 'generic.ForceTemperatureBehavior') {
-                // we already have a force temperature in the front of the chain
-                firstBehavior.config.target_temperature = targetTemperature;
+            if ($scope.activePipeline) {
+                const firstBehavior = $scope.activePipeline.behaviors[0];
+                if (firstBehavior.id === 'generic.ForceTemperatureBehavior') {
+                    // we already have a force temperature in the front of the chain
+                    firstBehavior.config.target_temperature = targetTemperature;
+                }
+                else {
+                    // put a force temperature in the front of the chain
+                    $scope.activePipeline.behaviors.unshift({
+                        'id': 'generic.ForceTemperatureBehavior',
+                        'order': 1,
+                        'config': {
+                            'target_temperature': targetTemperature,
+                            'mode': 'heating',
+                            'target_device_id': $scope.activePipeline.params.target_device
+                        },
+                    });
+                }
+
+                Pipelines.active_update({behaviors: $scope.activePipeline.behaviors});
             }
             else {
-                // put a force temperature in the front of the chain
-                $scope.activePipeline.behaviors.unshift({
-                    'id': 'generic.ForceTemperatureBehavior',
-                    'order': 1,
-                    'config': {
-                        'target_temperature': targetTemperature,
-                        'mode': 'heating',
-                        'target_device_id': $scope.activePipeline.params.target_device
-                    },
-                });
+                // TODO not possible, we should have been redirected to the pipelines page
             }
-
-            Pipelines.active_update({behaviors: $scope.activePipeline.behaviors});
         }
     });
 
     dashboardStatusService.init($scope, $scope.thermostatDial);
-    dashboardStatusService.pollStatus();
+    dashboardStatusService.pollStatus({
+        ready: function() {
+            $scope.showDashboard = true;
+            $timeout(function() {
+                $scope.dashboardVisible = true;
+            }, 100);
+        },
 
-    $scope.showDashboard = true;
-    $timeout(function() {
-        $scope.dashboardVisible = true;
-    }, 300);
+        noActivePipeline: function() {
+            // send user to pipeline list page (with a flash alert)
+            $location.path('/pipelines');
+            $timeout(function() {
+                // TODO i18n
+                Flash.create('warning', 'No active pipeline. Please activate one.', 5000);
+            }, 100);
+        }
+    });
+
 }])
 
 .factory('dashboardStatusService', ['$timeout', 'Pipelines', 'Devices', 'Sensors',
@@ -65,7 +82,7 @@ function ($timeout, Pipelines, Devices, Sensors) {
             $timeout.cancel(sensorPoll);
     };
 
-    const _pollStatus = function() {
+    const _pollStatus = function(callback) {
         let getDeviceStatus = function() {
             Devices.status(activePipeline.params.target_device).then(function(data) {
                 if (data.status && data.status.enabled) {
@@ -91,6 +108,19 @@ function ($timeout, Pipelines, Devices, Sensors) {
 
             // start polling device status
             getDeviceStatus();
+            // start polling sensors
+            getSensorReading();
+
+            callback.ready();
+        })
+        .catch(function(err) {
+            if (err.status === 404) {
+                // no active pipeline
+                callback.noActivePipeline();
+            }
+            else {
+                // TODO unexpected error
+            }
         });
 
         // average temperature
@@ -107,9 +137,6 @@ function ($timeout, Pipelines, Devices, Sensors) {
                 $timeout.cancel(sensorPoll);
             sensorPoll = $timeout(getSensorReading, 1500);
         };
-
-        // start polling sensors
-        getSensorReading();
 
         // destroy polls on controller exit
         controller.$on('$destroy', function() {
@@ -132,8 +159,8 @@ function ($timeout, Pipelines, Devices, Sensors) {
             });
         },
 
-        pollStatus: function() {
-            _pollStatus();
+        pollStatus: function(callback) {
+            _pollStatus(callback);
         }
     }
 }]);
