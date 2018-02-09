@@ -58,7 +58,7 @@ function($scope, $location, $timeout, Flash, Pipelines, dashboardStatusService) 
             $location.path('/pipelines');
             $timeout(function() {
                 // TODO i18n
-                Flash.create('warning', 'No active pipeline. Please activate one.', 5000);
+                Flash.create('warning', 'No active pipeline. Please activate one.');
             }, 100);
         }
     });

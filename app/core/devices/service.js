@@ -25,6 +25,15 @@ factory('Devices', ['$http',
                 }).then(function(res) {
                     return res.data;
                 });
+            },
+            register: function(device) {
+                return $http({
+                    method: 'POST',
+                    url: '/api/devices/register',
+                    data: device
+                }).then(function(res) {
+                    return res.data;
+                });
             }
         };
     }
