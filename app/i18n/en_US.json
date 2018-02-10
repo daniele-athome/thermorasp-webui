@@ -23,7 +23,6 @@
   },
   "pipelines": {
     "active": {
-      "title": "Active pipeline: {{name}}"
     }
   },
   "eventlog": {

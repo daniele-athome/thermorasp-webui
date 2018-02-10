@@ -1,9 +1,17 @@
+<!-- TODO i18n -->
+
 <div class="row gap-20 masonry pos-r">
 
     <div class="masonry-item col-lg-12 active-pipeline">
-        <div class="bgc-white p-20 bd">
-            <h6>{{ 'pipelines.active.title' | translate:{ name: active.name } }}</h6>
-            <pipeline-view pipeline="active"></pipeline-view>
+        <div class="bgc-white bd p-20">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4>{{ active.name }}</h4>
+                </div>
+            </div>
+            <div class="row">
+                <pipeline-view class="col-lg-12" pipeline="active"></pipeline-view>
+            </div>
         </div>
     </div>
 
@@ -13,8 +21,15 @@
 
     <div class="masonry-item col-lg-12 active-pipeline">
         <div class="bgc-white p-20 bd">
-            <h6>Pipeline configurate</h6>
-            <pipeline-view pipeline="pipeline" ng-repeat="pipeline in pipelines"></pipeline-view>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4>Altri programmi</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <!--pipeline-view class="col-lg-12" pipeline="pipeline" ng-repeat="pipeline in pipelines"></pipeline-view-->
+            </div>
         </div>
     </div>
 

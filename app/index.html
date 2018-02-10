@@ -61,6 +61,7 @@
         }
     </style>
     <link type="text/css" media="screen" rel="stylesheet" href="assets/adminator/style.css" />
+    <link type="text/css" media="screen" rel="stylesheet" href="bower_components/vis/dist/vis-timeline-graph2d.min.css" />
     <link type="text/css" media="screen" rel="stylesheet" href="assets/css/dial.css" />
     <link type="text/css" media="screen" rel="stylesheet" href="assets/css/style.css" />
 </head>
@@ -197,7 +198,7 @@
         </div>
 
         <main class="main-content bgc-grey-100">
-            <div class="container" id="mainContent">
+            <div class="container-fluid" id="mainContent">
                 <div class="row">
                     <div class="col-lg-12">
                         <flash-message duration="0"></flash-message>
@@ -219,6 +220,7 @@
 <script src="assets/adminator/vendor.js"></script>
 <script src="assets/adminator/bundle.js"></script>
 <script src="assets/js/dial.js"></script>
+<script src="assets/js/color.gradient.min.js"></script>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -227,6 +229,8 @@
 <script src="bower_components/angular-spinners/dist/angular-spinners.min.js"></script>
 <script src="bower_components/angular-translate/angular-translate.js"></script>
 <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="bower_components/moment/min/moment-with-locales.min.js"></script>
+<script src="bower_components/vis/dist/vis.min.js"></script>
 
 <!-- Main App -->
 <script src="app.js"></script>
@@ -259,6 +263,7 @@
 <script src="behaviors/behavior-view.module.js"></script>
 <script src="behaviors/behavior-view.component.js"></script>
 <script src="behaviors/force-temperature.component.js"></script>
+<script src="behaviors/weekly-program.component.js"></script>
 
 <script src="eventlog/eventlog.module.js"></script>
 <script src="eventlog/eventlog.controller.js"></script>

@@ -7,7 +7,7 @@ angular.module('app.behavior-view')
     bindings: {
         behavior: '<'
     },
-    controller: ['$scope', 'Pipelines', function BehaviorViewController($scope, Pipelines) {
+    controller: ['$scope', 'Pipelines', function ForceTemperatureBehaviorController($scope, Pipelines) {
         let ctrl = this;
 
         $scope.successInputGroup = function(buttonId) {
