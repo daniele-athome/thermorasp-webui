@@ -1,0 +1,17 @@
+<!-- TODO i18n -->
+
+<div class="modal-header">
+    <h5 class="modal-title">Temperatura</h5>
+    <button type="button" class="close" data-dismiss="modal" ng-click="$ctrl.cancel()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <input ng-model="$ctrl.temperature" type="number" step="0.5"
+           class="form-control"
+           placeholder="Temperatura" />
+</div>
+<div class="modal-footer">
+    <button ng-click="$ctrl.cancel()" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <button ng-click="$ctrl.ok()" type="button" class="btn btn-primary">OK</button>
+</div>

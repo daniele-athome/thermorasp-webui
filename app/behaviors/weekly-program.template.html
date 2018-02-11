@@ -1,3 +1,9 @@
 <!-- TODO i18n -->
+
 <h6>Programma settimanale</h6>
-<div class="weekly-timeline" id="weeklyTimeline_{{$ctrl.behavior.order}}"></div>
+<div class="weekly-timeline mb-2" id="weeklyTimeline_{{$ctrl.behavior.order}}"></div>
+
+<button ng-disabled="$ctrl.saving" ng-click="save()" type="button" class="btn btn-success">Save</button>
+<span ng-show="$ctrl.saving" class="ml-2"><i class="fa fa-spinner"></i></span>
+<span ng-show="$ctrl.status && $ctrl.status=='success'" class="ml-2 text-success"><i class="fa fa-check"></i></span>
+<span ng-show="$ctrl.status && $ctrl.status=='error'" class="ml-2 text-danger"><i class="fa fa-exclamation-trangle"></i></span>

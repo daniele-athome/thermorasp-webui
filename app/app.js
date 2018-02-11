@@ -5,6 +5,7 @@ angular.module('app', [
     'ngRoute',
     'pascalprecht.translate',
     'ngFlash',
+    'ui.bootstrap',
     'angularSpinners',
     'app.core',
     'app.dashboard',

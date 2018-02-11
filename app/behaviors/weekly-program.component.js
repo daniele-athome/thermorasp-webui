@@ -7,8 +7,27 @@ angular.module('app.behavior-view')
     bindings: {
         behavior: '<'
     },
-    controller: ['$scope', '$element', 'Pipelines', function WeeklyProgramBehaviorController($scope, $element, Pipelines) {
+    controller: ['$scope', '$element', '$uibModal', 'Pipelines',
+    function WeeklyProgramBehaviorController($scope, $element, $uibModal, Pipelines) {
         let ctrl = this;
+
+        ctrl.status = false;
+        ctrl.saving = false;
+
+        const resetStatus = function() {
+            ctrl.status = false;
+            ctrl.saving = false;
+        };
+
+        const setSaving = function() {
+            ctrl.status = false;
+            ctrl.saving = true;
+        };
+
+        const setStatus = function(status) {
+            ctrl.saving = false;
+            ctrl.status = status;
+        };
 
         const DEFAULT_TEMPERATURE = 20;
 
@@ -45,19 +64,20 @@ angular.module('app.behavior-view')
                     const dayConfig = ctrl.behavior.config[dayName];
                     for (let x = 0; x < dayConfig.length; x++) {
                         const hourConfig = dayConfig[x];
-                        const time_start = hourConfig.time_start + ':00';
+                        const time_start = '2000-01-01 ' + hourConfig.time_start + ':00';
                         const time_end = (x < (dayConfig.length - 1)) ?
-                            (dayConfig[x + 1].time_start + ':00') : '23:59:59';
+                            '2000-01-01 ' + dayConfig[x + 1].time_start + ':00' :
+                            '2000-01-02 00:00:00';
 
-                        console.log(names[i] + ': ' + time_start + ' - ' + time_end);
                         items.add({
                             id: dayName + '_' + x,
                             group: i,
                             content: String(hourConfig.target_temperature),
-                            start: '2000-01-01 ' + time_start,
-                            end: '2000-01-01 ' + time_end,
+                            start: new Date(time_start),
+                            end: new Date(time_end),
                             type: 'range',
-                            style: getRangeStyle(hourConfig.target_temperature)
+                            style: getRangeStyle(hourConfig.target_temperature),
+                            data: {'temperature': hourConfig.target_temperature}
                         });
 
                     }
@@ -72,10 +92,6 @@ angular.module('app.behavior-view')
                         remove: true,
                         overrideItems: false
                     },
-                    timeAxis: {
-                        scale: 'hour',
-                        step: 1
-                    },
                     min: '2000-01-01 00:00:00',
                     max: '2000-01-02 00:00:00',
                     start: '2000-01-01 00:00:00',
@@ -88,14 +104,57 @@ angular.module('app.behavior-view')
                     stack: false,
                     groupOrder: 'id',
                     onAdd: function(item, callback) {
+                        resetStatus();
+
                         item.type = 'range';
-                        item.end = moment(item.start).add(1, 'h');
+                        item.end = moment(item.start).add(1, 'h').toDate();
                         // some dummy temperature
                         item.content = String(DEFAULT_TEMPERATURE);
                         item.style = getRangeStyle(DEFAULT_TEMPERATURE);
+                        item.data = {'temperature': DEFAULT_TEMPERATURE};
                         callback(item);
+                    },
+                    onMoving: function(item, callback) {
+                        resetStatus();
+
+                        // TODO align end to the next block today, or midnight of tomorrow
+                        callback(item);
+                    },
+                    onUpdate: function(item, callback) {
+                        resetStatus();
+
+                        // open a popup to edit the temperature
+                        const modal = $uibModal.open({
+                            animation: false,
+                            backdropClass: 'show',
+                            templateUrl: 'behaviors/temperature-input.modal.html',
+                            size: 'sm',
+                            controllerAs: '$ctrl',
+                            controller: function($uibModalInstance) {
+                                const ctrl = this;
+
+                                ctrl.temperature = item.data.temperature;
+
+                                ctrl.ok = function() {
+                                    $uibModalInstance.close(ctrl.temperature);
+                                };
+
+                                ctrl.cancel = function() {
+                                    $uibModalInstance.dismiss('cancel');
+                                };
+                            }
+                        });
+
+                        modal.result.then(function(temperature) {
+                            item.content = String(temperature);
+                            item.style = getRangeStyle(temperature);
+                            item.data.temperature = temperature;
+                            callback(item);
+                        });
                     }
                 };
+
+                $scope.dataset = items;
 
                 $scope.timeline = new vis.Timeline(container[0]);
                 $scope.timeline.setOptions(options);
@@ -111,12 +170,34 @@ angular.module('app.behavior-view')
             }
         };
 
-        $scope.save = function(callback) {
-            // TODO
-            Pipelines.active_set_config(ctrl.behavior.order, ctrl.behavior.config)
-            .then(function(res) {
-                callback(res);
+        $scope.save = function() {
+            // update behavior from timeline items
+            const behavior_config = {};
+            $scope.dataset.forEach(function(e) {
+                const key = 'day' + e.group;
+                if (!(key in behavior_config)) {
+                    behavior_config[key] = [];
+                }
+
+                behavior_config[key].push({
+                    'time_start': moment(e.start).format('HH:mm'),
+                    'target_temperature': e.data.temperature
+                });
             });
+            console.log(behavior_config);
+
+            // copy old parameters over
+            behavior_config.mode = ctrl.behavior.config.mode;
+            behavior_config.target_device_id = ctrl.behavior.target_device_id;
+
+            setSaving();
+            Pipelines.active_set_config(ctrl.behavior.order, ctrl.behavior.config)
+                .then(function() {
+                    setStatus('success');
+                })
+                .catch(function() {
+                    setStatus('error');
+                });
         };
     }]
 });
