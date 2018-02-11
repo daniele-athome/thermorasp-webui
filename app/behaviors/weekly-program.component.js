@@ -190,6 +190,8 @@ angular.module('app.behavior-view')
             behavior_config.mode = ctrl.behavior.config.mode;
             behavior_config.target_device_id = ctrl.behavior.target_device_id;
 
+            ctrl.behavior.config = behavior_config;
+
             setSaving();
             Pipelines.active_set_config(ctrl.behavior.order, ctrl.behavior.config)
                 .then(function() {
