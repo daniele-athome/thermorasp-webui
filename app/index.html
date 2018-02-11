@@ -2,7 +2,7 @@
 <html lang="en" ng-app="app" class="no-js">
 <head>
     <meta charset="utf-8">
-    <title>Smart Thermostat</title>
+    <title ng-bind-template="{{ 'appname' | translate }}">Loading&hellip;</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="theme-color" content="#f06430"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -92,7 +92,7 @@
                                 <div class="peer">
                                     <div class="logo"><img src="assets/images/logo.png" alt=""/></div>
                                 </div>
-                                <div class="peer peer-greed"><h5 class="lh-1 mB-0 logo-text">Smart Thermostat</h5></div>
+                                <div class="peer peer-greed"><h5 class="lh-1 mB-0 logo-text">{{ 'appname' | translate }}</h5></div>
                             </div>
                         </a>
                     </div>

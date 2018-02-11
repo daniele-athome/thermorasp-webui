@@ -1,9 +1,15 @@
 {
+  "appname": "Thermorasp",
   "misc": {
     "table": {
       "next": "Successivo",
       "prev": "Precedente"
-    }
+    },
+    "save": "Salva",
+    "temperature": "Temperatura",
+    "ok": "OK",
+    "cancel": "Annulla",
+    "close": "Chiudi"
   },
   "menu": {
     "home": "Home",
@@ -15,7 +21,8 @@
   "devices": {
     "title": "Caldaie",
     "create": {
-      "title": "Nuovo"
+      "link_title": "Nuova",
+      "title": "Nuova caldaia"
     },
     "type": {
       "boiler_on_off": "Caldaia ON/OFF"
@@ -23,6 +30,13 @@
   },
   "pipelines": {
     "active": {
+    },
+    "others": "Altri programmi",
+    "weekly_program": {
+      "title": "Programma settimanale"
+    },
+    "force_temperature": {
+      "title": "Forza temperatura"
     }
   },
   "eventlog": {

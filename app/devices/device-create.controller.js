@@ -14,7 +14,6 @@ function($scope, $location, $timeout, Flash, Devices) {
     $scope.device = {};
 
     $scope.save = function(device) {
-        console.log(device);
         Devices.register(device).then(function(data) {
             $location.path('/devices/list');
             $timeout(function() {

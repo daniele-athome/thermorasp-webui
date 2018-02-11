@@ -11,6 +11,12 @@ angular.module('app.devices')
     controller: function DeviceFormController($scope) {
         let ctrl = this;
 
+        // default values
+        $scope.device = {
+            'protocol': 'local',
+            'type': 'boiler_on_off'
+        };
+
         ctrl.$onInit = function() {
             // TODO
         };

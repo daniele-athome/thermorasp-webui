@@ -1,9 +1,7 @@
-<!-- TODO i18n -->
-
 <form class="form-inline">
     <label for="inputTargetTemp_{{$ctrl.behavior.order}}"
            class="form-control-label mr-sm-2 mb-2">
-        Forza temperatura
+        {{ 'pipelines.force_temperature.title' | translate }}
     </label>
 
     <div class="input-group mb-2">
@@ -11,7 +9,7 @@
                class="form-control"
                id="inputTargetTemp_{{$ctrl.behavior.order}}"
                ng-change="restoreInputGroup('btnTargetTemp_'+$ctrl.behavior.order)"
-               placeholder="Temperatura" />
+               placeholder="{{ 'misc.temperature' | translate }}" />
         <div class="input-group-append">
             <button id="btnTargetTemp_{{$ctrl.behavior.order}}" type="button"
                     ng-click="save(successInputGroup('btnTargetTemp_'+$ctrl.behavior.order))"

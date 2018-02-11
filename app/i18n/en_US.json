@@ -1,9 +1,15 @@
 {
+  "appname": "Thermorasp",
   "misc": {
     "table": {
       "next": "Next",
       "prev": "Previous"
-    }
+    },
+    "save": "Save",
+    "temperature": "Temperature",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "close": "Close"
   },
   "menu": {
     "home": "Home",
@@ -15,7 +21,8 @@
   "devices": {
     "title": "Boilers",
     "create": {
-      "title": "New"
+      "link_title": "New",
+      "title": "New boiler"
     },
     "type": {
       "boiler_on_off": "ON/OFF boiler"
@@ -23,6 +30,13 @@
   },
   "pipelines": {
     "active": {
+    },
+    "others": "Other programs",
+    "weekly_program": {
+      "title": "Weekly program"
+    },
+    "force_temperature": {
+      "title": "Force temperature"
     }
   },
   "eventlog": {
