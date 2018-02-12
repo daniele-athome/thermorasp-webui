@@ -30,6 +30,7 @@
   },
   "pipelines": {
     "active": {
+      "none": "Nessun programma attivo."
     },
     "others": "Altri programmi",
     "weekly_program": {

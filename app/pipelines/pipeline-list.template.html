@@ -3,13 +3,16 @@
 
     <div class="masonry-item col-lg-12 active-pipeline">
         <div class="bgc-white bd p-20">
-            <div class="row">
+            <div ng-show="active" class="row">
                 <div class="col-lg-12">
                     <h4>{{ active.name }}</h4>
                 </div>
             </div>
             <div class="row">
-                <pipeline-view class="col-lg-12" pipeline="active"></pipeline-view>
+                <pipeline-view ng-show="active" class="col-lg-12" pipeline="active"></pipeline-view>
+                <div ng-hide="active" class="col-lg-12">
+                    {{ 'pipelines.active.none' | translate }}
+                </div>
             </div>
         </div>
     </div>
