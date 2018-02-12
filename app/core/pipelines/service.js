@@ -53,7 +53,17 @@ factory('Pipelines', ['$http',
                 }).then(function(res) {
                     return res.data;
                 });
-            }
+            },
+
+            set_config: function(pipeline_id, order, data) {
+                return $http({
+                    url: '/api/pipelines/' + encodeURIComponent(pipeline_id) + '/' + encodeURIComponent(order),
+                    method: 'PUT',
+                    data: data
+                });
+            },
+
+
         };
     }
 ]);

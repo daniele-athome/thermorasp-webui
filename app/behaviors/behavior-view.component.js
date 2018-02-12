@@ -5,6 +5,7 @@ angular.module('app.behavior-view')
 .component('behaviorView', {
     template: '<ng-include src="behaviorTemplateUrl"></ng-include>',
     bindings: {
+        pipelineId: '=',
         behavior: '<'
     },
     controller: ['$scope', function BehaviorViewController($scope) {

@@ -5,6 +5,7 @@ angular.module('app.behavior-view')
 .component('forceTemperatureBehavior', {
     templateUrl: 'behaviors/force-temperature.template.html',
     bindings: {
+        pipelineId: '=',
         behavior: '<'
     },
     controller: ['$scope', 'Pipelines', function ForceTemperatureBehaviorController($scope, Pipelines) {
@@ -31,10 +32,18 @@ angular.module('app.behavior-view')
         };
 
         $scope.save = function(callback) {
-            Pipelines.active_set_config(ctrl.behavior.order, ctrl.behavior.config)
-                .then(function(res) {
-                    callback(res);
-                });
+            if (ctrl.pipelineId === 'active') {
+                Pipelines.active_set_config(ctrl.behavior.order, ctrl.behavior.config)
+                    .then(function (res) {
+                        callback(res);
+                    });
+            }
+            else {
+                Pipelines.set_config(ctrl.pipelineId, ctrl.behavior.order, ctrl.behavior.config)
+                    .then(function (res) {
+                        callback(res);
+                    });
+            }
         };
     }]
 });
