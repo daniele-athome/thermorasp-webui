@@ -188,7 +188,7 @@ angular.module('app.behavior-view')
 
             // copy old parameters over
             behavior_config.mode = ctrl.behavior.config.mode;
-            behavior_config.target_device_id = ctrl.behavior.target_device_id;
+            behavior_config.target_device_id = ctrl.behavior.config.target_device_id;
 
             ctrl.behavior.config = behavior_config;
 
