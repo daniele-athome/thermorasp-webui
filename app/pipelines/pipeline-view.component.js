@@ -7,8 +7,10 @@ angular.module('app.pipeline-view')
     bindings: {
         pipeline: '<'
     },
-    controller: function PipelineViewController() {
+    controller: ['$scope', function PipelineViewController($scope) {
         let ctrl = this;
+
+        ctrl.editing = false;
 
         ctrl.$onInit = function() {
             // TODO
@@ -16,5 +18,9 @@ angular.module('app.pipeline-view')
         ctrl.$onChanges = function(changesObj) {
             // TODO
         };
-    }
+
+        $scope.beginEdit = function() {
+            ctrl.editing = true;
+        };
+    }]
 });
