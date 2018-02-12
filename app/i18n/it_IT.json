@@ -32,7 +32,10 @@
     "active": {
       "none": "Nessun programma attivo."
     },
-    "others": "Altri programmi",
+    "create": {
+      "link_title": "Nuovo"
+    },
+    "others": "Programmi",
     "weekly_program": {
       "title": "Programma settimanale"
     },
