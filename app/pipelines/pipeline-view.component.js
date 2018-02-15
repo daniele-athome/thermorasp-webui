@@ -19,21 +19,34 @@ angular.module('app.pipeline-view')
             // TODO
         };
 
-        $scope.switchEditMode = function() {
-            if (ctrl.editing) {
-                // rebuild order
-                ctrl.pipeline.behaviors.forEach(function(e, i) {
-                    e.order = (i+1) * 10;
-                });
+        $scope.deleteBehavior = function(behavior) {
+            // find the behavior in the pipeline and remove it
+            let behaviorIdx = -1;
+            ctrl.pipeline.behaviors.forEach(function(e, i) {
+                if (e.id === behavior.id && e.order === behavior.order) {
+                    behaviorIdx = i;
+                }
+            });
 
-                // TODO error handling and loading spinner
-                Pipelines.active_update(ctrl.pipeline).then(function() {
-                    $route.reload();
-                });
+            if (behaviorIdx >= 0) {
+                ctrl.pipeline.behaviors.splice(behaviorIdx, 1);
             }
-            else {
-                ctrl.editing = true;
-            }
+        };
+
+        $scope.beginEditMode = function() {
+            ctrl.editing = true;
+        };
+
+        $scope.endEditMode = function() {
+            // rebuild order
+            ctrl.pipeline.behaviors.forEach(function(e, i) {
+                e.order = (i+1) * 10;
+            });
+
+            // TODO error handling and loading spinner
+            Pipelines.active_update(ctrl.pipeline).then(function() {
+                $route.reload();
+            });
         };
     }]
 });

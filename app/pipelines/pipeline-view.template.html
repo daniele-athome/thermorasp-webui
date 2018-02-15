@@ -3,8 +3,11 @@
 <div class="row">
     <div class="col-lg-12">
         <h4>{{ $ctrl.pipeline.name }}
-            <button type="button" class="btn btn-secondary btn-sm" title="Edit" ng-click="switchEditMode()">
+            <button ng-hide="$ctrl.editing"  type="button" class="btn btn-secondary btn-sm" title="Edit" ng-click="beginEditMode()">
                 <i class="fa fa-edit"></i>
+            </button>
+            <button ng-show="$ctrl.editing"  type="button" class="btn btn-secondary btn-sm" title="Save" ng-click="endEditMode()">
+                <i class="fa fa-check"></i>
             </button>
         </h4>
     </div>
@@ -23,7 +26,7 @@
                 dnd-moved="$ctrl.pipeline.behaviors.splice($index, 1)"
                 dnd-effect-allowed="move">
                 <dnd-nodrag>
-                    <behavior-preview behavior="behavior"></behavior-preview>
+                    <behavior-preview behavior="behavior" on-delete="deleteBehavior(behavior)"></behavior-preview>
                 </dnd-nodrag>
             </li>
 
