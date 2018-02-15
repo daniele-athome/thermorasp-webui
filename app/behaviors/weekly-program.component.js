@@ -7,12 +7,13 @@ angular.module('app.behavior-view')
     bindings: {
         behavior: '<'
     },
-    controller: ['$scope', '$element', '$uibModal', 'Pipelines',
-    function WeeklyProgramBehaviorController($scope, $element, $uibModal, Pipelines) {
+    controller: ['$scope', '$element', '$uibModal', '$timeout', 'Pipelines',
+    function WeeklyProgramBehaviorController($scope, $element, $uibModal, $timeout, Pipelines) {
         let ctrl = this;
 
         ctrl.status = false;
         ctrl.saving = false;
+        ctrl.loading = false;
 
         const resetStatus = function() {
             ctrl.status = false;
@@ -156,10 +157,14 @@ angular.module('app.behavior-view')
 
                 $scope.dataset = items;
 
-                $scope.timeline = new vis.Timeline(container[0]);
-                $scope.timeline.setOptions(options);
-                $scope.timeline.setGroups(groups);
-                $scope.timeline.setItems(items);
+                ctrl.loading = true;
+                $timeout(function() {
+                    ctrl.loading = false;
+                    $scope.timeline = new vis.Timeline(container[0]);
+                    $scope.timeline.setOptions(options);
+                    $scope.timeline.setGroups(groups);
+                    $scope.timeline.setItems(items);
+                }, 200);
             }
         };
 
