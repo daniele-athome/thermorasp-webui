@@ -7,7 +7,7 @@ angular.module('app.pipeline-view')
     bindings: {
         pipeline: '<'
     },
-    controller: ['$scope', function PipelineViewController($scope) {
+    controller: ['$scope', '$route', 'Pipelines', function PipelineViewController($scope, $route, Pipelines) {
         let ctrl = this;
 
         ctrl.editing = false;
@@ -19,8 +19,21 @@ angular.module('app.pipeline-view')
             // TODO
         };
 
-        $scope.beginEdit = function() {
-            ctrl.editing = true;
+        $scope.switchEditMode = function() {
+            if (ctrl.editing) {
+                // rebuild order
+                ctrl.pipeline.behaviors.forEach(function(e, i) {
+                    e.order = (i+1) * 10;
+                });
+
+                // TODO error handling and loading spinner
+                Pipelines.active_update(ctrl.pipeline).then(function() {
+                    $route.reload();
+                });
+            }
+            else {
+                ctrl.editing = true;
+            }
         };
     }]
 });

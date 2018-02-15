@@ -1,8 +1,10 @@
 <!-- TODO i18n -->
 
 <div class="btn-group" role="group">
-<button type="button" class="btn btn-secondary btn-sm" title="Ordina"><i class="fa fa-fw fa-arrows-v"></i></button>
-<button type="button" class="btn btn-secondary btn-danger btn-sm" title="Elimina"><i class="fa fa-fw fa-trash"></i></button>
+
+    <div class="btn btn-secondary btn-sm" dnd-handle><i class="fa fa-fw fa-arrows-v"></i></div>
+    <button type="button" class="btn btn-secondary btn-danger btn-sm" title="Elimina"><i class="fa fa-fw fa-trash"></i></button>
+
 </div>
 
-<p>BEHAVIOR: {{$ctrl.behavior}}</p>
+<span>{{ 'behaviors.' + $ctrl.behavior.id | translate }}</span>

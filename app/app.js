@@ -7,6 +7,7 @@ angular.module('app', [
     'ngFlash',
     'ui.bootstrap',
     'angularSpinners',
+    'dndLists',
     'app.core',
     'app.dashboard',
     'app.devices',

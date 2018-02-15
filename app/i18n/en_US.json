@@ -43,6 +43,10 @@
       "title": "Force temperature"
     }
   },
+  "behaviors": {
+    "chrono.WeeklyProgramBehavior": "Weekly program",
+    "generic.ForceTemperatureBehavior": "Force temperature"
+  },
   "eventlog": {
     "title": "Log eventi",
     "table": {

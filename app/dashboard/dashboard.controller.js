@@ -18,7 +18,16 @@ function($scope, $location, $timeout, Flash, Pipelines, dashboardStatusService) 
     $scope.thermostatDial = new thermostatDial(document.getElementById('dashboard-thermostat'), {
         onSetTargetTemperature: function (targetTemperature) {
             if ($scope.activePipeline) {
-                const firstBehavior = $scope.activePipeline.behaviors[0];
+                // retrieve top-most behavior in pipeline (lesser order)
+                let lastOrder = -1;
+                let firstBehavior = null;
+                $scope.activePipeline.behaviors.forEach(function (e) {
+                    if (lastOrder < 0 || e.order < lastOrder) {
+                        lastOrder = e.order;
+                        firstBehavior = e;
+                    }
+                });
+
                 if (firstBehavior.id === 'generic.ForceTemperatureBehavior') {
                     // we already have a force temperature in the front of the chain
                     firstBehavior.config.target_temperature = targetTemperature;

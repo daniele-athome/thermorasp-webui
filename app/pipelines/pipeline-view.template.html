@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-lg-12">
         <h4>{{ $ctrl.pipeline.name }}
-            <button type="button" class="btn btn-secondary btn-sm" title="Edit" ng-click="beginEdit()">
+            <button type="button" class="btn btn-secondary btn-sm" title="Edit" ng-click="switchEditMode()">
                 <i class="fa fa-edit"></i>
             </button>
         </h4>
@@ -14,6 +14,20 @@
     <behavior-view class="col-lg-12" pipeline-id="$ctrl.pipeline.id" behavior="behavior"></behavior-view>
 </div>
 
-<div class="row" ng-show="$ctrl.editing" ng-repeat="behavior in $ctrl.pipeline.behaviors">
-    <behavior-preview class="col-lg-12" behavior="behavior"></behavior-preview>
+<div class="row" ng-show="$ctrl.editing">
+    <div class="col-lg-12">
+        <ul class="list-group" dnd-list="$ctrl.pipeline.behaviors">
+            <li ng-repeat="behavior in $ctrl.pipeline.behaviors"
+                class="list-group-item"
+                dnd-draggable="behavior"
+                dnd-moved="$ctrl.pipeline.behaviors.splice($index, 1)"
+                dnd-effect-allowed="move">
+                <dnd-nodrag>
+                    <behavior-preview behavior="behavior"></behavior-preview>
+                </dnd-nodrag>
+            </li>
+
+            <li class="dndPlaceholder list-group-item"></li>
+        </ul>
+    </div>
 </div>

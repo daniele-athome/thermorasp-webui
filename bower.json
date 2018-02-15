@@ -17,6 +17,7 @@
     "jquery": "3.3.1",
     "vis": "4.21.0",
     "moment": "2.20.1",
-    "angular-bootstrap": "2.5.0"
+    "angular-bootstrap": "2.5.0",
+    "angular-drag-and-drop-lists": "2.1.0"
   }
 }
