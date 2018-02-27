@@ -54,4 +54,39 @@ config(['$locationProvider', '$routeProvider', '$httpProvider', '$translateProvi
         // FIXME works, but clears any flash set by previous page
         Flash.clear();
     });
+
+    const registerServiceWorker = function() {
+        navigator.serviceWorker.register('sw.js', {scope: '/'})
+            .then(function (registration) {
+                // do we need to do something here?
+                // printing some debug stuff in the meantime we decide
+                let serviceWorker;
+                if (registration.installing) {
+                    serviceWorker = registration.installing;
+                }
+                else if (registration.waiting) {
+                    serviceWorker = registration.waiting;
+                }
+                else if (registration.active) {
+                    serviceWorker = registration.active;
+                }
+
+                if (serviceWorker) {
+                    console.log("ServiceWorker phase:", serviceWorker.state);
+
+                    serviceWorker.addEventListener('statechange', function (e) {
+                        console.log("ServiceWorker phase:", e.target.state);
+                    });
+                }
+            })
+            .catch(function (err) {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    };
+
+    if ('serviceWorker' in navigator) {
+        registerServiceWorker();
+    } else {
+        console.log("this browser does NOT support service worker");
+    }
 }]);
