@@ -1,6 +1,6 @@
 {
   "short_name": "Thermorasp",
-  "name": "Raspberry PI Smart Thermostat",
+  "name": "Thermorasp",
   "icons": [
     {
       "src": "assets/images/launcher-1x.png",
@@ -16,9 +16,15 @@
       "src": "assets/images/launcher-4x.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "assets/images/launcher-splash.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": "/",
+  "background_color": "#ffffff",
   "theme_color": "#f06430",
   "display": "standalone"
 }
