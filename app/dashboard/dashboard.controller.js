@@ -113,14 +113,20 @@ function ($timeout, Pipelines, Devices, Sensors) {
             // save the active pipeline to the scope
             controller.activePipeline = activePipeline;
 
-            dial.target_temperature = activePipeline.params.target_temperature;
+            if (activePipeline.params && activePipeline.params.target_temperature && activePipeline.params.target_device) {
+                dial.target_temperature = activePipeline.params.target_temperature;
 
-            // start polling device status
-            getDeviceStatus();
-            // start polling sensors
-            getSensorReading();
+                // start polling device status
+                getDeviceStatus();
+                // start polling sensors
+                getSensorReading();
 
-            callback.ready();
+                callback.ready();
+            }
+            else {
+                // no behavior in active pipeline or pipeline misconfiguration
+                callback.noActivePipeline();
+            }
         })
         .catch(function(err) {
             if (err.status === 404) {
