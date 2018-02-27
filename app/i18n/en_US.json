@@ -53,7 +53,7 @@
       "timestamp": "Timestamp",
       "level": "Level",
       "source": "Source",
-      "nome": "Name",
+      "name": "Name",
       "description": "Description"
     }
   }
