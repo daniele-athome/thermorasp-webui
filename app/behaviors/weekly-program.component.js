@@ -5,6 +5,7 @@ angular.module('app.behavior-view')
 .component('weeklyProgramBehavior', {
     templateUrl: 'behaviors/weekly-program.template.html',
     bindings: {
+        pipelineId: '=',
         behavior: '<'
     },
     controller: ['$scope', '$element', '$uibModal', '$timeout', 'Pipelines',
@@ -198,13 +199,25 @@ angular.module('app.behavior-view')
             ctrl.behavior.config = behavior_config;
 
             setSaving();
-            Pipelines.active_set_config(ctrl.behavior.order, ctrl.behavior.config)
-                .then(function() {
-                    setStatus('success');
-                })
-                .catch(function() {
-                    setStatus('error');
-                });
+
+            if (ctrl.pipelineId === 'active') {
+                Pipelines.active_set_config(ctrl.behavior.order, ctrl.behavior.config)
+                    .then(function() {
+                        setStatus('success');
+                    })
+                    .catch(function() {
+                        setStatus('error');
+                    });
+            }
+            else {
+                Pipelines.set_config(ctrl.pipelineId, ctrl.behavior.order, ctrl.behavior.config)
+                    .then(function() {
+                        setStatus('success');
+                    })
+                    .catch(function() {
+                        setStatus('error');
+                    });
+            }
         };
     }]
 });
