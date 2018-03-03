@@ -21,6 +21,9 @@ angular.module('app.behavior-view')
                     case 'generic.ForceTemperatureBehavior':
                         templateName = 'force';
                         break;
+                    case 'chrono.ForceTemperatureUntilBehavior':
+                        templateName = 'force-until';
+                        break;
                     case 'chrono.WeeklyProgramBehavior':
                         templateName = 'weekly';
                         break;

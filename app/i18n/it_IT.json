@@ -41,6 +41,9 @@
     },
     "force_temperature": {
       "title": "Forza temperatura"
+    },
+    "force_temperature_until": {
+      "until": "fino alle"
     }
   },
   "behaviors": {

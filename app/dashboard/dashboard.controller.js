@@ -28,19 +28,21 @@ function($scope, $location, $timeout, Flash, Pipelines, dashboardStatusService) 
                     }
                 });
 
-                if (firstBehavior.id === 'generic.ForceTemperatureBehavior') {
+                if (firstBehavior.id === 'chrono.ForceTemperatureUntilBehavior') {
                     // we already have a force temperature in the front of the chain
                     firstBehavior.config.target_temperature = targetTemperature;
                 }
                 else {
                     // put a force temperature in the front of the chain
                     $scope.activePipeline.behaviors.unshift({
-                        'id': 'generic.ForceTemperatureBehavior',
+                        'id': 'chrono.ForceTemperatureUntilBehavior',
                         'order': 1,
                         'config': {
                             'target_temperature': targetTemperature,
                             'mode': 'heating',
-                            'target_device_id': $scope.activePipeline.params.target_device
+                            'target_device_id': $scope.activePipeline.params.target_device,
+                            // TODO now +4 hours or 23:59
+                            'time': '23:59'
                         },
                     });
                 }

@@ -41,6 +41,9 @@
     },
     "force_temperature": {
       "title": "Force temperature"
+    },
+    "force_temperature_until": {
+      "until": "until"
     }
   },
   "behaviors": {
