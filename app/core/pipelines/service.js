@@ -55,6 +55,14 @@ factory('Pipelines', ['$http',
                 });
             },
 
+            update: function(pipeline_id, data) {
+                return $http({
+                    url: '/api/pipelines/' + encodeURIComponent(pipeline_id),
+                    method: 'PUT',
+                    data: data
+                });
+            },
+
             set_config: function(pipeline_id, order, data) {
                 return $http({
                     url: '/api/pipelines/' + encodeURIComponent(pipeline_id) + '/' + encodeURIComponent(order),

@@ -3,7 +3,15 @@
 <div class="row">
     <div class="col-lg-12">
         <h4>{{ $ctrl.pipeline.name }}
-            <button ng-hide="$ctrl.editing"  type="button" class="btn btn-secondary btn-sm" title="Edit" ng-click="beginEditMode()">
+            <span ng-show="$ctrl.active && !$ctrl.editing" class="btn-group" role="group">
+                <button type="button" class="btn btn-secondary btn-sm" title="Edit" ng-click="beginEditMode()">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-primary btn-sm" title="Persist" ng-click="commit()">
+                    <i class="fa fa-download"></i>
+                </button>
+            </span>
+            <button ng-hide="$ctrl.editing || $ctrl.active"  type="button" class="btn btn-secondary btn-sm" title="Edit" ng-click="beginEditMode()">
                 <i class="fa fa-edit"></i>
             </button>
             <button ng-show="$ctrl.editing"  type="button" class="btn btn-secondary btn-sm" title="Save" ng-click="endEditMode()">

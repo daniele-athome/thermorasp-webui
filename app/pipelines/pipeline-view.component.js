@@ -5,7 +5,8 @@ angular.module('app.pipeline-view')
 .component('pipelineView', {
     templateUrl: 'pipelines/pipeline-view.template.html',
     bindings: {
-        pipeline: '<'
+        pipeline: '<',
+        active: '='
     },
     controller: ['$scope', '$route', 'Pipelines', function PipelineViewController($scope, $route, Pipelines) {
         let ctrl = this;
@@ -45,6 +46,12 @@ angular.module('app.pipeline-view')
 
             // TODO error handling and loading spinner
             Pipelines.active_update(ctrl.pipeline).then(function() {
+                $route.reload();
+            });
+        };
+
+        $scope.commit = function() {
+            Pipelines.update(ctrl.pipeline.id, ctrl.pipeline).then(function() {
                 $route.reload();
             });
         };
