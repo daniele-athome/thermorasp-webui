@@ -71,6 +71,15 @@ function($scope, $location, $timeout, Flash, Pipelines, dashboardStatusService) 
                 // TODO i18n
                 Flash.create('warning', 'No active pipeline. Please activate one.');
             }, 100);
+        },
+
+        activePipelineError: function() {
+            // send user to pipeline list page (with a flash alert)
+            $location.path('/pipelines');
+            $timeout(function() {
+                // TODO i18n
+                Flash.create('danger', 'Active pipeline is not configured for correct use.');
+            }, 100);
         }
     });
 
@@ -127,7 +136,7 @@ function ($timeout, Pipelines, Devices, Sensors) {
             }
             else {
                 // no behavior in active pipeline or pipeline misconfiguration
-                callback.noActivePipeline();
+                callback.activePipelineError();
             }
         })
         .catch(function(err) {

@@ -1,0 +1,21 @@
+<!-- TODO i18n -->
+
+<div class="modal-header">
+    <h5 class="modal-title">Aggiungi comportamento</h5>
+    <button type="button" class="close" data-dismiss="modal" ng-click="$ctrl.cancel()" aria-label="{{ 'misc.close' | translate }}">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <select ng-model="$ctrl.behaviorId" size="1" class="form-control" title="Behavior">
+        <option value=""></option>
+        <!-- TODO retrieve from server -->
+        <option value="generic.ForceTemperatureBehavior">{{ 'behaviors.generic.ForceTemperatureBehavior' | translate }}</option>
+        <option value="chrono.ForceTemperatureUntilBehavior">{{ 'behaviors.chrono.ForceTemperatureUntilBehavior' | translate }}</option>
+        <option value="chrono.WeeklyProgramBehavior">{{ 'behaviors.chrono.WeeklyProgramBehavior' | translate }}</option>
+    </select>
+</div>
+<div class="modal-footer">
+    <button ng-click="$ctrl.cancel()" type="button" class="btn btn-default" data-dismiss="modal">{{ 'misc.cancel' | translate }}</button>
+    <button ng-click="$ctrl.ok()" type="button" class="btn btn-primary">{{ 'misc.ok' | translate }}</button>
+</div>

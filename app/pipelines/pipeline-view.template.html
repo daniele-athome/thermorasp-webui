@@ -14,10 +14,15 @@
             <button ng-hide="$ctrl.editing || $ctrl.active"  type="button" class="btn btn-secondary btn-sm" title="Edit" ng-click="beginEditMode()">
                 <i class="fa fa-edit"></i>
             </button>
-            <button ng-show="$ctrl.editing"  type="button" class="btn btn-secondary btn-sm" title="Save" ng-click="endEditMode()">
-                <i class="fa fa-check"></i>
-            </button>
-        </h4>
+            <span ng-show="$ctrl.editing" class="btn-group" role="group">
+                <button type="button" class="btn btn-primary btn-sm" title="Add behavior" ng-click="addBehavior()">
+                    <i class="fa fa-plus"></i>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" title="Save" ng-click="endEditMode()">
+                    <i class="fa fa-check"></i>
+                </button>
+            </span>
+       </h4>
     </div>
 </div>
 
