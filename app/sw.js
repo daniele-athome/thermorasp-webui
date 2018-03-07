@@ -2,7 +2,7 @@
 // inspired by https://developers.google.com/web/fundamentals/primers/service-workers/
 // It will cache everything that the browser will request
 
-const CACHE_NAME = 'thermorasp-cache-v2';
+const CACHE_NAME = 'thermorasp-cache-v3';
 const urlsToCache = [
     '/',
     '/manifest.json',

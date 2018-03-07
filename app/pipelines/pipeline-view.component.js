@@ -8,7 +8,8 @@ angular.module('app.pipeline-view')
         pipeline: '<',
         active: '='
     },
-    controller: ['$scope', '$route', '$uibModal', 'Pipelines', function PipelineViewController($scope, $route, $uibModal, Pipelines) {
+    controller: ['$scope', '$route', '$uibModal', 'Pipelines', 'Behaviors',
+    function PipelineViewController($scope, $route, $uibModal, Pipelines, Behaviors) {
         let ctrl = this;
 
         ctrl.editing = false;
@@ -73,19 +74,45 @@ angular.module('app.pipeline-view')
             });
 
             modal.result.then(function(behaviorId) {
-                let lastOrder;
-                if (ctrl.pipeline.behaviors.length > 0) {
-                    lastOrder = ctrl.pipeline.behaviors[ctrl.pipeline.behaviors.length - 1].order + 10;
+                if (behaviorId) {
+                    // request configuration schema to behavior
+                    Behaviors.find(behaviorId).then(function(data) {
+                        let config = {};
+
+                        angular.forEach(data.config, function(value, key) {
+                            // FIXME hard-coding stuff
+
+                            if (key === 'mode') {
+                                config.mode = 'heating';
+                            }
+                            else if (key === 'target_device_id') {
+                                config.target_device_id = 'home_boiler';
+                            }
+                            else if (key === 'target_temperature') {
+                                config.target_temperature = 20;
+                            }
+                            else if (key === 'time') {
+                                config.time = '23:59';
+                            }
+                            else {
+                                config[key] = '';
+                            }
+                        });
+
+                        let lastOrder;
+                        if (ctrl.pipeline.behaviors.length > 0) {
+                            lastOrder = ctrl.pipeline.behaviors[ctrl.pipeline.behaviors.length - 1].order + 10;
+                        }
+                        else {
+                            lastOrder = 10;
+                        }
+                        ctrl.pipeline.behaviors.push({
+                            id: behaviorId,
+                            order: lastOrder,
+                            config: config
+                        });
+                    });
                 }
-                else {
-                    lastOrder = 10;
-                }
-                ctrl.pipeline.behaviors.push({
-                    id: behaviorId,
-                    order: lastOrder,
-                    // TODO maybe a default configuration?
-                    config: {}
-                });
             });
         };
 
