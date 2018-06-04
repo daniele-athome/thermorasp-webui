@@ -11,6 +11,7 @@ angular.module('app', [
     'app.core',
     'app.dashboard',
     'app.devices',
+    'app.sensors',
     'app.pipelines',
     'app.pipeline-view',
     'app.behavior-view',

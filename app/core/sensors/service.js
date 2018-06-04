@@ -30,6 +30,14 @@ factory('Sensors', ['$http',
                 }).then(function(res) {
                     return res.data;
                 });
+            },
+            reading_all: function() {
+                return $http({
+                    url: '/api/sensors/reading',
+                    method: 'GET'
+                }).then(function(res) {
+                    return res.data;
+                });
             }
         };
     }

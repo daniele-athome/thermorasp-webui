@@ -125,6 +125,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class='sidebar-link' href="#!/sensors">
+                        <span class="icon-holder">
+                          <i class="c-orange-500 ti-layout-list-thumb"></i>
+                        </span>
+                        <span class="title">{{ 'menu.sensors' | translate }}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class='sidebar-link' href="#!/pipelines">
                         <span class="icon-holder">
                           <i class="c-deep-orange-500 ti-calendar"></i>
@@ -254,6 +262,7 @@
 <script src="core/eventlog/service.js"></script>
 
 <!-- UI -->
+<script src="utils/module.js"></script>
 <script src="dashboard/dashboard.module.js"></script>
 <script src="dashboard/dashboard.controller.js"></script>
 
@@ -261,6 +270,9 @@
 <script src="devices/device-list.controller.js"></script>
 <script src="devices/device-create.controller.js"></script>
 <script src="devices/device-form.component.js"></script>
+
+<script src="sensors/sensors.module.js"></script>
+<script src="sensors/sensor-list.controller.js"></script>
 
 <script src="pipelines/pipelines.module.js"></script>
 <script src="pipelines/pipeline-list.controller.js"></script>

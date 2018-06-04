@@ -1,0 +1,21 @@
+<h3>
+    {{ 'sensors.title' | translate}}
+    <a style="vertical-align: text-bottom" class="btn btn-sm btn-primary"
+       title="{{ 'sensors.create.link_title' | translate }}"
+       href="#!/sensors/create"><i class="ti-plus"></i></a>
+</h3>
+
+<div class="row gap-20 masonry pos-r">
+
+    <div class="masonry-item col-md-3 text-center sensor-box" ng-repeat="sensor in sensors">
+        <div class="bgc-white p-20 bd">
+            <a ng-href="#!/sensors/{{sensor.id}}"><img src="assets/images/temperature.png" alt=""/></a>
+            <div class="mT-20">
+                <h6 class="c-grey-900">{{sensor.id}}</h6>
+                <h6 ng-show="sensor.type=='temperature'"
+                    class="c-grey-900">{{temp_readings[sensor.id] | temp_unit}}</h6>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -14,6 +14,7 @@
   "menu": {
     "home": "Home",
     "devices": "Caldaie",
+    "sensors": "Sensori",
     "pipelines": "Comportamento",
     "statistics": "Statistiche",
     "eventlog": "Log eventi"
@@ -27,6 +28,9 @@
     "type": {
       "boiler_on_off": "Caldaia ON/OFF"
     }
+  },
+  "sensors": {
+    "title": "Sensori"
   },
   "pipelines": {
     "active": {
