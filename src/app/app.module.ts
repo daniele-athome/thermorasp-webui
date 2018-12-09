@@ -9,6 +9,7 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
+import {CoreModule} from "./core";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { DashboardComponent } from './routes/dashboard/dashboard.component';
   ],
   imports: [
     BrowserModule,
+    CoreModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
