@@ -2,6 +2,48 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="92eee6be6de0b11c924e3ab27db30257159c0a7c" datatype="html">
+        <source>Home</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3e24569eca61d598c8b01defbbbb1fa8bd5222bc" datatype="html">
+        <source>Devices</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5d894f583cb7a3e588bcceaff9a6f5a8bf22462d" datatype="html">
+        <source>Sensors</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="13568cd3f69f322176c264408740d5cce0e66d48" datatype="html">
+        <source>Schedules</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="61e0f26d843eec0b33ff475e111b0c2f7a80b835" datatype="html">
+        <source>Statistics</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0615755b57ae662aa717d3720065d9ec3d21bcb4" datatype="html">
+        <source>Event Log</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
