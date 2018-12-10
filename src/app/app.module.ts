@@ -10,6 +10,7 @@ import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { CoreModule } from "./core";
+import { ThermostatDialComponent } from "./components/thermostat-dial/thermostat-dial.component";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { CoreModule } from "./core";
     SidebarComponent,
     HeaderComponent,
     FooterComponent,
-    DashboardComponent
+    DashboardComponent,
+    ThermostatDialComponent
   ],
   imports: [
     BrowserModule,
