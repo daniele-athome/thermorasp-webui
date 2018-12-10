@@ -9,7 +9,7 @@ import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
-import {CoreModule} from "./core";
+import { CoreModule } from "./core";
 
 @NgModule({
   declarations: [

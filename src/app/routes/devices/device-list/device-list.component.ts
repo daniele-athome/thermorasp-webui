@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {Device, DeviceService} from "../../core";
+import {Device, DeviceService} from "../../../core";
 
 @Component({
-  selector: 'app-devices',
-  templateUrl: './devices.component.html',
-  styleUrls: ['./devices.component.scss']
+  selector: 'app-device-list',
+  templateUrl: './device-list.component.html',
+  styleUrls: ['./device-list.component.scss']
 })
-export class DevicesComponent implements OnInit {
+export class DeviceListComponent implements OnInit {
 
   devices: Device[];
 

@@ -17,4 +17,14 @@ export class DeviceService {
       .get('/devices');
   }
 
+  register(device: Device): Observable<Device> {
+    return this.apiService
+      .post('/devices/register', device);
+  }
+
+  unregister(device: Device): Observable<Device> {
+    return this.apiService
+      .post('/devices/unregister', device);
+  }
+
 }

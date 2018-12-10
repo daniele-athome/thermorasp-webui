@@ -1,0 +1,11 @@
+<h3>New device</h3>
+
+<div class="row gap-20 masonry pos-r">
+
+  <div class="col-md-6">
+    <div class="bgc-white p-20 bd">
+      <app-device-form [model]="newDevice()" [update]="false" (onSubmit)="save($event)"></app-device-form>
+    </div>
+  </div>
+
+</div>
