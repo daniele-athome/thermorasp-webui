@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from "@angular/common/http";
 
-import { ApiService, DeviceService } from "./services";
+import { ApiService, DeviceService, SensorService } from "./services";
 
 @NgModule({
   imports: [
@@ -11,7 +11,8 @@ import { ApiService, DeviceService } from "./services";
   ],
   providers: [
     ApiService,
-    DeviceService
+    DeviceService,
+    SensorService
   ]
 })
 export class CoreModule { }

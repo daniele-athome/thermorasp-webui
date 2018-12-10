@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Device, DeviceService} from "../../../core";
+import { Device, DeviceService } from "../../../core";
 
 @Component({
   selector: 'app-device-list',
@@ -13,6 +13,7 @@ export class DeviceListComponent implements OnInit {
   constructor(private deviceService: DeviceService) { }
 
   ngOnInit() {
+    // TODO loading status
     this.deviceService.query().subscribe(
       (devices: Device[]) => {
         this.devices = devices;

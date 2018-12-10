@@ -5,11 +5,12 @@ import { DashboardComponent } from "./routes/dashboard/dashboard.component";
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'devices', loadChildren: './routes/devices/devices.module#DevicesModule'}
+  { path: 'devices', loadChildren: './routes/devices/devices.module#DevicesModule'},
+  { path: 'sensors', loadChildren: './routes/sensors/sensors.module#SensorsModule'}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: true } )],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
