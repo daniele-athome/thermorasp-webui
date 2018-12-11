@@ -114,7 +114,7 @@ export class ThermostatDial {
   }
 
   set target_temperature(val: number) {
-    this.state.target_temperature = val;
+    this.state.target_temperature = this.restrictTargetTemperature(+val);
     this.render();
   }
 
@@ -123,7 +123,7 @@ export class ThermostatDial {
   }
 
   set ambient_temperature(val: number) {
-    this.state.ambient_temperature = val;
+    this.state.ambient_temperature = this.roundHalf(+val);
     this.render();
   }
 
@@ -427,7 +427,7 @@ export class ThermostatDial {
     Array.prototype.slice.call(this.svg.classList).forEach(function(c) {
       if (c.match(/^dial--state--/)) {
         that.svg.classList.remove(c);
-      };
+      }
     });
     this.svg.classList.add('dial--state--'+this.hvac_state);
   }
