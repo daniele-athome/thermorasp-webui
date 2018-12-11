@@ -27,6 +27,11 @@ export class ScheduleService {
       .get('/schedules/active');
   }
 
+  active_rollback(): Observable<void> {
+    return this.apiService
+      .put('/schedules/active/rollback');
+  }
+
   active_behavior(): Observable<ScheduleBehavior> {
     return this.apiService
       .get('/schedules/active/behavior');
