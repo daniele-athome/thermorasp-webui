@@ -18,6 +18,11 @@ export class SensorService {
       .get('/sensors');
   }
 
+  topic(sensor_id: string): Observable<string> {
+    return this.apiService
+      .get('/sensors/topic/' + sensor_id);
+  }
+
   register(sensor: Sensor): Observable<Sensor> {
     return this.apiService
       .post('/sensors/register', sensor);

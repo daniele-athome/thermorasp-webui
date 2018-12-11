@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +12,12 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { CoreModule } from "./core";
 import { ThermostatDialComponent } from "./components/thermostat-dial/thermostat-dial.component";
+
+const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  hostname: environment.mqtt_host,
+  port: environment.mqtt_port,
+  path: environment.mqtt_path
+};
 
 @NgModule({
   declarations: [
@@ -25,7 +32,8 @@ import { ThermostatDialComponent } from "./components/thermostat-dial/thermostat
     BrowserModule,
     CoreModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS)
   ],
   providers: [],
   bootstrap: [AppComponent]

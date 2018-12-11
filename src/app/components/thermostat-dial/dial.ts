@@ -189,8 +189,6 @@ export class ThermostatDial {
    */
 
 	public constructor(targetElement: Element, options?: ThermostatDialOptions) {
-		const self = this;
-
 		/*
 		 * Options
 		 */
@@ -277,7 +275,7 @@ export class ThermostatDial {
 		this.tickArray = [];
 		for (var iTick=0; iTick<options.numTicks; iTick++) {
 			this.tickArray.push(this.createSVGElement('path',{d:this.pointsToPath(this.tickPoints)},ticks));
-		};
+		}
 
 		/*
 		 * Labels

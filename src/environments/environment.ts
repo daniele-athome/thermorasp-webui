@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  api_url: 'http://localhost:7475'
+  api_url: 'http://localhost:7475',
+  mqtt_host: 'localhost',
+  mqtt_port: 9001,
+  mqtt_path: '/'
 };
 
 /*
