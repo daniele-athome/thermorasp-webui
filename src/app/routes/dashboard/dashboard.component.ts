@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ScheduleService, SensorService } from "../../core/services";
-import { ScheduleBehavior, SensorReading } from "../../core/models";
+import { ScheduleBehavior, Sensor, SensorReading } from "../../core/models";
 import { IMqttMessage, MqttService } from "ngx-mqtt";
 import { ThermostatDialComponent } from "../../components/thermostat-dial/thermostat-dial.component";
 import { Subscription } from "rxjs";
-import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: 'app-dashboard',
@@ -62,8 +61,17 @@ export class DashboardComponent implements OnInit {
       },
       (error: any) => {
         console.log(error);
-        if (error.status == 404) {
-          console.log('No active behavior, falling back to watching all sensors');
+        if (error.error == 'not-found') {
+          console.debug('No active behavior, falling back to watching all sensors');
+          this.sensorService.query().subscribe(
+            (sensors: Sensor[]) => {
+              sensors.forEach(
+                (sensor: Sensor) => {
+                  this.subscribeToAmbientTemperature(sensor.id, sensor.topic);
+                }
+              );
+            }
+          );
         }
       }
     );
@@ -73,15 +81,19 @@ export class DashboardComponent implements OnInit {
     // request topic for sensor
     this.sensorService.topic(sensor_id).subscribe(
       (sensor_topic: string) => {
-        const sub = this.mqttService.observe(sensor_topic + '/temperature').subscribe(
-          (message: IMqttMessage) => {
-            this.temp_readings.set(sensor_id, JSON.parse(message.payload.toString()));
-            this.updateAmbientTemperature();
-          }
-        );
-        this.activeScheduleSubs.push(sub);
+        this.subscribeToAmbientTemperature(sensor_id, sensor_topic);
       }
     );
+  }
+
+  private subscribeToAmbientTemperature(sensor_id: string, sensor_topic: string) {
+    const sub = this.mqttService.observe(sensor_topic + '/temperature').subscribe(
+      (message: IMqttMessage) => {
+        this.temp_readings.set(sensor_id, JSON.parse(message.payload.toString()));
+        this.updateAmbientTemperature();
+      }
+    );
+    this.activeScheduleSubs.push(sub);
   }
 
   private updateAmbientTemperature() {
