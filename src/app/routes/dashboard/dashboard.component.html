@@ -1,5 +1,5 @@
 <div class="fadein-start" id="dashboard-content">
-  <app-thermostat-dial #dial></app-thermostat-dial>
+  <app-thermostat-dial (onSetTargetTemperature)="onSetTargetTemperature($event)" class="thermostat-dial" #dial></app-thermostat-dial>
 
   <div class="text-center mT-60">
     <button (click)="rollbackActiveSchedule()" class="btn btn-lg btn-danger">Reset</button>

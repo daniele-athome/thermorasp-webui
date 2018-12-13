@@ -19,7 +19,6 @@ export class DashboardComponent implements OnInit {
   dial: ThermostatDialComponent;
 
   private readonly temp_readings: Map<string, SensorReading>;
-
   private readonly activeScheduleSubs: Subscription[];
 
   constructor(
@@ -44,6 +43,11 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  onSetTargetTemperature(target_temperature: number) {
+    // TODO
+    console.log('Temperature requested: ' + target_temperature);
+  }
+
   private cancelSubscriptions() {
     this.activeScheduleSubs.forEach(
       (sub: Subscription) => {
@@ -55,8 +59,14 @@ export class DashboardComponent implements OnInit {
 
   private loadActiveSchedule() {
     this.cancelSubscriptions();
+    this.dial.loading = true;
     this.scheduleService.active_behavior().subscribe(
       (behavior: ScheduleBehavior) => {
+        // target temperature
+        if ('target_temperature' in behavior.config) {
+          this.dial.target_temperature = behavior.config['target_temperature'];
+        }
+
         behavior.sensors.forEach(
           (sensor_id: string) => {
             this.subscribeToAmbientSensor(sensor_id);
@@ -67,6 +77,7 @@ export class DashboardComponent implements OnInit {
         console.log(error);
         if (error.error == 'not-found') {
           this.toastService.warning('No active program, monitoring all sensors.', null, {disableTimeOut: true});
+          this.dial.loading = false;
 
           this.sensorService.query().subscribe(
             (sensors: Sensor[]) => {
@@ -120,6 +131,7 @@ export class DashboardComponent implements OnInit {
     if (count > 0) {
       this.dial.ambient_temperature = sum / count;
       console.log("Ambient temperature: " + this.dial.ambient_temperature);
+      this.dial.loading = false;
     }
   }
 }
