@@ -1,10 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgModule } from '@angular/core';
 import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
+import { SweetAlert2Module } from "@toverux/ngx-sweetalert2";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { ToastrModule } from "ngx-toastr";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { HeaderComponent } from './layout/header/header.component';
@@ -33,7 +36,10 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     CoreModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    MqttModule.forRoot(MQTT_SERVICE_OPTIONS)
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
+    SweetAlert2Module.forRoot(),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({progressBar: true, positionClass: 'toast-top-right-nav'})
   ],
   providers: [],
   bootstrap: [AppComponent]

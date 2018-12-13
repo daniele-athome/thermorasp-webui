@@ -4,6 +4,9 @@ import { ScheduleBehavior, Sensor, SensorReading } from "../../core/models";
 import { IMqttMessage, MqttService } from "ngx-mqtt";
 import { ThermostatDialComponent } from "../../components/thermostat-dial/thermostat-dial.component";
 import { Subscription } from "rxjs";
+import { ToastrService } from "ngx-toastr";
+import { differenceInSeconds, parse } from 'date-fns';
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +25,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private scheduleService: ScheduleService,
     private sensorService: SensorService,
-    private mqttService: MqttService
+    private mqttService: MqttService,
+    private toastService: ToastrService
   ) {
     this.temp_readings = new Map();
     this.activeScheduleSubs = [];
@@ -62,7 +66,8 @@ export class DashboardComponent implements OnInit {
       (error: any) => {
         console.log(error);
         if (error.error == 'not-found') {
-          console.debug('No active behavior, falling back to watching all sensors');
+          this.toastService.warning('No active program, monitoring all sensors.', null, {disableTimeOut: true});
+
           this.sensorService.query().subscribe(
             (sensors: Sensor[]) => {
               sensors.forEach(
@@ -89,7 +94,9 @@ export class DashboardComponent implements OnInit {
   private subscribeToAmbientTemperature(sensor_id: string, sensor_topic: string) {
     const sub = this.mqttService.observe(sensor_topic + '/temperature').subscribe(
       (message: IMqttMessage) => {
-        this.temp_readings.set(sensor_id, JSON.parse(message.payload.toString()));
+        const data = JSON.parse(message.payload.toString()) as SensorReading;
+        data.sensor_id = sensor_id;
+        this.temp_readings.set(sensor_id, data);
         this.updateAmbientTemperature();
       }
     );
@@ -102,8 +109,10 @@ export class DashboardComponent implements OnInit {
     this.temp_readings.forEach(
       (reading: SensorReading) => {
         // TODO account for different unit
-        if (reading.unit == 'celsius') {
+        if (reading.unit == 'celsius' &&
+            differenceInSeconds(new Date(), parse(reading.timestamp)) < environment.sensor_validity) {
           sum += reading.value;
+          console.log(reading.sensor_id + '=' + reading.value);
           count++;
         }
       }
