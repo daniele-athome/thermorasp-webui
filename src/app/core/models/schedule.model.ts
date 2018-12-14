@@ -17,3 +17,13 @@ export interface Schedule {
   enabled: boolean;
   behaviors: ScheduleBehavior[];
 }
+
+export interface VolatileScheduleBehavior {
+  name: string;
+  order: number;
+  start_time: number;
+  end_time: number;
+  config: {};
+  sensors: string[];
+  devices: string[];
+}

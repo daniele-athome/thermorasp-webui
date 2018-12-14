@@ -15,6 +15,7 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { CoreModule } from "./core";
 import { ThermostatDialComponent } from "./components/thermostat-dial/thermostat-dial.component";
+import { SharedModule } from "./shared/shared.module";
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: environment.mqtt_host,
@@ -39,7 +40,8 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
     SweetAlert2Module.forRoot(),
     BrowserAnimationsModule,
-    ToastrModule.forRoot({progressBar: true, positionClass: 'toast-top-right-nav'})
+    ToastrModule.forRoot({progressBar: true, positionClass: 'toast-top-right-nav'}),
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

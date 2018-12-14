@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiService } from './api.service';
-import { Schedule, ScheduleBehavior } from '../models';
+import { Schedule, ScheduleBehavior, VolatileScheduleBehavior } from '../models';
 
 
 @Injectable()
@@ -35,6 +35,11 @@ export class ScheduleService {
   active_behavior(): Observable<ScheduleBehavior> {
     return this.apiService
       .get('/schedules/active/behavior');
+  }
+
+  set_active_volatile_behavior(behavior: VolatileScheduleBehavior): Observable<void> {
+    return this.apiService
+      .post('/schedules/active/volatile', behavior);
   }
 
 }

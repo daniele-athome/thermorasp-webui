@@ -45,4 +45,12 @@ export class ThermostatDialComponent implements OnInit {
     this.dial.ambient_temperature = val;
   }
 
+  get hvac_state(): string {
+    return this.dial.hvac_state;
+  }
+
+  set hvac_state(val: string) {
+    this.dial.hvac_state = val;
+  }
+
 }
