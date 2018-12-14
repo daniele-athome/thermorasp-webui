@@ -63,6 +63,7 @@ export class DashboardComponent implements OnInit {
   }
 
   rollbackActiveSchedule() {
+    this.dial.loading = true;
     this.scheduleService.active_rollback().pipe(delay(500)).subscribe(
       () => this.loadActiveSchedule()
     );
@@ -157,16 +158,13 @@ export class DashboardComponent implements OnInit {
       (error: any) => {
         console.log(error);
         if (error.error == 'not-found') {
-          this.toastService.warning('No active program, monitoring all sensors.', null, {disableTimeOut: true});
+          this.toastService.warning('No active program, monitoring all sensors and devices.');
 
-          this.sensorService.query().subscribe(
-            (sensors: Sensor[]) => {
-              sensors.forEach(
-                (sensor: Sensor) => {
-                  this.subscribeToAmbientTemperature(sensor.id, sensor.topic);
-                }
-              );
-            }
+          this.sensors.forEach(
+            (sensor: Sensor) => this.subscribeToAmbientTemperature(sensor.id, sensor.topic)
+          );
+          this.devices.forEach(
+            (device: Device) => this.subscribeToDeviceState(device.id, device.topic)
           );
         }
       }
