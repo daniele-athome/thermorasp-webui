@@ -6,7 +6,8 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'devices', loadChildren: './routes/devices/devices.module#DevicesModule'},
-  { path: 'sensors', loadChildren: './routes/sensors/sensors.module#SensorsModule'}
+  { path: 'sensors', loadChildren: './routes/sensors/sensors.module#SensorsModule'},
+  { path: 'schedules', loadChildren: './routes/schedules/schedules.module#SchedulesModule'},
 ];
 
 @NgModule({
