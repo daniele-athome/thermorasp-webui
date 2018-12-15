@@ -19,6 +19,7 @@ export class DeviceListComponent implements OnInit {
         this.devices = devices;
       }
     );
+    // TODO subscribe to devices state
   }
 
 }

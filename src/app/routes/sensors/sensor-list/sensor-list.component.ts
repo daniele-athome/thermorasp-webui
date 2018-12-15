@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Sensor, SensorReading, SensorService } from "../../../core";
+import { IMqttMessage, MqttService } from "ngx-mqtt";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: 'app-sensor-list',
   templateUrl: './sensor-list.component.html',
   styleUrls: ['./sensor-list.component.scss']
 })
-export class SensorListComponent implements OnInit {
+export class SensorListComponent implements OnInit, OnDestroy {
 
+  /** Subscriptions to sensors temperature. */
+  private readonly temperatureSubs: Subscription[] = [];
+
+  readonly temp_readings: {} = {};
   sensors: Sensor[];
-  temp_readings: {};
 
-  constructor(private sensorService: SensorService) { }
+  constructor(private mqttService: MqttService,
+              private sensorService: SensorService) { }
 
   ngOnInit() {
     // TODO loading status
@@ -23,17 +29,24 @@ export class SensorListComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.temperatureSubs.forEach(
+      (sub: Subscription) => sub.unsubscribe()
+    );
+    this.temperatureSubs.length = 0;
+  }
+
   private getTemperatureReadings() {
-    this.sensorService.readings('temperature').subscribe(
-      (readings: SensorReading[]) => {
-        let result = {};
-        readings.forEach((value: SensorReading) => {
-          result[value.sensor_id] = value;
-        });
-        this.temp_readings = result;
+    this.sensors.forEach(
+      (sensor: Sensor) => {
+        const sub = this.mqttService.observe(sensor.topic + '/temperature').subscribe(
+          (message: IMqttMessage) => {
+            this.temp_readings[sensor.id] = JSON.parse(message.payload.toString()) as SensorReading;
+          }
+        );
+        this.temperatureSubs.push(sub);
       }
     );
-
   }
 
 }
