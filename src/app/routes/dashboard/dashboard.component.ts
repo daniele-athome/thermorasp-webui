@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { DeviceService, ScheduleService, SensorService } from "../../core/services";
 import {
   Device,
@@ -11,7 +11,7 @@ import {
 } from "../../core/models";
 import { IMqttMessage, MqttService } from "ngx-mqtt";
 import { ThermostatDialComponent } from "../../components/thermostat-dial/thermostat-dial.component";
-import { combineLatest, Subscription, timer } from "rxjs";
+import { combineLatest, Subscription } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { differenceInSeconds, parse } from 'date-fns';
 import { environment } from "../../../environments/environment";
@@ -23,7 +23,7 @@ import { delay } from "rxjs/operators";
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   @ViewChild('dial')
   dial: ThermostatDialComponent;
@@ -60,6 +60,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadConfiguration();
+  }
+
+  ngOnDestroy() {
+    this.cancelSubscriptions();
   }
 
   rollbackActiveSchedule() {
