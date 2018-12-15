@@ -1,5 +1,5 @@
 
-import { getHours, getMinutes, getDay, endOfDay } from 'date-fns';
+import { getHours, getMinutes, endOfDay, getISODay } from 'date-fns';
 import { ColorGradient } from './color-gradient';
 
 export function getCurrentMinute(): number {
@@ -11,7 +11,7 @@ export function getTodayLastMinute(): number {
 }
 
 function getMinuteInDay(date: Date): number {
-  return ((getDay(date) - 1) * 24 * 60) +
+  return ((getISODay(date) - 1) * 24 * 60) +
          (getHours(date) * 60) +
           getMinutes(date);
 }
