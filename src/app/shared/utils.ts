@@ -3,17 +3,23 @@ import { getHours, getMinutes, endOfDay, getISODay } from 'date-fns';
 import { ColorGradient } from './color-gradient';
 
 export function getCurrentMinute(): number {
-  return getMinuteInDay(new Date());
+  return getMinutesInDayForDate(new Date());
 }
 
 export function getTodayLastMinute(): number {
-  return getMinuteInDay(endOfDay(new Date()));
+  return getMinutesInDayForDate(endOfDay(new Date()));
 }
 
-function getMinuteInDay(date: Date): number {
+function getMinutesInDayForDate(date: Date): number {
   return ((getISODay(date) - 1) * 24 * 60) +
          (getHours(date) * 60) +
           getMinutes(date);
+}
+
+export function getMinutesInDay(day_index: number, date: Date): number {
+  return ((day_index - 1) * 24 * 60) +
+    (getHours(date) * 60) +
+    getMinutes(date);
 }
 
 // gradient will be derived from this interval

@@ -27,6 +27,11 @@ export class ScheduleService {
       .get('/schedules/active');
   }
 
+  set_active(schedule: Schedule): Observable<void> {
+    return this.apiService
+      .put('/schedules/active', schedule);
+  }
+
   active_rollback(): Observable<void> {
     return this.apiService
       .put('/schedules/active/rollback');

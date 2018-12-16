@@ -1,1 +1,11 @@
 <div #schedule class="schedule"></div>
+
+<swal
+  #temperatureDialog
+  title="Set temperature"
+  text="Target temperature"
+  type="question"
+  input="number"
+  [inputValue]="0"
+  [showCancelButton]="true">
+</swal>
