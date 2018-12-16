@@ -8,7 +8,6 @@ import { getMinutesInDay, getTemperatureColor } from "../../../shared";
 import { AssertionError } from "assert";
 import { SwalComponent } from "@toverux/ngx-sweetalert2";
 import { ScheduleService } from "../../../core/services";
-import { getDate } from "date-fns";
 import { ToastrService } from "ngx-toastr";
 
 @Component({
@@ -46,10 +45,12 @@ export class ScheduleViewComponent implements OnInit {
       editable: true,
       selectable: true,
       nowIndicator: true,
+      eventOverlap: false,
       header: false,
       height: 'auto',
+      timezone: 'UTC',
       defaultDate: '2000-01-01',
-      now: moment('2000-01-01 ' + moment().format('HH:mm'), 'YYYY-MM-DD HH:mm'),
+      now: moment.utc('2000-01-01 ' + moment().format('HH:mm'), 'YYYY-MM-DD HH:mm'),
       defaultView: 'timelineDay',
       views: {
         timelineWeek: {
@@ -70,8 +71,9 @@ export class ScheduleViewComponent implements OnInit {
         {id: '7', title: 'Sunday'},
       ],
       select: (start, end, jsEvent, view, resource) => this.onRangeSelected(start, end, resource),
-      eventClick: (event, jsEvent, view) => this.onRangeClicked(event),
-      // TODO eventResize: ()
+      eventClick: (event, jsEvent, view) => this.onEventClick(event),
+      eventResize: (event, delta, revertFunc, jsEvent, ui, view) => this.onEventResize(event),
+      eventDrop: (event, delta, revertFunc, jsEvent, ui, view) => this.onEventMove(event),
       schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
     });
   }
@@ -131,24 +133,24 @@ export class ScheduleViewComponent implements OnInit {
       console.log("Day " + day_index);
       if (day_index == first_day && day_index < (last_day - 1)) {
         console.log("BEGIN-MIDNIGHT");
-        const start = moment('2000-01-01 ' +
+        const start = moment.utc('2000-01-01 ' +
           Math.trunc((behavior.start_time - ((first_day - 1) * 60 * 24)) / 60) + ':' +
           behavior.start_time % 60, 'YYYY-MM-DD H:m');
-        const end = moment('2000-01-02 00:00', 'YYYY-MM-DD H:m');
+        const end = moment.utc('2000-01-02 00:00', 'YYYY-MM-DD H:m');
         events.push(this.buildTargetTemperatureEvent(start, end,
           behavior.config['target_temperature'], String(day_index), behavior.sensors, behavior.devices));
       }
       else if (day_index > first_day && day_index < (last_day - 1)) {
         console.log("FULL-DAY");
-        const start = moment('2000-01-01 00:00', 'YYYY-MM-DD H:m');
-        const end = moment('2000-01-02 00:00', 'YYYY-MM-DD H:m');
+        const start = moment.utc('2000-01-01 00:00', 'YYYY-MM-DD H:m');
+        const end = moment.utc('2000-01-02 00:00', 'YYYY-MM-DD H:m');
         events.push(this.buildTargetTemperatureEvent(start, end,
           behavior.config['target_temperature'], String(day_index), behavior.sensors, behavior.devices));
       }
       else if (day_index > first_day && day_index == (last_day - 1)) {
         console.log("MIDNIGHT-END");
-        const start = moment('2000-01-01 00:00', 'YYYY-MM-DD H:m');
-        const end = moment('2000-01-01 ' +
+        const start = moment.utc('2000-01-01 00:00', 'YYYY-MM-DD H:m');
+        const end = moment.utc('2000-01-01 ' +
           Math.trunc((behavior.end_time - ((last_day - 2) * 60 * 24)) / 60) + ':' +
           behavior.end_time % 60, 'YYYY-MM-DD H:m');
         events.push(this.buildTargetTemperatureEvent(start, end,
@@ -156,10 +158,10 @@ export class ScheduleViewComponent implements OnInit {
       }
       else if (day_index == first_day && day_index == (last_day - 1)) {
         console.log("MID-DAY");
-        const start = moment('2000-01-01 ' +
+        const start = moment.utc('2000-01-01 ' +
           Math.trunc((behavior.start_time - ((first_day - 1) * 60 * 24)) / 60) + ':' +
           behavior.start_time % 60, 'YYYY-MM-DD H:m');
-        const end = moment('2000-01-01 ' +
+        const end = moment.utc('2000-01-01 ' +
           Math.trunc((behavior.end_time - ((last_day - 2) * 60 * 24)) / 60) + ':' +
           behavior.end_time % 60, 'YYYY-MM-DD H:m');
         events.push(this.buildTargetTemperatureEvent(start, end,
@@ -185,7 +187,7 @@ export class ScheduleViewComponent implements OnInit {
     );
   }
 
-  onRangeClicked(event) {
+  onEventClick(event) {
     this.temperatureDialog.inputValue = event.title;
     this.temperatureDialog.show().then(
       (result) => {
@@ -199,6 +201,14 @@ export class ScheduleViewComponent implements OnInit {
     );
   }
 
+  onEventResize(event) {
+    this.updateBehavior();
+  }
+
+  onEventMove(event) {
+    this.updateBehavior();
+  }
+
   private setTemperature(start: moment.Moment, end: moment.Moment, resource, value: string) {
     this.calendar$.fullCalendar('renderEvent', this.buildTargetTemperatureTodayEvent(start, end, value, resource.id));
     this.updateBehavior();
@@ -207,8 +217,8 @@ export class ScheduleViewComponent implements OnInit {
   private buildTargetTemperatureTodayEvent(start: moment.Moment, end: moment.Moment,
                                            temperature: string, resourceId: string) {
     return this.buildTargetTemperatureEvent(
-      moment('2000-01-01 ' + start.format('HH:mm'), 'YYYY-MM-DD HH:mm'),
-      moment('2000-01-01 ' + end.format('HH:mm'), 'YYYY-MM-DD HH:mm'),
+      moment.utc('2000-01-01 ' + start.format('HH:mm'), 'YYYY-MM-DD HH:mm'),
+      moment.utc('2000-01-01 ' + end.format('HH:mm'), 'YYYY-MM-DD HH:mm'),
       temperature, resourceId
     );
   }
@@ -243,7 +253,7 @@ export class ScheduleViewComponent implements OnInit {
       (event) => {
         console.log(event);
         // accounting for end-of-day threshold
-        const end_day_offset = (event.end == null || getDate(event.end) > 1) ? 1 : 0;
+        const end_day_offset = (event.end == null || event.end.date() > 1) ? 1 : 0;
         behaviors.push({
           id: 0,
           schedule_id: this._schedule.id,

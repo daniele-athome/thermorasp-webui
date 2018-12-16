@@ -1,25 +1,25 @@
 
-import { getHours, getMinutes, endOfDay, getISODay } from 'date-fns';
+import * as moment from 'moment';
 import { ColorGradient } from './color-gradient';
 
 export function getCurrentMinute(): number {
-  return getMinutesInDayForDate(new Date());
+  return getMinutesInDayForDate(moment.utc());
 }
 
 export function getTodayLastMinute(): number {
-  return getMinutesInDayForDate(endOfDay(new Date()));
+  return getMinutesInDayForDate(moment.utc().endOf('day'));
 }
 
-function getMinutesInDayForDate(date: Date): number {
-  return ((getISODay(date) - 1) * 24 * 60) +
-         (getHours(date) * 60) +
-          getMinutes(date);
+function getMinutesInDayForDate(date: moment.Moment): number {
+  return ((date.isoWeekday() - 1) * 24 * 60) +
+         (date.hour() * 60) +
+          date.minute();
 }
 
-export function getMinutesInDay(day_index: number, date: Date): number {
+export function getMinutesInDay(day_index: number, date: moment.Moment): number {
   return ((day_index - 1) * 24 * 60) +
-    (getHours(date) * 60) +
-    getMinutes(date);
+    (date.hour() * 60) +
+    date.minute();
 }
 
 // gradient will be derived from this interval
