@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Sensor, SensorReading, SensorService } from "../../../core";
 import { IMqttMessage, MqttService } from "ngx-mqtt";
 import { Subscription } from "rxjs";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-sensor-list',
@@ -17,14 +18,23 @@ export class SensorListComponent implements OnInit, OnDestroy {
   sensors: Sensor[];
 
   constructor(private mqttService: MqttService,
-              private sensorService: SensorService) { }
+              private sensorService: SensorService,
+              private toastService: ToastrService) { }
 
   ngOnInit() {
+    this.mqttService.onOffline.subscribe(
+      () => {
+        this.toastService.error('Error contacting MQTT broker.');
+      }
+    );
     // TODO loading status
     this.sensorService.query().subscribe(
       (sensors: Sensor[]) => {
         this.sensors = sensors;
         this.getTemperatureReadings();
+      },
+      (error) => {
+        this.toastService.error('Error contacting server.');
       }
     );
   }

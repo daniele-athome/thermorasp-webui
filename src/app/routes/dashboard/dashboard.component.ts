@@ -3,7 +3,6 @@ import { DeviceService, ScheduleService, SensorService } from "../../core/servic
 import {
   Device,
   DeviceState,
-  Schedule,
   ScheduleBehavior,
   Sensor,
   SensorReading,
@@ -59,6 +58,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.mqttService.onOffline.subscribe(
+      () => {
+        this.toastService.error('Error contacting MQTT broker.');
+      }
+    );
     this.loadConfiguration();
   }
 
@@ -69,7 +73,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   rollbackActiveSchedule() {
     this.dial.loading = true;
     this.scheduleService.active_rollback().pipe(delay(500)).subscribe(
-      () => this.loadActiveSchedule()
+      () => this.loadActiveSchedule(),
+      (error) => {
+        this.toastService.error('Error contacting server.');
+      }
     );
   }
 
@@ -84,6 +91,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.devices = devices;
         this.loadActiveSchedule();
         this.loading = false;
+      },
+      (error) => {
+        this.toastService.error('Error contacting server.');
       }
     )
   }
@@ -104,8 +114,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.scheduleService.set_active_volatile_behavior(behavior).pipe(delay(0)).subscribe(
       () => {
-        console.log('Volatile behavior set!');
         this.loadActiveSchedule();
+      },
+      (error) => {
+        this.toastService.error('Error contacting server.');
       }
     );
   }
@@ -159,8 +171,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           }
         )
       },
-      (error: any) => {
-        console.log(error);
+      (error) => {
         if (error.error == 'not-found') {
           this.toastService.warning('No active program, monitoring all sensors and devices.');
 
@@ -170,6 +181,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.devices.forEach(
             (device: Device) => this.subscribeToDeviceState(device.id, device.topic)
           );
+        }
+        else {
+          this.toastService.error('Error contacting server.');
         }
       }
     );

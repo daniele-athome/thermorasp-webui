@@ -28,11 +28,14 @@ export class ScheduleViewComponent implements OnInit {
 
   private calendar$: JQuery;
 
+  private _error: boolean;
+
   loading: boolean;
 
   constructor(private scheduleService: ScheduleService,
               private toastService: ToastrService) {
     this.loading = true;
+    this._error = false;
   }
 
   ngOnInit() {
@@ -75,12 +78,29 @@ export class ScheduleViewComponent implements OnInit {
 
   @Input('schedule')
   set schedule(value: Schedule) {
+    this.error = false;
     this._schedule = value;
-    this.loadSchedule();
+    if (this._schedule) {
+      this.loadSchedule();
+    }
+    else {
+      this.loading = false;
+    }
   }
 
   get schedule(): Schedule {
     return this._schedule;
+  }
+
+  set error(value: boolean) {
+    this._error = value;
+    if (value) {
+      this.loading = false;
+    }
+  }
+
+  get error(): boolean {
+    return this._error;
   }
 
   private loadSchedule() {

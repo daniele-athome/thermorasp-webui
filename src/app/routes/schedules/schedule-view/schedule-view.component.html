@@ -3,7 +3,8 @@
   <div class="fc-toolbar fc-header-toolbar">
     <div class="fc-left">
       <h2>
-        {{schedule.name}}
+        <i *ngIf="error" class="text-danger ti-alert"></i>
+        {{schedule?.name}}
         <span *ngIf="loading" class="lds-ellipsis"><span></span><span></span><span></span><span></span></span>
       </h2>
     </div>
