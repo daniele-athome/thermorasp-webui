@@ -7,6 +7,7 @@
 
 <div class="row gap-20 pos-r">
 
+  <app-inline-loading cssClass="lds-ellipsis" [enabled]="loading"></app-inline-loading>
   <div class="col-md-3 text-center device-boiler" *ngFor="let device of devices">
     <div class="bgc-white p-20 bd">
       <a routerLink="/devices/{{device.id}}"><img src="assets/static/images/boiler.png" alt=""/></a>

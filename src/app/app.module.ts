@@ -14,7 +14,6 @@ import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { CoreModule } from "./core";
-import { ThermostatDialComponent } from "./components/thermostat-dial/thermostat-dial.component";
 import { SharedModule } from "./shared/shared.module";
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
@@ -29,8 +28,7 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     SidebarComponent,
     HeaderComponent,
     FooterComponent,
-    DashboardComponent,
-    ThermostatDialComponent
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

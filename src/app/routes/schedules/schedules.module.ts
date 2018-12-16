@@ -5,12 +5,14 @@ import { SweetAlert2Module } from "@toverux/ngx-sweetalert2";
 import { SchedulesRoutingModule } from './schedules-routing.module';
 import { ScheduleListComponent } from './schedule-list/schedule-list.component';
 import { ScheduleViewComponent } from './schedule-view/schedule-view.component';
+import { SharedModule } from "../../shared/shared.module";
 
 @NgModule({
   imports: [
     CommonModule,
     SchedulesRoutingModule,
-    SweetAlert2Module
+    SweetAlert2Module,
+    SharedModule
   ],
   declarations: [ScheduleListComponent, ScheduleViewComponent]
 })

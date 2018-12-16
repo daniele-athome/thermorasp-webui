@@ -16,10 +16,13 @@ export class SensorListComponent implements OnInit, OnDestroy {
 
   readonly temp_readings: {} = {};
   sensors: Sensor[];
+  loading: boolean;
 
   constructor(private mqttService: MqttService,
               private sensorService: SensorService,
-              private toastService: ToastrService) { }
+              private toastService: ToastrService) {
+    this.loading = true;
+  }
 
   ngOnInit() {
     this.mqttService.onOffline.subscribe(
@@ -30,10 +33,12 @@ export class SensorListComponent implements OnInit, OnDestroy {
     // TODO loading status
     this.sensorService.query().subscribe(
       (sensors: Sensor[]) => {
+        this.loading = false;
         this.sensors = sensors;
         this.getTemperatureReadings();
       },
       (error) => {
+        this.loading = false;
         this.toastService.error('Error contacting server.');
       }
     );

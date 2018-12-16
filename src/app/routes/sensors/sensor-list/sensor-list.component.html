@@ -7,6 +7,7 @@
 
 <div class="row gap-20 pos-r">
 
+  <app-inline-loading cssClass="lds-ellipsis" [enabled]="loading"></app-inline-loading>
   <div class="col-md-3 text-center sensor-box" *ngFor="let sensor of sensors">
     <div class="bgc-white p-20 bd">
       <a routerLink="/sensors/{{sensor.id}}"><img src="assets/static/images/temperature.png" alt=""/></a>

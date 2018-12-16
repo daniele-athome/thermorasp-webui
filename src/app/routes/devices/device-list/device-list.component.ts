@@ -11,16 +11,22 @@ export class DeviceListComponent implements OnInit {
 
   devices: Device[];
 
+  loading: boolean;
+
   constructor(private deviceService: DeviceService,
-              private toastService: ToastrService) { }
+              private toastService: ToastrService) {
+    this.loading = true;
+  }
 
   ngOnInit() {
     // TODO loading status
     this.deviceService.query().subscribe(
       (devices: Device[]) => {
+        this.loading = false;
         this.devices = devices;
       },
       (error) => {
+        this.loading = false;
         this.toastService.error('Error contacting server.');
       }
     );

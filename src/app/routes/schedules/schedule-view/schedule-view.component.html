@@ -5,7 +5,7 @@
       <h2>
         <i *ngIf="error" class="text-danger ti-alert"></i>
         {{schedule?.name}}
-        <span *ngIf="loading" class="lds-ellipsis"><span></span><span></span><span></span><span></span></span>
+        <app-inline-loading cssClass="lds-ellipsis" [enabled]="loading"></app-inline-loading>
       </h2>
     </div>
     <div class="fc-clear"></div>

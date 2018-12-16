@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { DeviceService, ScheduleService, SensorService } from "../../core/services";
+import { DeviceService, ScheduleService, SensorService } from "../../core";
 import {
   Device,
   DeviceState,
@@ -9,7 +9,7 @@ import {
   VolatileScheduleBehavior
 } from "../../core/models";
 import { IMqttMessage, MqttService } from "ngx-mqtt";
-import { ThermostatDialComponent } from "../../components/thermostat-dial/thermostat-dial.component";
+import { ThermostatDialComponent } from "../../shared";
 import { combineLatest, Subscription } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { differenceInSeconds, parse } from 'date-fns';
