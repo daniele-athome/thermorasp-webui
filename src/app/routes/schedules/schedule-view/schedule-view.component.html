@@ -1,4 +1,19 @@
-<div #schedule class="schedule"></div>
+
+<div class="fc">
+  <div class="fc-toolbar fc-header-toolbar">
+    <div class="fc-left">
+      <h2>
+        {{schedule.name}}
+        <span *ngIf="loading" class="lds-ellipsis"><span></span><span></span><span></span><span></span></span>
+      </h2>
+    </div>
+    <div class="fc-clear"></div>
+  </div>
+</div>
+
+<div>
+<div #scheduleView class="schedule"></div>
+</div>
 
 <swal
   #temperatureDialog

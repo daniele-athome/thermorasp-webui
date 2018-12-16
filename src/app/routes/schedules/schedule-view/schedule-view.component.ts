@@ -8,6 +8,8 @@ import { getMinutesInDay, getTemperatureColor } from "../../../shared";
 import { AssertionError } from "assert";
 import { SwalComponent } from "@toverux/ngx-sweetalert2";
 import { ScheduleService } from "../../../core/services";
+import { getDate } from "date-fns";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-schedule-view',
@@ -16,7 +18,7 @@ import { ScheduleService } from "../../../core/services";
 })
 export class ScheduleViewComponent implements OnInit {
 
-  @ViewChild('schedule')
+  @ViewChild('scheduleView')
   private scheduleElement: ElementRef;
 
   @ViewChild('temperatureDialog')
@@ -26,7 +28,12 @@ export class ScheduleViewComponent implements OnInit {
 
   private calendar$: JQuery;
 
-  constructor(private scheduleService: ScheduleService) { }
+  loading: boolean;
+
+  constructor(private scheduleService: ScheduleService,
+              private toastService: ToastrService) {
+    this.loading = true;
+  }
 
   ngOnInit() {
     this.calendar$ = $(this.scheduleElement.nativeElement);
@@ -36,14 +43,10 @@ export class ScheduleViewComponent implements OnInit {
       editable: true,
       selectable: true,
       nowIndicator: true,
-      header: {
-        'left': 'title',
-        'center': '',
-        'right': '',
-      },
-      titleFormat: '[...]',
+      header: false,
       height: 'auto',
       defaultDate: '2000-01-01',
+      now: moment('2000-01-01 ' + moment().format('HH:mm'), 'YYYY-MM-DD HH:mm'),
       defaultView: 'timelineDay',
       views: {
         timelineWeek: {
@@ -81,8 +84,6 @@ export class ScheduleViewComponent implements OnInit {
   }
 
   private loadSchedule() {
-    this.calendar$.fullCalendar('option', 'titleFormat', '[' + this._schedule.name + ']');
-
     const events = [];
     this._schedule.behaviors.forEach(
       (behavior: ScheduleBehavior) => {
@@ -93,6 +94,7 @@ export class ScheduleViewComponent implements OnInit {
     console.log(events);
     this.calendar$.fullCalendar('removeEventSources', null);
     this.calendar$.fullCalendar('addEventSource', events);
+    this.loading = false;
   }
 
   /** Very crappy algorithm to create FullCalendar events for a behavior. */
@@ -185,12 +187,13 @@ export class ScheduleViewComponent implements OnInit {
   private buildTargetTemperatureTodayEvent(start: moment.Moment, end: moment.Moment,
                                            temperature: string, resourceId: string) {
     return this.buildTargetTemperatureEvent(
-      '2000-01-01 ' + start.format('HH:mm'), '2000-01-01 ' + end.format('HH:mm'),
+      moment('2000-01-01 ' + start.format('HH:mm'), 'YYYY-MM-DD HH:mm'),
+      moment('2000-01-01 ' + end.format('HH:mm'), 'YYYY-MM-DD HH:mm'),
       temperature, resourceId
     );
   }
 
-  private buildTargetTemperatureEvent(start: moment.Moment|string, end: moment.Moment|string,
+  private buildTargetTemperatureEvent(start: moment.Moment, end: moment.Moment,
                                       temperature: string, resourceId: string,
                                       sensors?: string[], devices?: string[]) {
     return {
@@ -213,18 +216,21 @@ export class ScheduleViewComponent implements OnInit {
 
   /** Reconstructs the whole schedule by reading events and sends it to the server. */
   private updateBehavior() {
+    this.loading = true;
     const events = this.calendar$.fullCalendar('clientEvents', null);
     const behaviors: ScheduleBehavior[] = [];
     events.forEach(
       (event) => {
         console.log(event);
+        // accounting for end-of-day threshold
+        const end_day_offset = (event.end == null || getDate(event.end) > 1) ? 1 : 0;
         behaviors.push({
           id: 0,
           schedule_id: this._schedule.id,
           behavior_name: event.behavior.name,
           behavior_order: event.behavior.order,
-          start_time: getMinutesInDay(event.resourceId || event.resource.id, event.start.toDate()),
-          end_time: getMinutesInDay(event.resourceId || event.resource.id, event.end.toDate()),
+          start_time: getMinutesInDay(Number(event.resourceId || event.resource.id), event.start),
+          end_time: getMinutesInDay(Number(event.resourceId || event.resource.id)+end_day_offset, event.end),
           config: {
             target_temperature: Number(event.title),
             ...event.behavior.config,
@@ -244,7 +250,11 @@ export class ScheduleViewComponent implements OnInit {
       behaviors: behaviors
     } as Schedule).subscribe(
       () => {
-        console.log('SAVED!');
+        this.loading = false;
+      },
+      (error) => {
+        this.loading = false;
+        this.toastService.error('Error contacting server. Changes might not have been saved.');
       }
     );
   }
