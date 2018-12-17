@@ -3,12 +3,13 @@ import * as $ from "jquery";
 import 'fullcalendar';
 import 'fullcalendar-scheduler';
 import * as moment from 'moment';
-import { Schedule, ScheduleBehavior } from "../../../core/models";
+import { Device, Schedule, ScheduleBehavior, Sensor } from "../../../core/models";
 import { getMinutesInDay, getTemperatureColor } from "../../../shared";
 import { AssertionError } from "assert";
 import { SwalComponent } from "@toverux/ngx-sweetalert2";
-import { ScheduleService } from "../../../core/services";
+import { DeviceService, ScheduleService, SensorService } from "../../../core/services";
 import { ToastrService } from "ngx-toastr";
+import { combineLatest } from "rxjs";
 
 @Component({
   selector: 'app-schedule-view',
@@ -17,11 +18,20 @@ import { ToastrService } from "ngx-toastr";
 })
 export class ScheduleViewComponent implements OnInit {
 
+  /** List of all configured sensors. */
+  private sensors: CheckableSensor[];
+
+  /** List of all configured devices. */
+  private devices: CheckableDevice[];
+
   @ViewChild('scheduleView')
   private scheduleElement: ElementRef;
 
   @ViewChild('temperatureDialog')
   private temperatureDialog: SwalComponent;
+
+  @Input()
+  temperatureForm: SetTemperatureForm;
 
   private _schedule: Schedule;
 
@@ -32,6 +42,8 @@ export class ScheduleViewComponent implements OnInit {
   loading: boolean;
 
   constructor(private scheduleService: ScheduleService,
+              private sensorService: SensorService,
+              private deviceService: DeviceService,
               private toastService: ToastrService) {
     this.loading = true;
     this._error = false;
@@ -83,7 +95,9 @@ export class ScheduleViewComponent implements OnInit {
     this.error = false;
     this._schedule = value;
     if (this._schedule) {
-      this.loadSchedule();
+      // Schedule will be loaded after configuration
+      // I don't like this though
+      this.loadConfiguration();
     }
     else {
       this.loading = false;
@@ -117,6 +131,22 @@ export class ScheduleViewComponent implements OnInit {
     this.calendar$.fullCalendar('removeEventSources', null);
     this.calendar$.fullCalendar('addEventSource', events);
     this.loading = false;
+  }
+
+  private loadConfiguration() {
+    const config = combineLatest(
+      this.sensorService.query(),
+      this.deviceService.query());
+    config.subscribe(
+      ([sensors, devices]) => {
+        this.sensors = sensors as CheckableSensor[];
+        this.devices = devices as CheckableDevice[];
+        this.loadSchedule();
+      },
+      (error) => {
+        this.toastService.error('Error contacting server.');
+      }
+    )
   }
 
   /** Very crappy algorithm to create FullCalendar events for a behavior. */
@@ -178,27 +208,52 @@ export class ScheduleViewComponent implements OnInit {
 
   onRangeSelected(start: moment.Moment, end: moment.Moment, resource) {
     console.log({start: start, end: end, resource: resource});
+
+    this.temperatureForm = {
+      temperature: 20,
+    } as SetTemperatureForm;
+    this.sensors.forEach((sensor: CheckableSensor) => sensor.checked = true);
+    this.devices.forEach((device: CheckableDevice) => device.checked = true);
     this.temperatureDialog.show().then(
       (result) => {
         if (result.value) {
-          this.setTemperature(start, end, resource, result.value);
+          this.setTemperature(start, end, resource, String(this.temperatureForm.temperature),
+            this.selectedSensors, this.selectedDevices);
         }
       }
     );
   }
 
   onEventClick(event) {
-    this.temperatureDialog.inputValue = event.title;
+    this.temperatureForm = {
+      temperature: event.title,
+    } as SetTemperatureForm;
+    this.sensors.forEach((sensor: CheckableSensor) => sensor.checked = (event.behavior.sensors.indexOf(sensor.id) >= 0));
+    this.devices.forEach((device: CheckableDevice) => device.checked = (event.behavior.devices.indexOf(device.id) >= 0));
     this.temperatureDialog.show().then(
       (result) => {
         if (result.value) {
-          event.title = result.value;
+          event.title = this.temperatureForm.temperature;
+          event.behavior.sensors = this.selectedSensors;
+          event.behavior.devices = this.selectedDevices;
           event.backgroundColor = getTemperatureColor(Number(result.value));
           this.calendar$.fullCalendar('updateEvent', event);
           this.updateBehavior();
         }
       }
     );
+  }
+
+  private get selectedSensors() {
+    return this.sensors
+      .filter(opt => opt.checked)
+      .map(opt => opt.id);
+  }
+
+  private get selectedDevices() {
+    return this.devices
+      .filter(opt => opt.checked)
+      .map(opt => opt.id);
   }
 
   onEventResize(event) {
@@ -209,23 +264,28 @@ export class ScheduleViewComponent implements OnInit {
     this.updateBehavior();
   }
 
-  private setTemperature(start: moment.Moment, end: moment.Moment, resource, value: string) {
-    this.calendar$.fullCalendar('renderEvent', this.buildTargetTemperatureTodayEvent(start, end, value, resource.id));
+  submitTemperature(form) {
+    this.temperatureDialog.nativeSwal.clickConfirm();
+  }
+
+  private setTemperature(start: moment.Moment, end: moment.Moment, resource, value: string, sensors: string[], devices: string[]) {
+    this.calendar$.fullCalendar('renderEvent', this.buildTargetTemperatureTodayEvent(start, end, value, resource.id, sensors, devices));
     this.updateBehavior();
   }
 
   private buildTargetTemperatureTodayEvent(start: moment.Moment, end: moment.Moment,
-                                           temperature: string, resourceId: string) {
+                                           temperature: string, resourceId: string,
+                                           sensors: string[], devices: string[]) {
     return this.buildTargetTemperatureEvent(
       moment.utc('2000-01-01 ' + start.format('HH:mm'), 'YYYY-MM-DD HH:mm'),
       moment.utc('2000-01-01 ' + end.format('HH:mm'), 'YYYY-MM-DD HH:mm'),
-      temperature, resourceId
+      temperature, resourceId, sensors, devices
     );
   }
 
   private buildTargetTemperatureEvent(start: moment.Moment, end: moment.Moment,
                                       temperature: string, resourceId: string,
-                                      sensors?: string[], devices?: string[]) {
+                                      sensors: string[], devices: string[]) {
     return {
       title: temperature,
       backgroundColor: getTemperatureColor(Number(temperature)),
@@ -289,4 +349,19 @@ export class ScheduleViewComponent implements OnInit {
     );
   }
 
+}
+
+export interface CheckableSensor extends Sensor {
+  checked: boolean;
+}
+
+export interface CheckableDevice extends Device {
+  checked: boolean;
+}
+
+export interface SetTemperatureForm {
+  temperature: number;
+  sensors: string[];
+  devices: string[];
+  //mode: 'heating'|'cooling';
 }

@@ -19,9 +19,41 @@
 <swal
   #temperatureDialog
   title="Set temperature"
-  text="Target temperature"
   type="question"
-  input="number"
-  [inputValue]="0"
   [showCancelButton]="true">
+
+  <form *swalPartial (ngSubmit)="submitTemperature(setTemperatureForm)" #setTemperatureForm="ngForm">
+
+    <div class="form-group">
+      <label for="tempDialogTemperature">Temperature</label>
+      <input [(ngModel)]="temperatureForm.temperature" #temperature="ngModel"
+             type="number" name="temperature" class="form-control" id="tempDialogTemperature" placeholder="Enter desired temperature">
+    </div>
+
+    <div>
+      <label>Sensors</label>
+    </div>
+
+    <div class="form-group">
+      <div *ngFor="let sensor of sensors" class="custom-control custom-checkbox">
+        <input [(ngModel)]="sensor.checked" #sensor_checked="ngModel"
+               type="checkbox" name="sensor_{{sensor.id}}" class="custom-control-input" id="tempDialogSensor_{{sensor.id}}">
+        <label class="custom-control-label" for="tempDialogSensor_{{sensor.id}}">{{sensor.id}}</label>
+      </div>
+    </div>
+
+    <div>
+      <label>Devices</label>
+    </div>
+
+    <div class="form-group">
+      <div *ngFor="let device of devices" class="custom-control custom-checkbox">
+        <input [(ngModel)]="device.checked" #device_checked="ngModel"
+               type="checkbox" name="device_{{device.id}}" class="custom-control-input" id="tempDialogDevice_{{device.id}}">
+        <label class="custom-control-label" for="tempDialogDevice_{{device.id}}">{{device.name}}</label>
+      </div>
+    </div>
+
+  </form>
+
 </swal>
