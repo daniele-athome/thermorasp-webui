@@ -257,8 +257,8 @@ export class ScheduleViewComponent implements OnInit {
         behaviors.push({
           id: 0,
           schedule_id: this._schedule.id,
-          behavior_name: event.behavior.name,
-          behavior_order: event.behavior.order,
+          name: event.behavior.name,
+          order: event.behavior.order,
           start_time: getMinutesInDay(Number(event.resourceId || event.resource.id), event.start),
           end_time: getMinutesInDay(Number(event.resourceId || event.resource.id)+end_day_offset, event.end),
           config: {
