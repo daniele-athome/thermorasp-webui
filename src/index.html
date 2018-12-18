@@ -16,8 +16,105 @@
   <link rel="apple-touch-icon" sizes="48x48" href="assets/static/images/launcher-1x.png">
   <link rel="apple-touch-icon" sizes="256x256" href="assets/static/images/logo_hi.png">
   <link rel="manifest" href="manifest.json">
+  <style>
+    #loader {
+      transition: all 0.3s ease-in-out;
+      opacity: 1;
+      visibility: visible;
+      position: fixed;
+      height: 100vh;
+      width: 100%;
+      background: #fff;
+      z-index: 90000;
+    }
+
+    #loader.fadeOut {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      top: calc(50% - 20px);
+      left: calc(50% - 20px);
+    }
+
+    .spinner .lds-ellipsis {
+      display: inline-block;
+      position: relative;
+      width: 64px;
+      height: 42px;
+      vertical-align: bottom;
+    }
+    .spinner .lds-ellipsis span {
+      position: absolute;
+      top: 18px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: #ff5722;
+      animation-timing-function: cubic-bezier(0, 1, 1, 0);
+    }
+    .spinner .lds-ellipsis span:nth-child(1) {
+      left: 6px;
+      animation: spinner-lds-ellipsis1 0.6s infinite;
+    }
+    .spinner .lds-ellipsis span:nth-child(2) {
+      left: 6px;
+      animation: spinner-lds-ellipsis2 0.6s infinite;
+    }
+    .spinner .lds-ellipsis span:nth-child(3) {
+      left: 26px;
+      animation: spinner-lds-ellipsis2 0.6s infinite;
+    }
+    .spinner .lds-ellipsis span:nth-child(4) {
+      left: 45px;
+      animation: spinner-lds-ellipsis3 0.6s infinite;
+    }
+    @keyframes spinner-lds-ellipsis1 {
+      0% {
+        transform: scale(0);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    @keyframes spinner-lds-ellipsis3 {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        transform: scale(0);
+      }
+    }
+    @keyframes spinner-lds-ellipsis2 {
+      0% {
+        transform: translate(0, 0);
+      }
+      100% {
+        transform: translate(19px, 0);
+      }
+    }
+
+
+  </style>
 </head>
 <body>
+  <div id="loader">
+    <div class="spinner">
+      <span class="lds-ellipsis"><span></span><span></span><span></span><span></span></span>
+    </div>
+  </div>
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('loader');
+      setTimeout(() => {
+        loader.classList.add('fadeOut');
+      }, 300);
+    });
+  </script>
   <app-root></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
