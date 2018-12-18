@@ -59,6 +59,14 @@
                 }
               ],
               "serviceWorker": true
+            },
+            "docker": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.docker.ts"
+                }
+              ]
             }
           }
         },
@@ -70,6 +78,9 @@
           "configurations": {
             "production": {
               "browserTarget": "thermorasp-webui:build:production"
+            },
+            "docker": {
+              "browserTarget": "thermorasp-webui:build:docker"
             }
           }
         },
