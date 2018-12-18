@@ -171,14 +171,14 @@ export class ScheduleViewComponent implements OnInit {
           behavior.start_time % 60, 'YYYY-MM-DD H:m');
         const end = moment.utc('2000-01-02 00:00', 'YYYY-MM-DD H:m');
         events.push(this.buildTargetTemperatureEvent(start, end,
-          behavior.config['target_temperature'], String(day_index), behavior.sensors, behavior.devices));
+          behavior.config['target_temperature'], behavior.order, String(day_index), behavior.sensors, behavior.devices, behavior.id == 0));
       }
       else if (day_index > first_day && day_index < (last_day - 1)) {
         console.log("FULL-DAY");
         const start = moment.utc('2000-01-01 00:00', 'YYYY-MM-DD H:m');
         const end = moment.utc('2000-01-02 00:00', 'YYYY-MM-DD H:m');
         events.push(this.buildTargetTemperatureEvent(start, end,
-          behavior.config['target_temperature'], String(day_index), behavior.sensors, behavior.devices));
+          behavior.config['target_temperature'], behavior.order, String(day_index), behavior.sensors, behavior.devices, behavior.id == 0));
       }
       else if (day_index > first_day && day_index == (last_day - 1)) {
         console.log("MIDNIGHT-END");
@@ -187,7 +187,7 @@ export class ScheduleViewComponent implements OnInit {
           Math.trunc((behavior.end_time - ((last_day - 2) * 60 * 24)) / 60) + ':' +
           behavior.end_time % 60, 'YYYY-MM-DD H:m');
         events.push(this.buildTargetTemperatureEvent(start, end,
-          behavior.config['target_temperature'], String(day_index), behavior.sensors, behavior.devices));
+          behavior.config['target_temperature'], behavior.order, String(day_index), behavior.sensors, behavior.devices, behavior.id == 0));
       }
       else if (day_index == first_day && day_index == (last_day - 1)) {
         console.log("MID-DAY");
@@ -198,7 +198,7 @@ export class ScheduleViewComponent implements OnInit {
           Math.trunc((behavior.end_time - ((last_day - 2) * 60 * 24)) / 60) + ':' +
           behavior.end_time % 60, 'YYYY-MM-DD H:m');
         events.push(this.buildTargetTemperatureEvent(start, end,
-          behavior.config['target_temperature'], String(day_index), behavior.sensors, behavior.devices));
+          behavior.config['target_temperature'], behavior.order, String(day_index), behavior.sensors, behavior.devices, behavior.id == 0));
       }
       else {
         // alert firefighters!!!
@@ -214,13 +214,14 @@ export class ScheduleViewComponent implements OnInit {
 
     this.temperatureForm = {
       temperature: 20,
+      order: 10,
     } as SetTemperatureForm;
     this.sensors.forEach((sensor: CheckableSensor) => sensor.checked = true);
     this.devices.forEach((device: CheckableDevice) => device.checked = true);
     this.temperatureDialog.show().then(
       (result) => {
         if (result.value) {
-          this.setTemperature(start, end, resource, String(this.temperatureForm.temperature),
+          this.setTemperature(start, end, resource, this.temperatureForm.temperature, this.temperatureForm.order,
             this.selectedSensors, this.selectedDevices);
         }
       }
@@ -229,7 +230,8 @@ export class ScheduleViewComponent implements OnInit {
 
   onEventClick(event) {
     this.temperatureForm = {
-      temperature: event.title,
+      temperature: event.behavior.config['target_temperature'],
+      order: event.behavior.order
     } as SetTemperatureForm;
     this.sensors.forEach((sensor: CheckableSensor) => sensor.checked = (event.behavior.sensors.indexOf(sensor.id) >= 0));
     this.devices.forEach((device: CheckableDevice) => device.checked = (event.behavior.devices.indexOf(device.id) >= 0));
@@ -237,9 +239,11 @@ export class ScheduleViewComponent implements OnInit {
       (result) => {
         if (result.value) {
           event.title = this.temperatureForm.temperature;
+          event.behavior.config['target_temperature'] = this.temperatureForm.temperature;
+          event.behavior.order = this.temperatureForm.order;
           event.behavior.sensors = this.selectedSensors;
           event.behavior.devices = this.selectedDevices;
-          event.backgroundColor = getTemperatureColor(Number(result.value));
+          event.backgroundColor = getTemperatureColor(this.temperatureForm.temperature);
           this.calendar$.fullCalendar('updateEvent', event);
           this.updateBehavior();
         }
@@ -271,27 +275,27 @@ export class ScheduleViewComponent implements OnInit {
     this.temperatureDialog.nativeSwal.clickConfirm();
   }
 
-  private setTemperature(start: moment.Moment, end: moment.Moment, resource, value: string, sensors: string[], devices: string[]) {
-    this.calendar$.fullCalendar('renderEvent', this.buildTargetTemperatureTodayEvent(start, end, value, resource.id, sensors, devices));
+  private setTemperature(start: moment.Moment, end: moment.Moment, resource, temperature: number, order: number, sensors: string[], devices: string[]) {
+    this.calendar$.fullCalendar('renderEvent', this.buildTargetTemperatureTodayEvent(start, end, temperature, order, resource.id, sensors, devices));
     this.updateBehavior();
   }
 
   private buildTargetTemperatureTodayEvent(start: moment.Moment, end: moment.Moment,
-                                           temperature: string, resourceId: string,
+                                           temperature: number, order: number, resourceId: string,
                                            sensors: string[], devices: string[]) {
     return this.buildTargetTemperatureEvent(
       moment.utc('2000-01-01 ' + start.format('HH:mm'), 'YYYY-MM-DD HH:mm'),
       moment.utc('2000-01-01 ' + end.format('HH:mm'), 'YYYY-MM-DD HH:mm'),
-      temperature, resourceId, sensors, devices
+      temperature, order, resourceId, sensors, devices, false
     );
   }
 
   private buildTargetTemperatureEvent(start: moment.Moment, end: moment.Moment,
-                                      temperature: string, resourceId: string,
-                                      sensors: string[], devices: string[]) {
+                                      temperature: number, order: number, resourceId: string,
+                                      sensors: string[], devices: string[], volatile: boolean) {
     return {
-      title: temperature,
-      backgroundColor: getTemperatureColor(Number(temperature)),
+      title: String(temperature),
+      backgroundColor: getTemperatureColor(temperature),
       textColor: 'white',
       className: 'fc-temperature',
       resourceId: resourceId,
@@ -299,10 +303,11 @@ export class ScheduleViewComponent implements OnInit {
       end: end,
       behavior: {
         name: 'generic.TargetTemperatureBehavior',
-        order: 10,
-        config: {},
+        order: order,
+        config: {'target_temperature': temperature},
         sensors: sensors,
         devices: devices,
+        volatile: volatile,
       }
     };
   }
@@ -315,19 +320,19 @@ export class ScheduleViewComponent implements OnInit {
     events.forEach(
       (event) => {
         console.log(event);
+        // don't reassing an id to volatile events (e.g. set from dashboard)
+        const behavior_id = event.behavior.volatile ? 0 : (behaviors.length + 1);
+
         // accounting for end-of-day threshold
         const end_day_offset = (event.end == null || event.end.date() > 1) ? 1 : 0;
         behaviors.push({
-          id: 0,
+          id: behavior_id,
           schedule_id: this._schedule.id,
           name: event.behavior.name,
           order: event.behavior.order,
           start_time: getMinutesInDay(Number(event.resourceId || event.resource.id), event.start),
           end_time: getMinutesInDay(Number(event.resourceId || event.resource.id)+end_day_offset, event.end),
-          config: {
-            target_temperature: Number(event.title),
-            ...event.behavior.config,
-          },
+          config: event.behavior.config,
           sensors: event.behavior.sensors,
           devices: event.behavior.devices,
         } as ScheduleBehavior);
@@ -364,6 +369,7 @@ export interface CheckableDevice extends Device {
 
 export interface SetTemperatureForm {
   temperature: number;
+  order: number;
   sensors: string[];
   devices: string[];
   //mode: 'heating'|'cooling';

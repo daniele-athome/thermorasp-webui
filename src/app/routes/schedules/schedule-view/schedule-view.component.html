@@ -20,6 +20,7 @@
   #temperatureDialog
   title="Set temperature"
   type="question"
+  customClass="temperature-form"
   [showCancelButton]="true">
 
   <form *swalPartial (ngSubmit)="submitTemperature(setTemperatureForm)" #setTemperatureForm="ngForm">
@@ -27,7 +28,7 @@
     <div class="form-group">
       <label for="tempDialogTemperature">Temperature</label>
       <input [(ngModel)]="temperatureForm.temperature" #temperature="ngModel"
-             type="number" name="temperature" class="form-control" id="tempDialogTemperature" placeholder="Enter desired temperature">
+             type="number" name="temperature" class="form-control" id="tempDialogTemperature" placeholder="Desired temperature">
     </div>
 
     <div>
@@ -52,6 +53,13 @@
                type="checkbox" name="device_{{device.id}}" class="custom-control-input" id="tempDialogDevice_{{device.id}}">
         <label class="custom-control-label" for="tempDialogDevice_{{device.id}}">{{device.name}}</label>
       </div>
+    </div>
+
+    <div class="form-group">
+      <label for="tempDialogOrder">Order</label>
+      <input [(ngModel)]="temperatureForm.order" #order="ngModel"
+             type="number" name="order" class="form-control" id="tempDialogOrder" aria-describedby="tempDialogOrderHelp" placeholder="Setting priority order">
+      <small id="tempDialogOrderHelp" class="form-text text-muted">The lesser, the more important. Set to zero and setting will disappear when time ends.</small>
     </div>
 
   </form>
