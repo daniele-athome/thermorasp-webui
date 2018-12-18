@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
+  }
+
+  toggle() {
+    if (document.body.classList.contains('is-collapsed')) {
+      this.renderer.removeClass(document.body, 'is-collapsed');
+    }
+    else {
+      this.renderer.addClass(document.body, 'is-collapsed');
+    }
   }
 
 }
