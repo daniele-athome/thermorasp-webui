@@ -8,9 +8,6 @@ import { Component, Input, OnInit } from '@angular/core';
 export class InlineLoadingComponent implements OnInit {
 
   @Input()
-  enabled: boolean;
-
-  @Input()
   cssClass: string;
 
   constructor() { }

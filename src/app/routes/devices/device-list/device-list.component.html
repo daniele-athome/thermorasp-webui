@@ -1,4 +1,5 @@
 <h3>
+  <i class="c-green-500 ti-plug"></i>
   Devices
   <a style="vertical-align: text-bottom" class="btn btn-sm btn-primary"
      title="New"
@@ -7,7 +8,7 @@
 
 <div class="row gap-20 pos-r">
 
-  <app-inline-loading cssClass="lds-ellipsis" [enabled]="loading"></app-inline-loading>
+  <app-inline-loading *ngIf="loading" cssClass="lds-ellipsis"></app-inline-loading>
   <div class="col-md-3 text-center device-boiler" *ngFor="let device of devices">
     <div class="bgc-white p-20 bd">
       <a routerLink="/devices/{{device.id}}"><img src="assets/static/images/boiler.png" alt=""/></a>
