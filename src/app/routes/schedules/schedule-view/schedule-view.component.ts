@@ -54,8 +54,8 @@ export class ScheduleViewComponent implements OnInit {
     this.calendar$.fullCalendar({
       slotLabelFormat: 'H:mm',
       timeFormat: 'H:mm',
-      editable: true,
-      selectable: true,
+      editable: false,
+      selectable: false,
       nowIndicator: true,
       eventOverlap: false,
       header: false,
@@ -88,6 +88,7 @@ export class ScheduleViewComponent implements OnInit {
       eventDrop: (event, delta, revertFunc, jsEvent, ui, view) => this.onEventMove(event),
       schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
     });
+    this.calendar$.fullCalendar('option', 'slotWidth', 50);
   }
 
   @Input('schedule')
@@ -130,6 +131,8 @@ export class ScheduleViewComponent implements OnInit {
     console.log(events);
     this.calendar$.fullCalendar('removeEventSources', null);
     this.calendar$.fullCalendar('addEventSource', events);
+    this.calendar$.fullCalendar('option', 'selectable', true);
+    this.calendar$.fullCalendar('option', 'editable', true);
     this.loading = false;
   }
 
