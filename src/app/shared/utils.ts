@@ -3,11 +3,11 @@ import * as moment from 'moment';
 import { ColorGradient } from './color-gradient';
 
 export function getCurrentMinute(): number {
-  return getMinutesInDayForDate(moment.utc());
+  return getMinutesInDayForDate(moment());
 }
 
 export function getTodayLastMinute(): number {
-  return getMinutesInDayForDate(moment.utc().endOf('day'));
+  return getMinutesInDayForDate(moment().endOf('day').add(1, 'second'));
 }
 
 function getMinutesInDayForDate(date: moment.Moment): number {
