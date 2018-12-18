@@ -11,7 +11,7 @@ export class ThermostatDialComponent implements OnInit {
 
   private dial: thermostat.ThermostatDial;
 
-  loading: boolean = false;
+  private _loading: boolean = false;
 
   @ViewChild('dial')
   dialElement: ElementRef;
@@ -27,6 +27,17 @@ export class ThermostatDialComponent implements OnInit {
       this.onSetTargetTemperature.emit(targetTemperature);
     };
     this.dial = new thermostat.ThermostatDial(this.dialElement.nativeElement, options);
+  }
+
+  get loading(): boolean {
+    return this._loading;
+  }
+
+  set loading(val: boolean) {
+    this._loading = val;
+    if (this.dial) {
+      this.dial.loading = val;
+    }
   }
 
   get target_temperature(): number {

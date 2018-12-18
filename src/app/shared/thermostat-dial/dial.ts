@@ -24,7 +24,8 @@ class ThermostatDialState {
               public ambient_temperature: number,
               public hvac_state: string,
               public has_leaf: boolean,
-              public away: boolean
+              public away: boolean,
+              public loading: boolean
   ){}
 }
 
@@ -35,7 +36,7 @@ export class ThermostatDial {
 	 */
 
 	// Create an element with proper SVG namespace, optionally setting its attributes and appending it to another element
-	private createSVGElement(tag,attributes,appendTo) {
+	private createSVGElement(tag,attributes,appendTo): SVGAElement {
 		var element = document.createElementNS('http://www.w3.org/2000/svg',tag);
 		this.attr(element,attributes);
 		if (appendTo) {
@@ -156,6 +157,15 @@ export class ThermostatDial {
     this.render();
   }
 
+  get loading(): boolean {
+    return this.state.loading;
+  }
+
+  set loading(val: boolean) {
+    this.state.loading = !!val;
+    this.render();
+  }
+
   private targetElement: Element;
   private options: ThermostatDialOptions;
   private state: ThermostatDialState;
@@ -227,7 +237,8 @@ export class ThermostatDial {
 			options.minValue,
       this.properties.hvac_states[0],
 			false,
-			false
+			false,
+      true
     );
 
     this.tickPointsLarge = [
@@ -349,8 +360,10 @@ export class ThermostatDial {
     this.renderAway();
     this.renderHvacState();
     this.renderTicks();
-    this.renderTargetTemperature();
-    this.renderAmbientTemperature();
+    if (!this.loading) {
+      this.renderTargetTemperature();
+      this.renderAmbientTemperature();
+    }
     this.renderLeaf();
   }
 
