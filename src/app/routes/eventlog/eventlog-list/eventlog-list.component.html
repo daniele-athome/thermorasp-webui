@@ -1,0 +1,49 @@
+<h3>
+  <i class="c-purple-500 ti-book"></i>
+  Event Log
+  <app-inline-loading *ngIf="loading" cssClass="lds-ellipsis"></app-inline-loading>
+</h3>
+
+<div class="row gap-20 pos-r">
+
+  <div class="col-lg-12 event-log">
+    <div class="table-responsive">
+      <table class="table table-sm table-bordered table-striped">
+        <thead>
+        <tr>
+          <th>Timestamp</th>
+          <th>Level</th>
+          <th>Source</th>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr *ngFor="let event of events" data-id="{{event.id}}" class="table-{{event.level | log_level_to_bootstrap}}">
+          <td>{{event.timestamp | date:'medium'}}</td>
+          <!-- TODO level icon filter -->
+          <td>{{event.level}}</td>
+          <td>{{event.source}}</td>
+          <td>{{event.name}}</td>
+          <td>{{event.description}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <nav aria-label="Event log navigation">
+        <ul class="pagination justify-content-end">
+          <li class="page-item">
+            <button (click)="goPrev()" class="page-link" tabindex="-1">Previous</button>
+          </li>
+          <li class="page-item">
+            <button (click)="goNext()" class="page-link">Next</button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+</div>

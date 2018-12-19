@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'devices', loadChildren: './routes/devices/devices.module#DevicesModule'},
   { path: 'sensors', loadChildren: './routes/sensors/sensors.module#SensorsModule'},
   { path: 'schedules', loadChildren: './routes/schedules/schedules.module#SchedulesModule'},
+  { path: 'eventlog', loadChildren: './routes/eventlog/eventlog.module#EventLogModule'},
 ];
 
 @NgModule({
