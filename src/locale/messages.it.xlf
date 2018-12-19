@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="92eee6be6de0b11c924e3ab27db30257159c0a7c" datatype="html" approved="yes">
+        <source>Home</source> <target state="translated">Home</target><context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3e24569eca61d598c8b01defbbbb1fa8bd5222bc" datatype="html" approved="yes">
+        <source>Devices</source> <target state="translated">Caldaie</target><context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-list/device-list.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/schedules/schedule-view/schedule-view.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5d894f583cb7a3e588bcceaff9a6f5a8bf22462d" datatype="html" approved="yes">
+        <source>Sensors</source> <target state="translated">Sensori</target><context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/schedules/schedule-view/schedule-view.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/sensors/sensor-list/sensor-list.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4a4f46a2dcec36bd5c8c371ceee55c2226dec27f" datatype="html" approved="yes">
+        <source>Schedule</source> <target state="translated">Programma</target><context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/schedules/schedule-list/schedule-list.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="61e0f26d843eec0b33ff475e111b0c2f7a80b835" datatype="html" approved="yes">
+        <source>Statistics</source> <target state="translated">Statistiche</target><context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0615755b57ae662aa717d3720065d9ec3d21bcb4" datatype="html" approved="yes">
+        <source>Event Log</source> <target state="translated">Log eventi</target><context-group purpose="location">
+          <context context-type="sourcefile">app/layout/sidebar/sidebar.component.html</context>
+          <context context-type="linenumber">69</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/eventlog/eventlog-list/eventlog-list.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="121cc5391cd2a5115bc2b3160379ee5b36cd7716" datatype="html" approved="yes">
+        <source>Settings</source> <target state="translated">Impostazioni</target><context-group purpose="location">
+          <context context-type="sourcefile">app/layout/header/header.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="994363f08f9fbfa3b3994ff7b35c6904fdff18d8" datatype="html" approved="yes">
+        <source>Profile</source> <target state="translated">Profilo</target><context-group purpose="location">
+          <context context-type="sourcefile">app/layout/header/header.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bb694b49d408265c91c62799c2b3a7e3151c824d" datatype="html" approved="yes">
+        <source>Logout</source> <target state="translated">Logout</target><context-group purpose="location">
+          <context context-type="sourcefile">app/layout/header/header.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="06c663bf1474713f57551123a46b34318543b67d" datatype="html" approved="yes">
+        <source>Reset</source> <target state="translated">Reset</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/dashboard/dashboard.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d81f00c85d3b507f3e3d78bfc617a2c66e028391" datatype="html" approved="yes">
+        <source>New</source> <target state="translated">Nuovo</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-list/device-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/sensors/sensor-list/sensor-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1f82f4a94770c209851ca60dee9d7eb3cfe52dbc" datatype="html" approved="yes">
+        <source>New device</source> <target state="translated">Nuova caldaia</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-create/device-create.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="45cc8ca94b5a50842a9a8ef804a5ab089a38ae5c" datatype="html" approved="yes">
+        <source>ID</source> <target state="translated">ID</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cff1428d10d59d14e45edec3c735a27b5482db59" datatype="html" approved="yes">
+        <source>Name</source> <target state="translated">Nome</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/eventlog/eventlog-list/eventlog-list.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="acc04ca445d64958d843622f9ce95c0378198c24" datatype="html" approved="yes">
+        <source>Protocol</source> <target state="translated">Protocollo</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="729754dd19eb9ce0670b0aeb5a6ae60574c2c563" datatype="html" approved="yes">
+        <source>Address</source> <target state="translated">Indirizzo</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f61c6867295f3b53d23557021f2f4e0aa1d0b8fc" datatype="html" approved="yes">
+        <source>Type</source> <target state="translated">Tipo</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52c9a103b812f258bcddc3d90a6e3f46871d25fe" datatype="html" approved="yes">
+        <source>Save</source> <target state="translated">Salva</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/devices/device-form/device-form.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="07193288a0312875e18f38c3a2486b927a15520a" datatype="html" approved="yes">
+        <source>Timestamp</source> <target state="translated">Timestamp</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/eventlog/eventlog-list/eventlog-list.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a446fb0eb11fbffcac805ece5a2d306d24e733d8" datatype="html" approved="yes">
+        <source>Level</source> <target state="translated">Livello</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/eventlog/eventlog-list/eventlog-list.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6834fa6b43d1ecbdf147c48dd9c4d72f1484571d" datatype="html" approved="yes">
+        <source>Source</source> <target state="translated">Sorgente</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/eventlog/eventlog-list/eventlog-list.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="eec715de352a6b114713b30b640d319fa78207a0" datatype="html" approved="yes">
+        <source>Description</source> <target state="translated">Descrizione</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/eventlog/eventlog-list/eventlog-list.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="680d5c75b7fd8d37961083608b9fcdc4167b4c43" datatype="html" approved="yes">
+        <source>Previous</source> <target state="translated">Precedente</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/eventlog/eventlog-list/eventlog-list.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f732c304c7433e5a83ffcd862c3dce709a0f4982" datatype="html" approved="yes">
+        <source>Next</source> <target state="translated">Successivo</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/eventlog/eventlog-list/eventlog-list.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ff2a785105bb48a3611862b7801de228db153208" datatype="html" approved="yes">
+        <source>Temperature</source> <target state="translated">Temperatura</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/schedules/schedule-view/schedule-view.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f5705aabcb915f438945964777fa5353e95020e5" datatype="html" approved="yes">
+        <source>Desired temperature</source> <target state="translated">Temperatura desiderata</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/schedules/schedule-view/schedule-view.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5704ec2049d007c5f5fb495a5d8b607e68d58081" datatype="html" approved="yes">
+        <source>Order</source> <target state="translated">Ordine</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/schedules/schedule-view/schedule-view.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="12c1073812b0868cd92d331f8f6f0274854e6e7b" datatype="html" approved="yes">
+        <source>Setting priority order</source> <target state="translated">Ordine di priorità</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/schedules/schedule-view/schedule-view.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="158ef48cd5f3a8e98163c905386592710458ebea" datatype="html" approved="yes">
+        <source>The lesser, the more important. Set to zero and setting will disappear when time ends.</source> <target state="translated">Più è basso, più è importante. Impostalo a zero e il settaggio sparirà alla fine del suo tempo.</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/schedules/schedule-view/schedule-view.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4012a91c4ba283e2685f79bf1a7b44faf9125577" datatype="html" approved="yes">
+        <source>Set temperature</source> <target state="translated">Imposta temperatura</target><context-group purpose="location">
+          <context context-type="sourcefile">app/routes/schedules/schedule-view/schedule-view.component.html</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
