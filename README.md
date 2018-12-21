@@ -1,22 +1,10 @@
  Raspberry PI Smart Thermostat Web interface
 ===========================================
 
-Completely client-side web interface for the thermostat API based on AngularJS.
+Web interface for the thermostat API based on Angular CLI. It uses the REST API provided by the thermostat daemon and the MQTT broker directly, so there is not back-end component needed.
 
 ## Build instructions
 
-* Run `npm install`
-* Serve the `app` folder with any webserver
-
-## Adminator upgrade instructions
-
-In case Adminator releases a new version:
-
-* Clone [Adminator](https://github.com/puikinsh/Adminator-admin-dashboard)
-* Apply `adminator.patch` to the Adminator directory
-* Run `npm install && npm run build` in Adminator directory
-* Copy the following files/directories from Adminator `build` directory into our `app/assets/adminator` directory:
-  - fonts/
-  - bundle.js
-  - vendor.js
-  - style.css
+* Install NodeJS 9 or later with npm
+* Install angular-cli: `npm install -g @angular/cli`
+* Run `ng serve` to serve a local server or `ng build --prod` to build a production site
