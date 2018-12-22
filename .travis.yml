@@ -6,7 +6,7 @@ sudo: required
 
 branches:
   only:
-    - master
+    - mqtt
 
 before_script:
   - npm install -g @angular/cli
@@ -22,4 +22,4 @@ deploy:
   target-branch: mqtt-dist
   keep-history: true
   on:
-    branch: master
+    branch: mqtt
