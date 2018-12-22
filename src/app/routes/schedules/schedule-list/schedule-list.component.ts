@@ -14,15 +14,22 @@ export class ScheduleListComponent implements OnInit {
   @ViewChild('schedule')
   currentSchedule: ScheduleViewComponent;
 
+  schedules: Schedule[];
+
+  loading: boolean;
+
   constructor(private scheduleService: ScheduleService,
-              private toastService: ToastrService) { }
+              private toastService: ToastrService) {
+    this.loading = true;
+  }
 
   ngOnInit() {
     // time to fill it!
-    this.loadSchedule();
+    this.loadActiveSchedule();
+    this.loadSchedules();
   }
 
-  private loadSchedule() {
+  private loadActiveSchedule() {
     // TODO what if there is no active schedule?
     this.scheduleService.active().subscribe(
       (schedule: Schedule) => {
@@ -33,6 +40,19 @@ export class ScheduleListComponent implements OnInit {
         this.currentSchedule.error = true;
       }
     );
+  }
+
+  private loadSchedules() {
+    this.scheduleService.query().subscribe(
+      (schedules: Schedule[]) => {
+        this.schedules = schedules;
+        this.loading = false;
+      },
+      (error) => {
+        this.toastService.error('Error contacting server.');
+        this.loading = false;
+      }
+    )
   }
 
 }
