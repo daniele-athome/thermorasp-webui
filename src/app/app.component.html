@@ -1,11 +1,11 @@
 <div>
-  <app-sidebar></app-sidebar>
+  <app-sidebar #sidebar></app-sidebar>
 
   <div class="page-container">
 
     <app-header></app-header>
 
-    <main class="main-content bgc-grey-100">
+    <main class="main-content bgc-grey-100" (click)="hideSidebarIfMobile($event)">
       <div class="container-fluid" id="mainContent">
         <router-outlet></router-outlet>
       </div>
