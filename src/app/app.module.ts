@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { NgModule } from '@angular/core';
-import { IMqttServiceOptions, MqttModule } from "ngx-mqtt";
+import { Inject, NgModule } from '@angular/core';
+import { MqttModule, MqttService } from "ngx-mqtt";
 import { SweetAlert2Module } from "@toverux/ngx-sweetalert2";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
@@ -17,11 +17,9 @@ import { CoreModule } from "./core";
 import { SharedModule } from "./shared/shared.module";
 import { BsDropdownModule } from "ngx-bootstrap";
 
-const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
-  hostname: environment.mqtt_host,
-  port: environment.mqtt_port,
-  path: environment.mqtt_path
-};
+export function locationFactory() {
+  return window.location;
+}
 
 @NgModule({
   declarations: [
@@ -36,14 +34,25 @@ const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
     CoreModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
+    MqttModule.forRoot({ connectOnCreate: false }),
     SweetAlert2Module.forRoot(),
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
     ToastrModule.forRoot({progressBar: true, positionClass: 'toast-top-right-nav'}),
     SharedModule
   ],
-  providers: [],
+  providers: [
+    { provide: 'LOCATION', useFactory: locationFactory }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private mqttService: MqttService,
+              @Inject('LOCATION') private location: Location) {
+    this.mqttService.connect({
+      hostname: environment.mqtt_host || location.hostname,
+      port: Number(environment.mqtt_port || (location.port ? location.port : "80")),
+      path: environment.mqtt_path
+    });
+  }
+}
