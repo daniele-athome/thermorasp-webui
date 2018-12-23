@@ -36,8 +36,20 @@ export class ScheduleListComponent implements OnInit {
         this.currentSchedule.schedule = schedule;
       },
       (error) => {
-        this.toastService.error('Error contacting server.');
-        this.currentSchedule.error = true;
+        if (error.error == 'not-found') {
+          this.toastService.info('No active program. Creating one now.');
+          this.currentSchedule.schedule = {
+            id: 0,
+            name: 'New program',
+            description: 'New program',
+            enabled: true,
+            behaviors: []
+          } as Schedule;
+        }
+        else {
+          this.toastService.error('Error contacting server.');
+          this.currentSchedule.error = true;
+        }
       }
     );
   }
