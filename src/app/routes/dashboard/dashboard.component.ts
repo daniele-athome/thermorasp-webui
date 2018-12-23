@@ -229,15 +229,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.activeBehaviorSubs.push(sub);
   }
 
+  private isReadingValid(sensor_id: string, timestamp: string) {
+    const sensor = this.sensors.find((sensor) => sensor.id == sensor_id);
+    const validity = sensor.validity >= 0 ? sensor.validity : environment.sensor_validity;
+    return getDifferenceFromNow(moment(timestamp, 'YYYY-MM-DD[T]HH:mm:ss')) < validity;
+  }
+
   private updateAmbientTemperature() {
     let sum: number = 0;
     let count: number = 0;
     this.temp_readings.forEach(
       (reading: SensorReading) => {
         // TODO account for different unit
-        console.log(getDifferenceFromNow(moment(reading.timestamp, 'YYYY-MM-DD[T]HH:mm:ss')));
-        if (reading.unit == 'celsius' &&
-            getDifferenceFromNow(moment(reading.timestamp, 'YYYY-MM-DD[T]HH:mm:ss')) < environment.sensor_validity) {
+        if (reading.unit == 'celsius' && this.isReadingValid(reading.sensor_id, reading.timestamp)) {
           sum += reading.value;
           console.log(reading.sensor_id + '=' + reading.value);
           count++;
@@ -248,6 +252,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.dial.ambient_temperature = sum / count;
       console.log("Ambient temperature: " + this.dial.ambient_temperature);
       this.dial.loading = false;
+    }
+    else {
+      this.toastService.warning("No sensor readings available.");
     }
   }
 

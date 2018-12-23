@@ -4,6 +4,7 @@ export interface Sensor {
   protocol: string;
   address: string;
   topic: string;
+  validity: number;
 }
 
 export interface SensorReading {
