@@ -231,7 +231,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private isReadingValid(sensor_id: string, timestamp: string) {
     const sensor = this.sensors.find((sensor) => sensor.id == sensor_id);
-    const validity = sensor.validity >= 0 ? sensor.validity : environment.sensor_validity;
+    if (sensor && sensor.validity < 0) {
+      // sensor is always valid
+      return true;
+    }
+    const validity = sensor ? sensor.validity : environment.sensor_validity;
     return getDifferenceFromNow(moment(timestamp, 'YYYY-MM-DD[T]HH:mm:ss')) < validity;
   }
 
