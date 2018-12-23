@@ -30,8 +30,14 @@ export class ScheduleViewComponent implements OnInit {
   @ViewChild('temperatureDialog')
   private temperatureDialog: SwalComponent;
 
+  @ViewChild('scheduleDialog')
+  private scheduleDialog: SwalComponent;
+
   @Input()
   temperatureForm: SetTemperatureForm;
+
+  @Input()
+  scheduleForm: ScheduleForm;
 
   @Output('onResetComplete')
   rollbackCompleteEvent: EventEmitter<void> = new EventEmitter();
@@ -249,7 +255,23 @@ export class ScheduleViewComponent implements OnInit {
           event.behavior.devices = this.selectedDevices;
           event.backgroundColor = getTemperatureColor(this.temperatureForm.temperature);
           this.calendar$.fullCalendar('updateEvent', event);
-          this.updateBehavior();
+          this.updateActiveSchedule();
+        }
+      }
+    );
+  }
+
+  editSchedule() {
+    this.scheduleForm = {
+      name: this._schedule.name,
+      description: this._schedule.description,
+    } as ScheduleForm;
+    this.scheduleDialog.show().then(
+      (result) => {
+        if (result.value) {
+          this._schedule.name = this.scheduleForm.name;
+          this._schedule.description = this.scheduleForm.description;
+          this.updateActiveSchedule();
         }
       }
     );
@@ -268,20 +290,24 @@ export class ScheduleViewComponent implements OnInit {
   }
 
   onEventResize(event) {
-    this.updateBehavior();
+    this.updateActiveSchedule();
   }
 
   onEventMove(event) {
-    this.updateBehavior();
+    this.updateActiveSchedule();
   }
 
   submitTemperature(form) {
     this.temperatureDialog.nativeSwal.clickConfirm();
   }
 
+  submitSchedule(form) {
+    this.scheduleDialog.nativeSwal.clickConfirm();
+  }
+
   private setTemperature(start: moment.Moment, end: moment.Moment, resource, temperature: number, order: number, sensors: string[], devices: string[]) {
     this.calendar$.fullCalendar('renderEvent', this.buildTargetTemperatureTodayEvent(start, end, temperature, order, resource.id, sensors, devices));
-    this.updateBehavior();
+    this.updateActiveSchedule();
   }
 
   private buildTargetTemperatureTodayEvent(start: moment.Moment, end: moment.Moment,
@@ -317,7 +343,7 @@ export class ScheduleViewComponent implements OnInit {
   }
 
   /** Reconstructs the whole schedule by reading events and sends it to the server. */
-  private updateBehavior() {
+  private updateActiveSchedule() {
     this.loading = true;
     this.scheduleService.set_active(this.persistable_schedule).subscribe(
       () => {
@@ -436,4 +462,9 @@ export interface SetTemperatureForm {
   sensors: string[];
   devices: string[];
   //mode: 'heating'|'cooling';
+}
+
+export interface ScheduleForm {
+  name: string;
+  description: string;
 }

@@ -1,15 +1,11 @@
 
-<div class="fc">
-  <div class="fc-toolbar fc-header-toolbar">
-    <div class="fc-left">
-      <h2>
-        <i *ngIf="error" class="text-danger ti-alert"></i>
-        {{schedule?.name}}
-        <app-inline-loading *ngIf="loading" cssClass="lds-ellipsis"></app-inline-loading>
-      </h2>
-    </div>
-    <div class="fc-clear"></div>
-  </div>
+<div class="schedule-header">
+  <h2>
+    <i *ngIf="error" class="text-danger ti-alert"></i>
+    {{schedule?.name}}
+    <app-inline-loading *ngIf="loading" cssClass="lds-ellipsis"></app-inline-loading>
+    <button *ngIf="!loading" (click)="editSchedule()" class="btn btn-sm btn-secondary"><i class="ti-pencil"></i></button>
+  </h2>
 </div>
 
 <div>
@@ -27,7 +23,6 @@
   #temperatureDialog
   i18n-title
   title="Set temperature"
-  type="question"
   customClass="temperature-form"
   [showCancelButton]="true">
 
@@ -68,6 +63,31 @@
       <input [(ngModel)]="temperatureForm.order" #order="ngModel"
              type="number" name="order" class="form-control" id="tempDialogOrder" aria-describedby="tempDialogOrderHelp" i18n-placeholder placeholder="Setting priority order">
       <small id="tempDialogOrderHelp" class="form-text text-muted" i18n>The lesser, the more important. Set to zero and setting will disappear when time ends.</small>
+    </div>
+
+  </form>
+
+</swal>
+
+<swal
+  #scheduleDialog
+  i18n-title
+  title="Edit program"
+  customClass="schedule-form"
+  [showCancelButton]="true">
+
+  <form *swalPartial (ngSubmit)="submitSchedule(editScheduleForm)" #editScheduleForm="ngForm">
+
+    <div class="form-group">
+      <label for="schedDialogName" i18n>Name</label>
+      <input [(ngModel)]="scheduleForm.name" #name="ngModel"
+             type="text" name="name" class="form-control" id="schedDialogName" i18n-placeholder placeholder="Schedule short name">
+    </div>
+
+    <div class="form-group">
+      <label for="schedDialogDescription" i18n>Description</label>
+      <input [(ngModel)]="scheduleForm.description" #description="ngModel"
+             type="text" name="description" class="form-control" id="schedDialogDescription" i18n-placeholder placeholder="Schedule description">
     </div>
 
   </form>
