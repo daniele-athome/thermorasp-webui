@@ -201,6 +201,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       (message: IMqttMessage) => {
         const data = JSON.parse(message.payload.toString()) as SensorReading;
         data.sensor_id = sensor_id;
+        console.log(data);
         this.temp_readings.set(sensor_id, data);
         this.updateAmbientTemperature();
       }
