@@ -16,6 +16,13 @@
 <div #scheduleView class="schedule"></div>
 </div>
 
+<div class="schedule-footer">
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button [disabled]="loading" (click)="commitActive()" type="button" class="btn btn-primary">Persist</button>
+    <button [disabled]="loading" (click)="rollbackActive()" type="button" class="btn btn-danger">Reset</button>
+  </div>
+</div>
+
 <swal
   #temperatureDialog
   i18n-title

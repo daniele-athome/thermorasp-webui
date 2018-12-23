@@ -38,13 +38,7 @@ export class ScheduleListComponent implements OnInit {
       (error) => {
         if (error.error == 'not-found') {
           this.toastService.info('No active program. Creating one now.');
-          this.currentSchedule.schedule = {
-            id: 0,
-            name: 'New program',
-            description: 'New program',
-            enabled: true,
-            behaviors: []
-          } as Schedule;
+          this.currentSchedule.schedule = this.emptySchedule();
         }
         else {
           this.toastService.error('Error contacting server.');
@@ -67,4 +61,18 @@ export class ScheduleListComponent implements OnInit {
     )
   }
 
+  private emptySchedule() {
+    return {
+      id: 0,
+      name: 'New program',
+      description: 'New program',
+      enabled: true,
+      behaviors: []
+    } as Schedule;
+  }
+
+  onResetComplete() {
+    this.loading = true;
+    this.ngOnInit();
+  }
 }

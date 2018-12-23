@@ -1,15 +1,15 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import * as $ from "jquery";
 import 'fullcalendar';
 import 'fullcalendar-scheduler';
 import * as moment from 'moment';
-import { Device, Schedule, ScheduleBehavior, Sensor } from "../../../core/models";
+import { Device, Schedule, ScheduleBehavior, ScheduleSaved, Sensor } from "../../../core/models";
 import { getMinutesInDay, getTemperatureColor } from "../../../shared";
 import { AssertionError } from "assert";
 import { SwalComponent } from "@toverux/ngx-sweetalert2";
 import { DeviceService, ScheduleService, SensorService } from "../../../core/services";
 import { ToastrService } from "ngx-toastr";
-import { combineLatest } from "rxjs";
+import { combineLatest, Observable } from "rxjs";
 
 @Component({
   selector: 'app-schedule-view',
@@ -32,6 +32,9 @@ export class ScheduleViewComponent implements OnInit {
 
   @Input()
   temperatureForm: SetTemperatureForm;
+
+  @Output('onResetComplete')
+  rollbackCompleteEvent: EventEmitter<void> = new EventEmitter();
 
   private _schedule: Schedule;
 
@@ -59,6 +62,7 @@ export class ScheduleViewComponent implements OnInit {
       nowIndicator: true,
       eventOverlap: false,
       header: false,
+      footer: false,
       height: 'auto',
       timezone: 'UTC',
       defaultDate: '2000-01-01',
@@ -315,6 +319,18 @@ export class ScheduleViewComponent implements OnInit {
   /** Reconstructs the whole schedule by reading events and sends it to the server. */
   private updateBehavior() {
     this.loading = true;
+    this.scheduleService.set_active(this.persistable_schedule).subscribe(
+      () => {
+        this.loading = false;
+      },
+      (error) => {
+        this.loading = false;
+        this.toastService.error('Error contacting server. Changes might not have been saved.');
+      }
+    );
+  }
+
+  get persistable_schedule(): Schedule {
     const events = this.calendar$.fullCalendar('clientEvents', null);
     const behaviors: ScheduleBehavior[] = [];
     events.forEach(
@@ -327,7 +343,7 @@ export class ScheduleViewComponent implements OnInit {
         const end_day_offset = (event.end == null || event.end.date() > 1) ? 1 : 0;
         behaviors.push({
           id: behavior_id,
-          schedule_id: this._schedule.id,
+          //schedule_id: this._schedule.id,
           name: event.behavior.name,
           order: event.behavior.order,
           start_time: getMinutesInDay(Number(event.resourceId || event.resource.id), event.start),
@@ -340,21 +356,68 @@ export class ScheduleViewComponent implements OnInit {
     );
 
     console.log(behaviors);
-    this.scheduleService.set_active({
+    return {
       id: this._schedule.id,
       name: this._schedule.name,
       description: this._schedule.description,
       enabled: this._schedule.enabled,
       behaviors: behaviors
-    } as Schedule).subscribe(
-      () => {
+    } as Schedule;
+  }
+
+  commitActive() {
+    this.loading = true;
+    let task: Observable<any>;
+    const schedule = this.persistable_schedule;
+    if (schedule.id > 0) {
+      task = this.scheduleService.update(schedule);
+    }
+    else {
+      task = this.scheduleService.create(schedule);
+    }
+
+    task.subscribe(
+      (saved: ScheduleSaved) => {
+        if (saved) {
+          this.schedule.id = saved.id;
+        }
+        this.toastService.success('Program persisted to database.');
         this.loading = false;
       },
       (error) => {
-        this.loading = false;
         this.toastService.error('Error contacting server. Changes might not have been saved.');
+        this.loading = false;
       }
     );
+  }
+
+  rollbackActive() {
+    this.loading = true;
+    this.scheduleService.active_rollback().subscribe(
+      () => {
+        this.rollbackCompleteEvent.emit();
+      },
+      (error) => {
+        if (error.error != 'not-found') {
+          this.toastService.error('Error contacting server.');
+          this.error = true;
+        }
+        else {
+          this.schedule = this.emptySchedule();
+        }
+        this.loading = false;
+      }
+    );
+  }
+
+  private emptySchedule() {
+    return {
+      id: 0,
+      name: 'New program',
+      description: 'New program',
+      enabled: true,
+      behaviors: []
+    } as Schedule;
   }
 
 }

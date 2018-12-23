@@ -27,3 +27,7 @@ export interface VolatileScheduleBehavior {
   sensors: string[];
   devices: string[];
 }
+
+export interface ScheduleSaved {
+  id: number;
+}
