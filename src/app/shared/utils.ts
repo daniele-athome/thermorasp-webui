@@ -16,10 +16,10 @@ function getMinutesInDayForDate(date: moment.Moment): number {
           date.minute();
 }
 
-export function getMinutesInDay(day_index: number, date: moment.Moment): number {
+export function getMinutesInDay(day_index: number, date?: moment.Moment): number {
   return ((day_index - 1) * 24 * 60) +
-    (date.hour() * 60) +
-    date.minute();
+    (date ? ((date.hour() * 60) +
+    date.minute()) : 0);
 }
 
 export function getDifferenceFromNow(time: moment.Moment): number {
