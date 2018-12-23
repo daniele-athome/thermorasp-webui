@@ -24,6 +24,9 @@
   i18n-title
   title="Set temperature"
   customClass="temperature-form"
+  cancelButtonColor="#d33"
+  cancelButtonText="Delete"
+  [showCloseButton]="true"
   [showCancelButton]="true">
 
   <form *swalPartial (ngSubmit)="submitTemperature(setTemperatureForm)" #setTemperatureForm="ngForm">

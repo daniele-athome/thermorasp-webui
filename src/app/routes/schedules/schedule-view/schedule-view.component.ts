@@ -10,6 +10,7 @@ import { SwalComponent } from "@toverux/ngx-sweetalert2";
 import { DeviceService, ScheduleService, SensorService } from "../../../core/services";
 import { ToastrService } from "ngx-toastr";
 import { combineLatest, Observable } from "rxjs";
+import swal from "sweetalert2";
 
 @Component({
   selector: 'app-schedule-view',
@@ -258,6 +259,11 @@ export class ScheduleViewComponent implements OnInit {
           event.behavior.devices = this.selectedDevices;
           event.backgroundColor = getTemperatureColor(this.temperatureForm.temperature);
           this.calendar$.fullCalendar('updateEvent', event);
+          this.updateActiveSchedule();
+        }
+        else if (result.dismiss == swal.DismissReason.cancel) {
+          console.log(event);
+          this.calendar$.fullCalendar('removeEvents', event._id);
           this.updateActiveSchedule();
         }
       }
