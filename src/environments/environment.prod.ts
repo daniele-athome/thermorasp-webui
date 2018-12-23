@@ -3,6 +3,5 @@ export const environment = {
   api_url: '/api',
   mqtt_host: null,
   mqtt_port: 0,
-  mqtt_path: '/mqtt/',
-  sensor_validity: 600
+  mqtt_path: '/mqtt/'
 };

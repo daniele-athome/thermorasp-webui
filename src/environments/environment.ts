@@ -7,8 +7,7 @@ export const environment = {
   api_url: 'http://localhost:7475',
   mqtt_host: 'localhost',
   mqtt_port: 9001,
-  mqtt_path: '/',
-  sensor_validity: 600
+  mqtt_path: '/'
 };
 
 /*

@@ -4,7 +4,6 @@ export interface Sensor {
   protocol: string;
   address: string;
   topic: string;
-  validity: number;
 }
 
 export interface SensorReading {
@@ -13,4 +12,5 @@ export interface SensorReading {
   timestamp: string;
   unit: string;
   value: number;
+  validity: number;
 }

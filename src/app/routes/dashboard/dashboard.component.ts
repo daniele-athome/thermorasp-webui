@@ -12,7 +12,6 @@ import { IMqttMessage, MqttService } from "ngx-mqtt";
 import { getDifferenceFromNow, ThermostatDialComponent } from "../../shared";
 import { combineLatest, Subscription } from "rxjs";
 import { ToastrService } from "ngx-toastr";
-import { environment } from "../../../environments/environment";
 import { getCurrentMinute, getTodayLastMinute } from "../../shared";
 import { delay } from "rxjs/operators";
 import * as moment from 'moment';
@@ -229,14 +228,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.activeBehaviorSubs.push(sub);
   }
 
-  private isReadingValid(sensor_id: string, timestamp: string) {
-    const sensor = this.sensors.find((sensor) => sensor.id == sensor_id);
-    if (sensor && sensor.validity < 0) {
-      // sensor is always valid
-      return true;
-    }
-    const validity = sensor ? sensor.validity : environment.sensor_validity;
-    return getDifferenceFromNow(moment(timestamp, 'YYYY-MM-DD[T]HH:mm:ss')) < validity;
+  private isReadingValid(reading: SensorReading) {
+    return !reading.validity || getDifferenceFromNow(moment(reading.timestamp, 'YYYY-MM-DD[T]HH:mm:ss')) < reading.validity;
   }
 
   private updateAmbientTemperature() {
@@ -245,7 +238,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.temp_readings.forEach(
       (reading: SensorReading) => {
         // TODO account for different unit
-        if (reading.unit == 'celsius' && this.isReadingValid(reading.sensor_id, reading.timestamp)) {
+        if (reading.unit == 'celsius' && this.isReadingValid(reading)) {
           sum += reading.value;
           console.log(reading.sensor_id + '=' + reading.value);
           count++;
