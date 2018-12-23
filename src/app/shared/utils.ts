@@ -22,6 +22,10 @@ export function getMinutesInDay(day_index: number, date: moment.Moment): number 
     date.minute();
 }
 
+export function getDifferenceFromNow(time: moment.Moment): number {
+  return moment().diff(time, 'seconds');
+}
+
 // gradient will be derived from this interval
 const tempInterval = [15, 25];
 const tempGradient = new ColorGradient(["#00f", "#f23700"]);

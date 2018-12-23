@@ -9,13 +9,13 @@ import {
   VolatileScheduleBehavior
 } from "../../core/models";
 import { IMqttMessage, MqttService } from "ngx-mqtt";
-import { ThermostatDialComponent } from "../../shared";
+import { getDifferenceFromNow, ThermostatDialComponent } from "../../shared";
 import { combineLatest, Subscription } from "rxjs";
 import { ToastrService } from "ngx-toastr";
-import { differenceInSeconds, parse } from 'date-fns';
 import { environment } from "../../../environments/environment";
 import { getCurrentMinute, getTodayLastMinute } from "../../shared";
 import { delay } from "rxjs/operators";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-dashboard',
@@ -234,8 +234,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.temp_readings.forEach(
       (reading: SensorReading) => {
         // TODO account for different unit
+        console.log(getDifferenceFromNow(moment(reading.timestamp, 'YYYY-MM-DD[T]HH:mm:ss')));
         if (reading.unit == 'celsius' &&
-            differenceInSeconds(new Date(), parse(reading.timestamp)) < environment.sensor_validity) {
+            getDifferenceFromNow(moment(reading.timestamp, 'YYYY-MM-DD[T]HH:mm:ss')) < environment.sensor_validity) {
           sum += reading.value;
           console.log(reading.sensor_id + '=' + reading.value);
           count++;
