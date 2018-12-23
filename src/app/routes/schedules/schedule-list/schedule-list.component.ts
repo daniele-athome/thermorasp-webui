@@ -39,6 +39,9 @@ export class ScheduleListComponent implements OnInit {
         if (error.error == 'not-found') {
           this.toastService.info('No active program. Creating one now.');
           this.currentSchedule.schedule = this.emptySchedule();
+          this.loading = true;
+          this.currentSchedule.commitActive();
+          this.loadSchedules();
         }
         else {
           this.toastService.error('Error contacting server.');
@@ -69,6 +72,11 @@ export class ScheduleListComponent implements OnInit {
       enabled: true,
       behaviors: []
     } as Schedule;
+  }
+
+  onPersistComplete() {
+    this.loading = true;
+    this.loadSchedules();
   }
 
   onResetComplete() {

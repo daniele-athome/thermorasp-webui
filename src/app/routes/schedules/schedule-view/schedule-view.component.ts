@@ -39,6 +39,9 @@ export class ScheduleViewComponent implements OnInit {
   @Input()
   scheduleForm: ScheduleForm;
 
+  @Output('onPersistComplete')
+  commitCompleteEvent: EventEmitter<void> = new EventEmitter();
+
   @Output('onResetComplete')
   rollbackCompleteEvent: EventEmitter<void> = new EventEmitter();
 
@@ -407,6 +410,7 @@ export class ScheduleViewComponent implements OnInit {
         if (saved) {
           this.schedule.id = saved.id;
         }
+        this.commitCompleteEvent.emit();
         this.toastService.success('Program persisted to database.');
         this.loading = false;
       },
