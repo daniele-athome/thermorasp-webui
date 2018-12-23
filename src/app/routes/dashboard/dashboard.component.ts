@@ -221,6 +221,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       (message: IMqttMessage) => {
         const data = JSON.parse(message.payload.toString()) as DeviceState;
         data.id = device_id;
+        console.log(data);
         this.device_states.set(device_id, data);
         this.updateDeviceState();
       }
