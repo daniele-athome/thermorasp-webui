@@ -30,7 +30,6 @@ export class ScheduleListComponent implements OnInit {
   }
 
   private loadActiveSchedule() {
-    // TODO what if there is no active schedule?
     this.scheduleService.active().subscribe(
       (schedule: Schedule) => {
         this.currentSchedule.schedule = schedule;

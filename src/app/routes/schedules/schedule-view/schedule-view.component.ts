@@ -414,7 +414,7 @@ export class ScheduleViewComponent implements OnInit {
     task.subscribe(
       (saved: ScheduleSaved) => {
         if (saved) {
-          this.schedule.id = saved.id;
+          this._schedule.id = saved.id;
         }
         this.commitCompleteEvent.emit();
         this.toastService.success('Program persisted to database.');
