@@ -11,7 +11,7 @@
     <div class="bgc-white p-20 bd">
       <a routerLink="/sensors/{{sensor.id}}"><img src="assets/static/images/temperature.png" alt=""/></a>
       <div class="mT-20">
-        <h6 class="c-grey-900">{{sensor.id}}</h6>
+        <h6 class="c-grey-900">{{sensor.id}} <i *ngIf="sensor.icon" class="fas fa-{{sensor.icon}}"></i></h6>
         <h6 *ngIf="sensor.type=='temperature' && temp_readings"
             class="c-grey-900">{{temp_readings[sensor.id] | temp_unit}}</h6>
       </div>

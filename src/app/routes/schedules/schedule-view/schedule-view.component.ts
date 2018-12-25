@@ -100,6 +100,7 @@ export class ScheduleViewComponent implements OnInit {
       eventClick: (event, jsEvent, view) => this.onEventClick(event),
       eventResize: (event, delta, revertFunc, jsEvent, ui, view) => this.onEventResize(event),
       eventDrop: (event, delta, revertFunc, jsEvent, ui, view) => this.onEventMove(event),
+      eventRender: (event, element, view) => this.onEventRender(event, element),
       schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
     });
     this.calendar$.fullCalendar('option', 'slotWidth', 50);
@@ -304,6 +305,23 @@ export class ScheduleViewComponent implements OnInit {
 
   onEventMove(event) {
     this.updateActiveSchedule();
+  }
+
+  onEventRender(event, element: JQuery) {
+    const icons = [];
+    event.behavior.sensors.forEach(
+      (sensor_id) => {
+        const sensor = this.sensors.find((sensor) => sensor.id == sensor_id);
+        if (sensor && sensor.icon) {
+          icons.push(sensor.icon);
+        }
+      }
+    );
+    icons.forEach(
+      (icon) => {
+        element.find('.fc-title').append('&nbsp;<i class="fas fa-'+icon+'"></i>');
+      }
+    );
   }
 
   submitTemperature(form) {

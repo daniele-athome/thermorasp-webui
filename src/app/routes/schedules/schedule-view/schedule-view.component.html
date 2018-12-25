@@ -45,7 +45,7 @@
       <div *ngFor="let sensor of sensors" class="custom-control custom-checkbox">
         <input [(ngModel)]="sensor.checked" #sensor_checked="ngModel"
                type="checkbox" name="sensor_{{sensor.id}}" class="custom-control-input" id="tempDialogSensor_{{sensor.id}}">
-        <label class="custom-control-label" for="tempDialogSensor_{{sensor.id}}">{{sensor.id}}</label>
+        <label class="custom-control-label" for="tempDialogSensor_{{sensor.id}}">{{sensor.id}} <i *ngIf="sensor.icon" class="fas fa-{{sensor.icon}}"></i></label>
       </div>
     </div>
 

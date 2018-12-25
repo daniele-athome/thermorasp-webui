@@ -3,6 +3,7 @@ export interface Sensor {
   type: string;
   protocol: string;
   address: string;
+  icon: string;
   topic: string;
 }
 
