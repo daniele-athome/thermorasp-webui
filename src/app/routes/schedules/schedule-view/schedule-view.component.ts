@@ -101,6 +101,7 @@ export class ScheduleViewComponent implements OnInit {
       eventResize: (event, delta, revertFunc, jsEvent, ui, view) => this.onEventResize(event),
       eventDrop: (event, delta, revertFunc, jsEvent, ui, view) => this.onEventMove(event),
       eventRender: (event, element, view) => this.onEventRender(event, element),
+      resourceRender: (resourceObj, labelTds, bodyTds) => this.onResourceRender(resourceObj, labelTds),
       schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
     });
     this.calendar$.fullCalendar('option', 'slotWidth', 50);
@@ -322,6 +323,12 @@ export class ScheduleViewComponent implements OnInit {
         element.find('.fc-title').append('&nbsp;<i class="fas fa-'+icon+'"></i>');
       }
     );
+  }
+
+  onResourceRender(resourceObj, elements: JQuery) {
+    if (resourceObj.id == moment().isoWeekday()) {
+      elements.addClass('today');
+    }
   }
 
   submitTemperature(form) {
