@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Device, DeviceForm } from "../../../core/models";
+import { DeviceForm } from "../../../core/models";
 import { DeviceService } from "../../../core/services";
 import { Router } from "@angular/router";
 
@@ -15,11 +15,11 @@ export class DeviceCreateComponent implements OnInit {
   ngOnInit() {
   }
 
-  save(device: Device) {
+  save(device: DeviceForm) {
     // TODO loading status
     // TODO error handling
     this.deviceService.register(device).subscribe(
-      (result: Device) => {
+      (result) => {
         console.log(result);
         this.router.navigate(['/devices']);
       }
@@ -28,7 +28,7 @@ export class DeviceCreateComponent implements OnInit {
   }
 
   newDevice(): DeviceForm {
-    let form = new DeviceForm();
+    let form = {} as DeviceForm;
     form.protocol = 'local';
     form.type = 'boiler_on_off';
     return form;

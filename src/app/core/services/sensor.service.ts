@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiService } from './api.service';
-import { Sensor, SensorReading } from '../models';
+import { Sensor, SensorForm, SensorReading } from '../models';
 import { HttpParams } from "@angular/common/http";
 
 
@@ -23,14 +23,14 @@ export class SensorService {
       .get('/sensors/topic/' + sensor_id);
   }
 
-  register(sensor: Sensor): Observable<Sensor> {
+  register(sensor: SensorForm): Observable<Sensor> {
     return this.apiService
       .post('/sensors/register', sensor);
   }
 
-  unregister(sensor: Sensor): Observable<Sensor> {
+  unregister(sensor_id: string): Observable<Sensor> {
     return this.apiService
-      .post('/sensors/unregister', sensor);
+      .post('/sensors/unregister', {id: sensor_id});
   }
 
   readings(sensor_type?: string): Observable<SensorReading[]> {

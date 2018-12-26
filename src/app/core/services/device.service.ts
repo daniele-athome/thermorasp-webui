@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ApiService } from './api.service';
-import { Device } from '../models';
+import { Device, DeviceForm } from '../models';
 
 
 @Injectable()
@@ -17,14 +17,14 @@ export class DeviceService {
       .get('/devices');
   }
 
-  register(device: Device): Observable<Device> {
+  register(device: DeviceForm): Observable<Device> {
     return this.apiService
       .post('/devices/register', device);
   }
 
-  unregister(device: Device): Observable<Device> {
+  unregister(device_id: string): Observable<Device> {
     return this.apiService
-      .post('/devices/unregister', device);
+      .post('/devices/unregister', {id: device_id});
   }
 
 }

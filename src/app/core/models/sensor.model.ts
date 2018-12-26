@@ -7,6 +7,14 @@ export interface Sensor {
   topic: string;
 }
 
+export interface SensorForm {
+  id: string;
+  type: string;
+  protocol: string;
+  address: string;
+  icon: string;
+}
+
 export interface SensorReading {
   sensor_id: string;
   type: string;

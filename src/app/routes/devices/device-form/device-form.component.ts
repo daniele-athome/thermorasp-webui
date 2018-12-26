@@ -16,7 +16,7 @@ export class DeviceFormComponent implements OnInit {
   update: boolean;
 
   @Output()
-  onSubmit: EventEmitter<Device> = new EventEmitter<Device>();
+  onSubmit: EventEmitter<DeviceForm> = new EventEmitter<DeviceForm>();
 
   constructor() { }
 
