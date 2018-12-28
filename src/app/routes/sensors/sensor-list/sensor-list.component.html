@@ -13,7 +13,12 @@
       <div class="mT-20">
         <h6 class="c-grey-900">{{sensor.id}} <i *ngIf="sensor.icon" class="fas fa-{{sensor.icon}}"></i></h6>
         <h6 *ngIf="sensor.type=='temperature' && temp_readings"
-            class="c-grey-900">{{temp_readings[sensor.id] | temp_unit}}</h6>
+            class="c-grey-900">
+          {{temp_readings[sensor.id] | temp_unit}}
+          <i class="c-orange-500 fas fa-exclamation-triangle" i18n-tooltip placement="bottom"
+             tooltip="Reading may not be valid any more" container="body"
+             *ngIf="temp_readings[sensor.id] && !isReadingValid(temp_readings[sensor.id])"></i>
+        </h6>
       </div>
     </div>
   </div>

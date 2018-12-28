@@ -15,7 +15,8 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { CoreModule } from "./core";
 import { SharedModule } from "./shared/shared.module";
-import { BsDropdownModule } from "ngx-bootstrap";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 export function locationFactory() {
   return window.location;
@@ -38,6 +39,7 @@ export function locationFactory() {
     SweetAlert2Module.forRoot(),
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
+    TooltipModule.forRoot(),
     ToastrModule.forRoot({progressBar: true, positionClass: 'toast-top-right-nav'}),
     SharedModule
   ],

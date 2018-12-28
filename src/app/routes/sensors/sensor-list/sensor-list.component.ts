@@ -3,6 +3,8 @@ import { Sensor, SensorReading, SensorService } from "../../../core";
 import { IMqttMessage, MqttService } from "ngx-mqtt";
 import { Subscription } from "rxjs";
 import { ToastrService } from "ngx-toastr";
+import { getDifferenceFromNow } from "../../../shared";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-sensor-list',
@@ -62,6 +64,10 @@ export class SensorListComponent implements OnInit, OnDestroy {
         this.temperatureSubs.push(sub);
       }
     );
+  }
+
+  isReadingValid(reading: SensorReading) {
+    return !reading.validity || getDifferenceFromNow(moment(reading.timestamp, 'YYYY-MM-DD[T]HH:mm:ss')) < reading.validity;
   }
 
 }

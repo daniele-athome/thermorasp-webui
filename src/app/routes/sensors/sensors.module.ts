@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { SensorsRoutingModule } from './sensors-routing.module';
 import { SensorListComponent } from './sensor-list/sensor-list.component';
@@ -15,7 +16,8 @@ import { FormsModule } from "@angular/forms";
     CommonModule,
     FormsModule,
     SensorsRoutingModule,
-    SharedModule
+    SharedModule,
+    TooltipModule
   ]
 })
 export class SensorsModule { }
