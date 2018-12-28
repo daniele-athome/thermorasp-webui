@@ -14,7 +14,7 @@ import * as moment from 'moment';
 export class SensorListComponent implements OnInit, OnDestroy {
 
   /** Subscriptions to sensors temperature. */
-  private readonly temperatureSubs: Subscription[] = [];
+  private readonly subscriptions: Subscription[] = [];
 
   readonly temp_readings: {} = {};
   sensors: Sensor[];
@@ -27,11 +27,11 @@ export class SensorListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.mqttService.onOffline.subscribe(
+    this.subscriptions.push(this.mqttService.onOffline.subscribe(
       () => {
         this.toastService.error('Error contacting MQTT broker.');
       }
-    );
+    ));
     // TODO loading status
     this.sensorService.query().subscribe(
       (sensors: Sensor[]) => {
@@ -47,10 +47,10 @@ export class SensorListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.temperatureSubs.forEach(
+    this.subscriptions.forEach(
       (sub: Subscription) => sub.unsubscribe()
     );
-    this.temperatureSubs.length = 0;
+    this.subscriptions.length = 0;
   }
 
   private getTemperatureReadings() {
@@ -61,7 +61,7 @@ export class SensorListComponent implements OnInit, OnDestroy {
             this.temp_readings[sensor.id] = JSON.parse(message.payload.toString()) as SensorReading;
           }
         );
-        this.temperatureSubs.push(sub);
+        this.subscriptions.push(sub);
       }
     );
   }

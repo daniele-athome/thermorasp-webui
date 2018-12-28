@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   /** Latest sensor readings by sensor ID. */
   private readonly temp_readings: Map<string, SensorReading>;
   /** Subscriptions to sensors for the currently active behavior. */
-  private readonly activeBehaviorSubs: Subscription[];
+  private readonly subscriptions: Subscription[];
 
   /** Currently active behavior, if any. */
   private currentBehavior: ScheduleBehavior;
@@ -53,15 +53,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {
     this.device_states = new Map();
     this.temp_readings = new Map();
-    this.activeBehaviorSubs = [];
+    this.subscriptions = [];
   }
 
   ngOnInit() {
-    this.mqttService.onOffline.subscribe(
+    this.subscriptions.push(this.mqttService.onOffline.subscribe(
       () => {
         this.toastService.error('Error contacting MQTT broker.');
       }
-    );
+    ));
     this.loadConfiguration();
   }
 
@@ -140,10 +140,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private cancelSubscriptions() {
-    this.activeBehaviorSubs.forEach(
+    this.subscriptions.forEach(
       (sub: Subscription) => sub.unsubscribe()
     );
-    this.activeBehaviorSubs.length = 0;
+    this.subscriptions.length = 0;
   }
 
   private loadActiveSchedule() {
@@ -205,7 +205,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.updateAmbientTemperature();
       }
     );
-    this.activeBehaviorSubs.push(sub);
+    this.subscriptions.push(sub);
   }
 
   private subscribeToDevice(device_id: string) {
@@ -225,7 +225,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.updateDeviceState();
       }
     );
-    this.activeBehaviorSubs.push(sub);
+    this.subscriptions.push(sub);
   }
 
   private isReadingValid(reading: SensorReading) {
