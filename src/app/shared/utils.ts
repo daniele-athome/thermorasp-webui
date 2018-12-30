@@ -7,7 +7,13 @@ export function getCurrentMinute(): number {
 }
 
 export function getTodayLastMinute(): number {
-  return getMinutesInDayForDate(moment().endOf('day').add(1, 'second'));
+  const mins = getMinutesInDayForDate(moment().endOf('day').add(1, 'second'));
+  if (!mins) {
+    // special case: end of 7th day
+    // ugly hack, I know
+    return getMinutesInDayForDate(moment().endOf('day').subtract(59, 'second')) + 1;
+  }
+  return mins;
 }
 
 function getMinutesInDayForDate(date: moment.Moment): number {
