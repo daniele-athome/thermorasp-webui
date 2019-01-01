@@ -5,6 +5,9 @@ import { MqttModule, MqttService } from "ngx-mqtt";
 import { SweetAlert2Module } from "@toverux/ngx-sweetalert2";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { HighchartsChartModule } from "highcharts-angular";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,8 +18,6 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { DashboardComponent } from './routes/dashboard/dashboard.component';
 import { CoreModule } from "./core";
 import { SharedModule } from "./shared/shared.module";
-import { BsDropdownModule } from "ngx-bootstrap/dropdown";
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 export function locationFactory() {
   return window.location;
@@ -40,6 +41,7 @@ export function locationFactory() {
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
+    HighchartsChartModule,
     ToastrModule.forRoot({progressBar: true, positionClass: 'toast-top-right-nav'}),
     SharedModule
   ],
