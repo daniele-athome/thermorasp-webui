@@ -100,7 +100,7 @@ export class ThermostatDial {
 
 	// Round a number to the nearest 0.5
   private roundHalf(num) {
-		return Math.floor(num*2)/2;
+		return Math.round(num*2)/2;
 	}
 
   private setClass(el, className, state) {
