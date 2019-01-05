@@ -84,7 +84,7 @@ export class ScheduleViewComponent implements OnInit {
           duration: { days: 1 }
         }
       },
-      //slotWidth: 50,
+      //slotWidth: 35,
       resourceAreaWidth: 100,
       resourceLabelText: 'Days',
       resources: [
@@ -104,7 +104,7 @@ export class ScheduleViewComponent implements OnInit {
       resourceRender: (resourceObj, labelTds, bodyTds) => this.onResourceRender(resourceObj, labelTds),
       schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source'
     });
-    this.calendar$.fullCalendar('option', 'slotWidth', 50);
+    this.calendar$.fullCalendar('option', 'slotWidth', 35);
   }
 
   @Input('schedule')
