@@ -6,7 +6,7 @@ sudo: required
 
 branches:
   only:
-    - mqtt
+    - master
 
 before_script:
   - npm install -g @angular/cli
@@ -19,7 +19,7 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   local_dir: dist/thermorasp-webui
-  target-branch: mqtt-dist
+  target-branch: master-dist
   keep-history: true
   on:
-    branch: mqtt
+    branch: master
