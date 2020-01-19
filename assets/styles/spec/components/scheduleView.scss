@@ -1,0 +1,19 @@
+.fc-event.fc-temperature {
+  font-weight: bold;
+  font-size: 14px;
+
+  .fc-bg {
+    background: none;
+    opacity: 1;
+  }
+}
+
+.schedule-header h2 {
+  margin-bottom: 0;
+}
+
+.schedule-header, .schedule-footer {
+  padding: 20px;
+  background-color: $default-white;
+  border: 1px solid $border-color;
+}
