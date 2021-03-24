@@ -57,7 +57,7 @@ export class AppModule {
       hostname: environment.mqtt_host || location.hostname,
       port: Number(environment.mqtt_port || (location.port ? location.port : "80")),
       path: environment.mqtt_path,
-      protocol: environment.mqtt_protocol
+      protocol: environment.mqtt_protocol as 'wss' | 'ws'
     });
   }
 }
