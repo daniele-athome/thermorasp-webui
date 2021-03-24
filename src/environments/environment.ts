@@ -8,6 +8,7 @@ export const environment = {
   mqtt_host: 'localhost',
   mqtt_port: 9001,
   mqtt_path: '/'
+  mqtt_protocol: 'ws'
 };
 
 /*
